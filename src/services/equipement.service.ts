@@ -15,6 +15,14 @@ export class EquipementService {
   {
     return this.http.post<Iequipement>(`${this.environementService.api}/equipement`,data,{headers:this.environementService.httpHeader})
   }
+  public editEquipement(data:Iequipement,id:number):Observable<Iequipement>
+  {
+    return this.http.post<Iequipement>(`${this.environementService.api}/equipement/${id}`,data,{headers:this.environementService.httpHeader});
+  }
+  public deleteEquipement(id_eq:number):Observable<Iequipement>
+  {
+    return this.http.delete<Iequipement>(`${this.environementService.api}/equipement/${id_eq}`,{headers:this.environementService.httpHeader})
+  }
   public getEquipmentsByAgence(id_agence:number):Observable<Iequipement[]>
   {
     return this.http.get<Iequipement[]>(this.environementService.api+`/equipement/agence/${id_agence}`)
@@ -44,5 +52,6 @@ export class EquipementService {
   {
     return this.http.post<Iequipement[]>(this.environementService.api+`/equipement/fournisseur`,body);
   }
+
 
 } 

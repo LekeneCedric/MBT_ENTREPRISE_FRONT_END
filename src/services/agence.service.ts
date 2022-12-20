@@ -56,7 +56,7 @@ export class AgenceService {
   //Modifier une agence 
   public updateAgence(dataAgence:Iagence,id_agence:number):Observable<Iagence>
   {
-    return this.http.put<Iagence>(this.environment.api+"/agence/"+id_agence,dataAgence);
+    return this.http.post<Iagence>(this.environment.api+"/agence/"+id_agence,dataAgence);
   }
 
   public deleteAgence(id_agence:number):Observable<Iagence>
