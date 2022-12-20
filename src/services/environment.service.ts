@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,6 +7,10 @@ import { Injectable } from '@angular/core';
 export class EnvironmentService {
 
   constructor() { }
-
-  public api : string = "localhost:8000/api";
+  public httpHeader = new HttpHeaders({
+    'Content-Type': 'application/json',
+      'Accept': 'application/json, text/plain, */*',
+      'X-Requested-With': 'XMLHttpRequest'
+  })
+  public api : string = "http://localhost:8000/api";
 }

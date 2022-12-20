@@ -1,16 +1,21 @@
 import { EnvironmentService } from './environment.service';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Iagence } from 'src/models/agence';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root'   
 })
 export class AgenceService {
   
   private localData :any ; 
+  private httpHeader:HttpHeaders | undefined;
   constructor(private http:HttpClient,private environment:EnvironmentService) {
-    this.localData = JSON.parse(JSON.stringify(localStorage.getItem("MBT_DATA")));
+    this.httpHeader =new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json, text/plain, */*',
+      'X-Requested-With': 'XMLHttpRequest'
+    })
    }
 
    /*
@@ -27,9 +32,9 @@ export class AgenceService {
   Utilite : Recuperer toutes les agences d'une entreprise 
   */
 
-  public getAgencesEntreprise():Observable<Iagence[]>
+  public getAgencesEntreprise(id_entreprise:number):Observable<Iagence[]>
   {
-    return this.http.get<Iagence[]>(this.environment.api+"/agence/entreprise/"+Number(this.localData.entreprise_id));
+    return this.http.get<Iagence[]>(this.environment.api+"/agence/entreprise/"+id_entreprise);
   }
 
   /*
