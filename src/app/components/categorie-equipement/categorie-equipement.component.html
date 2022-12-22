@@ -1,0 +1,214 @@
+<div class="row row-sm">
+<div class="col-xl-6">
+    <div class="card">
+        <div class="card-header pb-0 pd-t-25 ">
+            <div class="d-flex justify-content-between mb-5">
+                <h4 class="card-title mg-t-5">CATEGORIES</h4>
+                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-primary btn-with-icon btn-block" data-target="#addCategorie" data-toggle="modal"><i class="typcn typcn-plus"></i>Ajouter</button>
+                </div>
+
+            </div>
+           
+            <div class="d-flex justify-content-between mb-3">
+            
+                <p class="tx-15 text-muted mb-2">Liste de toutes les categories</p>
+                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Recherchez par nom ou localisation " type="text" [(ngModel)]="searchCategorie" (ngModelChange)="filterCategorie()"> <span class="input-group-btn"><button class="btn btn-light" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped mg-b-0 text-md-nowrap border">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <th class="wd-15p border-bottom-0">Nom</th>
+                            <th class="wd-5p border-bottom-0">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                        <tr *ngFor="let categorie of categories">
+                            <td>{{ categorie.intitule }}</td>
+                            <td style="text-align:center;display:flex;justify-content:space-between;padding-left:20%;padding-right:20%">
+                                    <button class="btn btn-warning btn-icon" (click)="selectCategorie(categorie)" data-target="#editCategorie" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
+                                    <button class="btn btn-danger btn-icon" (click)="selectCategorie(categorie)" data-target="#deleteCategorie" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
+                                    <button class="btn btn-primary btn-icon" (click)="seeSubCategorie(categorie);searchSubCategorie=''"><i class="typcn typcn-flow-merge"></i></button>
+                               
+                            </td>
+                        </tr>
+                        <!-- <tr *ngFor="let agence of agences">
+                            <th> <input type="checkbox" (click)="checkAgence(agence.id)"></th>
+                            <td>{{ agence.nom }}</td>
+                            <td>{{ agence.localisation | slice:0:20}} </td>
+                            <td>{{ agence.nbremploye }}</td>
+                            <td>{{ agence.nbrequipement }}</td>
+                            <td>{{ agence.created_at | date:"MMM d, y, h:mm:ss a" }}</td>
+                            <td style="align-items:center">
+                                <div class="btn-icon-list">
+                                    <button class="btn btn-warning btn-icon"><i class="typcn typcn-brush"></i></button>
+                                    <button class="btn btn-danger btn-icon"><i class="typcn typcn-trash"></i></button>
+                                    <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
+                                </div>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- bd -->
+        </div><!-- bd -->
+    </div><!-- bd -->
+</div>
+<div class="col-xl-6">
+    <div class="card">
+        <div class="card-header pb-0 pd-t-25 ">
+            <div class="d-flex justify-content-between mb-5">
+                <h4 class="card-title mg-t-5">SOUS CATEGORIES</h4>
+                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0" *ngIf="selectedCategorie!=undefined">
+                    
+                    <button class="btn btn-primary btn-with-icon btn-block" data-target="#addSubCategorie" data-toggle="modal"><i class="typcn typcn-plus"></i>Ajouter</button>
+                </div>
+
+            </div>
+           
+            <div class="d-flex justify-content-between mb-3">
+            
+                <p class="tx-15 text-muted mb-2">Liste des sous categories </p>
+                <div class="col-lg-4 mg-t-20 mg-lg-t-0" *ngIf="selectedCategorie!=undefined">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Recherchez par nom ou localisation " type="text" [(ngModel)]="searchSubCategorie" (ngModelChange)="filterSubCategorie()"> <span class="input-group-btn"><button class="btn btn-light" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped mg-b-0 text-md-nowrap border">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <th class="wd-15p border-bottom-0">Nom</th>
+                            <th class="wd-5p border-bottom-0">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                        <tr *ngFor="let categorie of sub_categories">
+                            <td>{{ categorie.intitule }}</td>
+                            <td  style="text-align:center;display:flex;justify-content:space-between;align-items:center;padding-left:30%;padding-right:30%">
+                                    <button class="btn btn-warning btn-icon" (click)="selectCategorie(categorie)" data-target="#editCategorie" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
+                                    <button class="btn btn-danger btn-icon" (click)="selectCategorie(categorie)" data-target="#deleteCategorie" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
+                            </td>
+                        </tr>
+                        <!-- <tr *ngFor="let agence of agences">
+                            <th> <input type="checkbox" (click)="checkAgence(agence.id)"></th>
+                            <td>{{ agence.nom }}</td>
+                            <td>{{ agence.localisation | slice:0:20}} </td>
+                            <td>{{ agence.nbremploye }}</td>
+                            <td>{{ agence.nbrequipement }}</td>
+                            <td>{{ agence.created_at | date:"MMM d, y, h:mm:ss a" }}</td>
+                            <td style="align-items:center">
+                                <div class="btn-icon-list">
+                                    <button class="btn btn-warning btn-icon"><i class="typcn typcn-brush"></i></button>
+                                    <button class="btn btn-danger btn-icon"><i class="typcn typcn-trash"></i></button>
+                                    <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
+                                </div>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- bd -->
+        </div><!-- bd -->
+    </div><!-- bd -->
+</div>
+</div>
+
+<!-- MODALS  -->
+
+<!-- Delete Categorie  -->
+<div class="modal" id="deleteCategorie">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-danger mg-b-20">Attention : Suppression element </h4>
+                <p class="mg-b-20 mg-x-20">Voulez vous vraiment valider la suppression de la {{ selectedCategorie?.idparent==0 ? "Categorie" : "SousCategorie" }}  <span style="font-weight:bolder">{{ selectedCategorie?.intitule }} ?</span> </p>
+                <div style="display:flex;justify-content:space-between">
+                    <button aria-label="Close" class="btn ripple btn-light pd-x-25" data-dismiss="modal" type="button">Annuler</button>
+                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="removeCategorie(selectedCategorie?.id!)" data-dismiss="modal" type="button">Continue</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Categorie  -->
+<div class="modal" id="addCategorie">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Ajouter une nouvelle categorie</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h6>Entrez les valeurs correspondantes dans les champs suivants : </h6>
+                <h6 style="font-weight:bolder;margin-top:10px">Intitule</h6>
+                <div class="col-lg">
+                    <input class="form-control" placeholder="Input box" type="text" [(ngModel)]="selectedIntitule">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-light" data-dismiss="modal" type="button">Annuler</button>
+                <button class="btn ripple btn-primary" data-dismiss="modal" type="button" (click)="addCategorie()">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add SubCategorie  -->
+<div class="modal" id="addSubCategorie">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Ajouter sous categorie</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h6>Entrez les valeurs correspondantes dans les champs suivants : </h6>
+                <h6 style="font-weight:bolder;margin-top:10px">Intitule</h6>
+                <div class="col-lg">
+                    <input class="form-control" placeholder="Input box" type="text" [(ngModel)]="selectedIntitule">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-light" data-dismiss="modal" type="button" >Annuler</button>
+                <button class="btn ripple btn-primary" data-dismiss="modal" type="button" (click)="addSubCategorie()">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Categorie -->
+<div class="modal" id="editCategorie">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Modifier la {{ selectedCategorie?.idparent==0 ? "Categorie" : "SousCategorie" }}</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h6>Entrez les valeurs correspondantes dans les champs suivants : </h6>
+                <h6 style="font-weight:bolder;margin-top:10px">Intitule</h6>
+                <div class="col-lg">
+                    <input class="form-control" placeholder="Input box" type="text" [(ngModel)]="selectedIntitule">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn ripple btn-light" data-dismiss="modal" type="button" >Annuler</button>
+                <button class="btn ripple btn-primary" data-dismiss="modal" type="button" (click)="editCategorie()">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>

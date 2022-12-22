@@ -1,3 +1,4 @@
+import { CategorieEquipementComponent } from './components/categorie-equipement/categorie-equipement.component';
 import { AgencesComponent } from './components/agences/agences.component';
 import { PlanMaintenanceComponent } from './components/plan-maintenance/plan-maintenance.component';
 import { FournisseursComponent } from './components/fournisseurs/fournisseurs.component';
@@ -25,6 +26,9 @@ const routes: Routes = [
   },
   {
     path:"plan_maintenance",component:PlanMaintenanceComponent
+  },
+  {
+    path:"categorie_equipement",component:CategorieEquipementComponent
   }
 ];
 

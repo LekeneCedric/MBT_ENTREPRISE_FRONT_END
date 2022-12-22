@@ -1,1 +1,147 @@
-<p>fournisseurs works!</p>
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header pb-0 pd-t-25 ">
+            <div class="d-flex justify-content-between mb-5">
+                <h1 class="card-title mg-b-0">NOS FOURNISSEURS</h1>
+                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
+                    <button data-target="#addFournisseur" data-toggle="modal" class="btn btn-primary btn-with-icon btn-block"><i class="typcn typcn-plus"></i> Nouveau Fournisseur</button></div>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+                <p class="tx-12 text-muted mb-2">Liste des fournisseurs de l'entreprise</p>
+                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                    <div class="input-group">
+                        <input [(ngModel)]="searchF" (ngModelChange)="filterListF()" class="form-control" placeholder="Recherchez par nom | localisation | agence" type="text"> <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped mg-b-0 text-md-nowrap border">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <th class="wd-15p border-bottom-0">Nom</th>
+                            <th class="wd-15p border-bottom-0">Telephone</th>
+                            <th class="wd-10p border-bottom-0">Adresse</th>
+                            <th class="wd-10p border-bottom-0">Membre depuis le </th>
+                            <th class="wd-5p border-bottom-0">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                        <tr *ngFor="let fournisseur of fournisseurs_list">
+                            <td>{{ fournisseur.nom }}</td>
+                            <td>{{ fournisseur.adresse }}</td>
+                            <td>{{ fournisseur.telephone }}</td>
+                            <td>{{ fournisseur.created_at |  date:"MMM d, y, h:mm:ss a"}}</td>
+                            <td>
+                                <div class="btn-icon-list">
+                                    <button  class="btn btn-warning btn-icon" data-target="#updateFournisseur" data-toggle="modal" (click)="selectFournisseur(fournisseur)" ><i class="typcn typcn-brush"></i></button>
+                                    <button class="btn btn-danger btn-icon" data-target="#deleteFournisseur" data-toggle="modal" (click)="selectFournisseur(fournisseur)" ><i class="typcn typcn-trash"></i></button>
+                                    <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- bd -->
+        </div><!-- bd -->
+    </div><!-- bd -->
+</div>
+
+<!-- Modal delete Fournisseur -->
+
+<div class="modal" id="deleteFournisseur">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-danger mg-b-20">Attention : Suppression du fournisseur </h4>
+                <p class="mg-b-20 mg-x-20">Voulez vous vraiment valider la suppression du fournisseur <span style="font-weight:bolder">{{ selected_fournisseur.nom }} ?</span> , cela entrainera la perte dans le systeme dans toutes les agences des equipements concernes par ce dernier </p>
+                <div style="display:flex;justify-content:space-between">
+                    <button aria-label="Close" class="btn ripple btn-light pd-x-25" data-dismiss="modal" type="button">Annuler</button>
+                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="removeFournisseur()" data-dismiss="modal" type="button">Continue</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal add Fournisseur  -->
+<div class="modal" id="addFournisseur">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title" style="font-weight:bolder">Ajouter une nouveau fournisseur</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+             <div class="modal-body">
+                <div class="col-lg">
+                    <label for="nom" class="form-label">Nom<span style="color:red">*</span></label>
+                    <input id = "nom" class="form-control" placeholder="Nom de l'agence" type="text" [(ngModel)]="new_fournisseur.nom">
+                </div>
+                <div class="col-lg">
+                    <label for="code" class="form-label">Telephone<span style="color:red">*</span></label>
+                    <input id = "code" class="form-control" placeholder="code de l'agence" type="text" [(ngModel)]="new_fournisseur.telephone">
+                </div>
+                <div class="col-lg mt-3">
+                    <label for="localisation" class="form-label">Localisation<span style="color:red">*</span></label>
+                    <select class="form-select"  id="localisation" [(ngModel)]="new_fournisseur.adresse" >
+                        <option>
+                            Choisir la localisation
+                        </option> 
+                        <option value="Cameroun Yaounde cite-verte">Cameroun Yaounde cite-verte</option>
+                        <option value="Cameroun Yaounde Poste-centrale">Cameroun Yaounde Poste-centrale</option>
+                        <option value="Cameroun Yaounde Avenue-kenedy">Cameroun Yaounde Avenue-kenedy</option>
+                    </select>
+                </div>
+                
+            <div class="modal-footer">
+                <button *ngIf="new_fournisseur.nom!=undefined && new_fournisseur.adresse!= undefined && new_fournisseur.telephone!=undefined && new_fournisseur.nom.length>4" class="btn ripple btn-primary" (click)="addFournisseur()" data-dismiss="modal" type="button">Save changes</button>
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Modal add Fournisseur  -->
+<div class="modal" id="updateFournisseur">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title" style="font-weight:bolder">Modifier informations fournisseur</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+             <div class="modal-body">
+                <div class="col-lg">
+                    <label for="nom" class="form-label">Nom<span style="color:red">*</span></label>
+                    <input id = "nom" class="form-control" placeholder="Nom de l'agence" type="text" [(ngModel)]="selected_fournisseur.nom">
+                </div>
+                <div class="col-lg">
+                    <label for="code" class="form-label">Telephone<span style="color:red">*</span></label>
+                    <input id = "code" class="form-control" placeholder="code de l'agence" type="number" [(ngModel)]="selected_fournisseur.telephone">
+                </div>
+                <div class="col-lg mt-3">
+                    <label for="localisation" class="form-label">Localisation<span style="color:red">*</span></label>
+                    <select class="form-select"  id="localisation" [(ngModel)]="selected_fournisseur.adresse" >
+                        <option>
+                            Choisir la localisation
+                        </option> 
+                        <option value="Cameroun Yaounde cite-verte">Cameroun Yaounde cite-verte</option>
+                        <option value="Cameroun Yaounde Poste-centrale">Cameroun Yaounde Poste-centrale</option>
+                        <option value="Cameroun Yaounde Avenue-kenedy">Cameroun Yaounde Avenue-kenedy</option>
+                    </select>
+                </div>
+                
+            <div class="modal-footer">
+                <button *ngIf="selected_fournisseur.nom!=undefined && selected_fournisseur.adresse!= 
+                undefined && selected_fournisseur.telephone!=undefined && selected_fournisseur.nom.length>4"
+                     class="btn ripple btn-primary" (click)="updateFournisseur()" data-dismiss="modal" type="button">Save changes</button>
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

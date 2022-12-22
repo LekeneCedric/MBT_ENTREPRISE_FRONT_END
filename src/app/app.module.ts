@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { NbSelectModule, NbThemeModule } from '@nebular/theme';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidemenuComponent } from './sidemenu/sidemenu.component';
@@ -13,6 +13,8 @@ import { EquipementsComponent } from './components/equipements/equipements.compo
 import { FournisseursComponent } from './components/fournisseurs/fournisseurs.component';
 import { PlanMaintenanceComponent } from './components/plan-maintenance/plan-maintenance.component';
 import { AgencesComponent } from './components/agences/agences.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CategorieEquipementComponent } from './components/categorie-equipement/categorie-equipement.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,12 +26,18 @@ import { AgencesComponent } from './components/agences/agences.component';
     EquipementsComponent,
     FournisseursComponent,
     PlanMaintenanceComponent,
-    AgencesComponent
+    AgencesComponent,
+    CategorieEquipementComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NbSelectModule,
+    NbThemeModule.forRoot(),
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
