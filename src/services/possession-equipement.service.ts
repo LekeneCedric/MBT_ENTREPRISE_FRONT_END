@@ -20,4 +20,9 @@ export class PossessionEquipementService {
   {
     return this.http.get<IPossessionEquipement[]>(`${this.environement.api}/equipement/agence/${id_agence}`,{headers:this.environement.httpHeader});
   }
+
+  public listEquipementByEntreprise(id_entreprise:number):Observable<IPossessionEquipement[]>
+  {
+    return this.http.get<IPossessionEquipement[]>(`${this.environement.api}/equipement/entreprise/${id_entreprise}`,{headers:this.environement.httpHeader});
+  }
 }

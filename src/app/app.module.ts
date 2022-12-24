@@ -15,6 +15,7 @@ import { PlanMaintenanceComponent } from './components/plan-maintenance/plan-mai
 import { AgencesComponent } from './components/agences/agences.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CategorieEquipementComponent } from './components/categorie-equipement/categorie-equipement.component';
+import { EquipementAgenceComponent } from './components/equipement-agence/equipement-agence.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +28,8 @@ import { CategorieEquipementComponent } from './components/categorie-equipement/
     FournisseursComponent,
     PlanMaintenanceComponent,
     AgencesComponent,
-    CategorieEquipementComponent
+    CategorieEquipementComponent,
+    EquipementAgenceComponent
   ],
   imports: [
     BrowserModule,

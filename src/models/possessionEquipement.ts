@@ -2,6 +2,7 @@ import { Iagence } from './agence';
 import { Iequipement } from './equipement';
 export interface IPossessionEquipement{
     id?:number,
+    id_entreprise?:number,
     id_equipement?:number,
     id_agence?:number,
     id_fournisseur?:number,

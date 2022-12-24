@@ -1,0 +1,66 @@
+<!-- Liste equipements agences selectionnes -->
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header pb-0 pd-t-25 ">
+            <div class="d-flex justify-content-between mb-5">
+                <h1 class="card-title mg-b-0">Equipements Agence(s)</h1>
+                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                    <div class="input-group">
+                        <input [(ngModel)]="searchEquipement" (ngModelChange)="filterEquipement()" class="form-control" placeholder="Recherchez par nom | localisation | agence" type="text"> <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <h1></h1>
+                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                    <select name="somename" class="form-control SlectBox" [(ngModel)]="select_agence_id" (ngModelChange)="filterEquipementWithAgence()">
+                        <!--placeholder-->
+                        <option value="">Toutes les agences</option>
+                        <option *ngFor="let agence of agence_list"  value="{{ agence.id }}">{{ agence.nom }}</option>
+                    </select>
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped mg-b-0 text-md-nowrap border">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <th class="wd-15p border-bottom-0">Agence</th> 
+                            <th class="wd-15p border-bottom-0">Etat</th>
+                            <th class="wd-15p border-bottom-0">Nom</th>
+                            <th class="wd-15p border-bottom-0">Categorie</th>
+                            <!-- <th class="wd-15p border-bottom-0">Operation</th>
+                            <th class="wd-10p border-bottom-0">charge</th> -->
+                            <th class="wd-15p border-bottom-0">Periodicite Verif</th>
+                            <!-- <th class="wd-15p border-bottom-0">Outillage</th>
+                            <th class="wd-15p border-bottom-0">condi_syste</th> -->
+                            <th class="wd-15p border-bottom-0">designation</th>
+                            <!-- <th class="wd-5p border-bottom-0">gamme_maintenance</th> -->
+                            <th class="wd-15p border-bottom-0">specialiste</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                        <tr *ngFor="let equipement of equipements_list">
+                            <td>{{ equipement.agence?.nom }}</td>
+                            <td>{{ equipement.etat }}</td>
+                            <td>{{ equipement.equipement?.element }}</td>
+                            <td>{{ equipement.equipement?.categorie?.intitule }}</td>
+                            <!-- <td>{{ equipement.equipement?.operation }}</td>
+                            <td>{{ equipement.equipement?.chargePrevue }}</td> -->
+                            <td>{{ equipement.equipement?.periodicite }}</td>
+                            <!-- <td>{{ equipement.equipement?.outillage }}</td>
+                            <td>{{ equipement.equipement?.condi_syste }}</td> -->
+                            <td>{{ equipement.equipement?.designation }}</td>
+                            <!-- <td>{{ equipement.equipement?.gamme_maintenance }}</td> -->
+                            <td>{{ equipement.equipement?.specialite }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- bd -->
+        </div><!-- bd -->
+    </div><!-- bd -->
+</div>
+    

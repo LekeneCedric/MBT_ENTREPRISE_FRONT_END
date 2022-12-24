@@ -7,12 +7,13 @@ export interface Iequipement {
     idcategorie?:number,
     categorie?:ICategorie,
     element?:string,
-    operation?:string,
-    chargePrevue?:string,
+    // operation?:string,
+    // chargePrevue?:string,
     periodicite?:string,
-    outillage?:string,
-    condi_syste?:string,
+    // outillage?:string,
+    // condi_syste?:string,
     designation?:string,
-    gamme_maintenance?:string,
-    specialite?:string 
+    // gamme_maintenance?:string,
+    specialite?:string,
+    description?:string;
 }

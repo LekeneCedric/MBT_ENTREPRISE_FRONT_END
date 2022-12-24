@@ -1,3 +1,4 @@
+import { EquipementAgenceComponent } from './components/equipement-agence/equipement-agence.component';
 import { CategorieEquipementComponent } from './components/categorie-equipement/categorie-equipement.component';
 import { AgencesComponent } from './components/agences/agences.component';
 import { PlanMaintenanceComponent } from './components/plan-maintenance/plan-maintenance.component';
@@ -16,6 +17,9 @@ const routes: Routes = [
     path:"agents",component:AgentsComponent
   },
   {
+    path:"equipement_agence",component:EquipementAgenceComponent
+  },
+  {
     path:"agences",component:AgencesComponent
   },
   {
@@ -30,6 +34,7 @@ const routes: Routes = [
   {
     path:"categorie_equipement",component:CategorieEquipementComponent
   }
+  
 ];
 
 @NgModule({

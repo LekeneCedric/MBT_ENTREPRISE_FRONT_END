@@ -41,7 +41,7 @@ export class EquipementsComponent implements OnInit{
   }
   get form_is_valid():boolean
   {
-    return this.new_equipement.idcategorie != undefined && this.new_equipement.element!=undefined && this.new_equipement.operation!=undefined && this.new_equipement.chargePrevue!=undefined && this.new_equipement.periodicite!=undefined && this.new_equipement.specialite!=undefined
+    return this.new_equipement.idcategorie != undefined && this.new_equipement.element!=undefined  && this.new_equipement.periodicite!=undefined && this.new_equipement.specialite!=undefined
   }
   public filterEquipementByCategorie()
   {

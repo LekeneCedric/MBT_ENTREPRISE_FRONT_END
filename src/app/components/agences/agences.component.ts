@@ -176,6 +176,7 @@ export class AgencesComponent implements OnInit{
       lat =  position.coords.latitude;
       long = position.coords.longitude;
     })
+    this.new_possessionEq.id_entreprise = this.selected_agence.entreprise_id;
     this.new_possessionEq.id_agence = this.selected_agence.id;
     this.new_possessionEq.position = lat.toString() +"|"+ long.toString()
     this.possessionEqServ.linkEquipementToAgence(this.new_possessionEq).subscribe(
