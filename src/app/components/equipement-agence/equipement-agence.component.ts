@@ -15,6 +15,7 @@ export class EquipementAgenceComponent implements OnInit{
   public equipements_list : IPossessionEquipement[] = [];
   public equipements_list_temp : IPossessionEquipement[] = [];
   public searchEquipement : String = "";
+  public selected_equipement: Iequipement = {};
   public agence_list : Iagence[]= [];
   public select_agence_id : number = 0;
 constructor(private agenceService:AgenceService,private possessionEquipement:PossessionEquipementService){}
@@ -29,6 +30,10 @@ ngOnInit(): void {
   {
     this.agence_list = data;
   })
+}
+public selectEquipement(equipement:Iequipement)
+{
+  this.selected_equipement = equipement
 }
 public filterEquipement()
 {

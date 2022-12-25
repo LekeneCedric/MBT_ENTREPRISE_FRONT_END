@@ -18,6 +18,7 @@ import { AgentsService } from 'src/services/agents.service';
 export class AgencesComponent implements OnInit{
   public equipements_agence_list : IPossessionEquipement[] = [];
   public equipements_list : Iequipement[] = [];
+  public selected_equipement: Iequipement = {};
   public fournisseurs_list : IFournisseur[] = [];
   public new_possessionEq : IPossessionEquipement = {};
   public selected_agent : IAgent = {}
@@ -166,6 +167,10 @@ export class AgencesComponent implements OnInit{
         console.log(data);
       }
     )
+  }
+  public selectEquipement(equipement:Iequipement)
+  {
+    this.selected_equipement = equipement
   }
 
   public linkEquipment()

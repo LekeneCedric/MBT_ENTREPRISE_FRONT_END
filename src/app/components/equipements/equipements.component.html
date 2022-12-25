@@ -64,7 +64,7 @@
                             <td style="text-align:center;display:flex;justify-content:space-between">
                                 <button class="btn btn-warning btn-icon"  (click)="selectEdit(equipement)" data-target="#addEquipement" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
                                 <button class="btn btn-danger btn-icon" (click)="select(equipement)"  data-target="#deleteEquipement" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
-                                <button class="btn btn-primary btn-icon"><i class="typcn typcn-clipboard"></i></button>
+                                <button class="btn btn-primary btn-icon" (click)="select(equipement)"><i class="typcn typcn-clipboard" data-target="#detailEquipement" data-toggle="modal"></i></button>
                             </td>
 
                         </tr>
@@ -296,9 +296,9 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content tx-size-sm">
             <div class="modal-body tx-center pd-y-20 pd-x-20">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                <h4 class="tx-danger mg-b-20">Details de l'equipement <span style="font-weight:bolder">{{ selectEquipement?.element }} ?</span> </h4>
-                <p class="mg-b-20 mg-x-20">{{ selectEquipement?.description }} </p>
+                <!-- <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-primary lh-1 mg-t-20 d-inline-block"></i> -->
+                <h4 class="tx-primary mg-b-20">Details de l'equipement <span style="font-weight:bolder">{{ selectEquipement?.element }}</span> </h4>
+                <p class="mg-b-20 mg-x-20" style="text-align:left">{{ selectEquipement?.description }} </p>
                 <div style="display:flex;justify-content:space-between">
                     <button aria-label="Close" class="btn ripple btn-danger pd-x-25" data-dismiss="modal" type="button">Sortir</button>
                 </div>
