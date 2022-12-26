@@ -8,6 +8,11 @@ after cloning the project locally, move to the main directory to be able to perf
 
 # Installation
 
+Project Node Version 
+
+```
+16.17.1
+```
 to install and initialize all project dependencies using the [npm]('https://www.npmjs.com/)  package manager
 
 ```
