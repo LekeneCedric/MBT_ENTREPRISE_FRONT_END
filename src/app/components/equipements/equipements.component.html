@@ -4,11 +4,12 @@
             <div class="d-flex justify-content-between">
                 <div class="d-flex justify-content-between mb-5">
                     <p style="font-weight: bold">Filtrer par categorie : </p>
-                    <select class="form-control select2" [(ngModel)]="selectedCategorie" (ngModelChange)="filterEquipementByCategorie()">
+                    <select class="form-control select2-no-search" [(ngModel)]="selectedCategorie" (ngModelChange)="filterEquipementByCategorie()">
                         <option *ngFor="let categorie of categories_list" value="{{ categorie.intitule }}">
                             {{ categorie.intitule }}
                         </option>
                     </select>
+                    
                 </div>
                 <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
                     <button class="btn btn-primary btn-with-icon btn-block" data-target="#addEquipement" data-toggle="modal" (click)="cleanNew()">

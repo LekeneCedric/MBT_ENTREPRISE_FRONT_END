@@ -13,7 +13,7 @@
             <div class="d-flex justify-content-between">
                 <h1></h1>
                 <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-                    <select name="somename" class="form-control SlectBox" [(ngModel)]="select_agence_id" (ngModelChange)="filterEquipementWithAgence()">
+                    <select name="somename" class="form-control select2-no-search" [(ngModel)]="select_agence_id" (ngModelChange)="filterEquipementWithAgence()">
                         <!--placeholder-->
                         <option value="">Toutes les agences</option>
                         <option *ngFor="let agence of agence_list"  value="{{ agence.id }}">{{ agence.nom }}</option>

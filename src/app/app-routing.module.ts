@@ -33,6 +33,9 @@ const routes: Routes = [
   },
   {
     path:"categorie_equipement",component:CategorieEquipementComponent
+  },
+  {
+    path:"plan_maintenance",component:PlanMaintenanceComponent
   }
   
 ];

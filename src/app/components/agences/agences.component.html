@@ -83,6 +83,7 @@
                 <table class="table table-striped mg-b-0 text-md-nowrap border">
                     <thead style="text-align: center;">
                         <tr>
+                            <th class="wd-15p border-bottom-0">Specialite</th>
                             <th class="wd-15p border-bottom-0">Nom</th>
                             <th class="wd-15p border-bottom-0">Pseudo</th>
                             <th class="wd-15p border-bottom-0">Telephone</th>
@@ -94,6 +95,7 @@
                     </thead>
                     <tbody style="text-align:center">
                         <tr *ngFor="let agent of agents">
+                            <td>{{ agent.specialite }}</td>
                             <td>{{ agent.nom }}</td>
                             <td>{{ agent.pseudo }}</td>
                             <td>{{ agent.telephone }}</td>

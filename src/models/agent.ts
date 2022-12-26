@@ -6,6 +6,7 @@ export interface IAgent{
     pseudo?:string,
     telephone?:string,
     email?:string,
+    specialite?:string,
     id_agence?:number,
     created_at?:Date,
     updated_at?:Date,

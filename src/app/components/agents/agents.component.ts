@@ -10,6 +10,7 @@ import { AgentsService } from 'src/services/agents.service';
   styleUrls: ['./agents.component.scss']
 })
 export class AgentsComponent implements OnInit{
+
   public agents : IAgent[] | undefined;
   public agentsTemp : IAgent[] | undefined;
   public selected_agent : IAgent = {};
@@ -67,4 +68,14 @@ export class AgentsComponent implements OnInit{
       }
     )
   }
+  public specialites : string[] = [
+    'Manager',
+    'Maintenancier',
+    'caissier',
+    'developpeur',
+    'reparateur',
+    'gardien',
+    'cuisinier',
+    'manoeuvre',
+  ];
 }

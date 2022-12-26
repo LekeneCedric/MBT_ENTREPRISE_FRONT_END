@@ -1,0 +1,18 @@
+import { IAgent } from 'src/models/agent';
+import { IPossessionEquipement } from './possessionEquipement';
+export interface Imaintenance
+{
+    id?: number,
+    id_agent?: number,
+    id_possession?: number,
+    operation?: string,
+    outillage?:string,
+    charge?: String,
+    etat?: string,
+    condi_syste?: string,
+    gamme_maintenance?: string,
+    possession?: IPossessionEquipement,
+    agent?: IAgent,
+    created_at?: Date,
+    updated_at?: Date,
+}
