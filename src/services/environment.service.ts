@@ -13,4 +13,5 @@ export class EnvironmentService {
       'X-Requested-With': 'XMLHttpRequest'
   })
   public api : string = "http://localhost:8000/api";
+  
 }
