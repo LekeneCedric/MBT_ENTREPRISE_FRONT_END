@@ -16,14 +16,16 @@ import { AgentsService } from 'src/services/agents.service';
   styleUrls: ['./agences.component.scss']
 })
 export class AgencesComponent implements OnInit{
+  private entreprise_id :number = JSON.parse(localStorage.getItem("entreprise")!).id;
+  public equipements_list_child : Iequipement[] = [];
   public equipements_agence_list : IPossessionEquipement[] = [];
   public equipements_list : Iequipement[] = [];
   public selected_equipement: Iequipement = {};
   public fournisseurs_list : IFournisseur[] = [];
   public new_possessionEq : IPossessionEquipement = {};
   public selected_agent : IAgent = {}
-  public selected_agence : Iagence = {entreprise_id:1};
-  public new_agence :Iagence = {entreprise_id:1};
+  public selected_agence : Iagence = {entreprise_id:this.entreprise_id};
+  public new_agence :Iagence = {entreprise_id:this.entreprise_id};
   public new_agent : IAgent = {};
   public searchAgence:string  = "";
   public searchAgent:string  = "";
@@ -39,12 +41,12 @@ export class AgencesComponent implements OnInit{
 
   public ngOnInit(): void {
       
-    this.agenceService.getAgencesEntreprise(1).subscribe((data)=>
+    this.agenceService.getAgencesEntreprise(this.entreprise_id).subscribe((data)=>
     {
       this.agences = data;
       this.agencesTemp = data;
     })
-    this.agentService.getAgentsByEntreprise(1).subscribe((data)=>
+    this.agentService.getAgentsByEntreprise(this.entreprise_id).subscribe((data)=>
     {
       this.agentsTemp = data;
     })
@@ -56,7 +58,9 @@ export class AgencesComponent implements OnInit{
 
     this.equipementService.getAllEquipments().subscribe((data)=>
     {
-      this.equipements_list = data;
+      this.equipements_list = data.filter((eq)=>{
+        return eq.id_parent == 0;
+      });
     })
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.

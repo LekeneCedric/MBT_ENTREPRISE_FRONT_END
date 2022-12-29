@@ -1,3 +1,4 @@
+import { Iequipement } from './equipement';
 import { IAgent } from 'src/models/agent';
 import { IPossessionEquipement } from './possessionEquipement';
 export interface Imaintenance
@@ -7,6 +8,7 @@ export interface Imaintenance
     id_possession?: number,
     operation?: string,
     outillage?:string,
+    equipement?:Iequipement,
     charge?: String,
     etat?: string,
     condi_syste?: string,

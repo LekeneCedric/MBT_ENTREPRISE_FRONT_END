@@ -8,7 +8,7 @@ import { FournisseurService } from 'src/services/fournisseur.service';
   styleUrls: ['./fournisseurs.component.scss']
 })
 export class FournisseursComponent implements OnInit{
-  
+  private entreprise_id :number = JSON.parse(localStorage.getItem("entreprise")!).id;
   public searchF:string = "";
   public fournisseurs_list : IFournisseur[] = [];
   public fournisseurs_list_temp : IFournisseur[] = [];

@@ -12,6 +12,7 @@ import { MaintenanceService } from 'src/services/maintenance.service';
   styleUrls: ['./plan-maintenance.component.scss']
 })
 export class PlanMaintenanceComponent implements OnInit{
+  private entreprise_id :number = JSON.parse(localStorage.getItem("entreprise")!).id;
   public maintenances : Imaintenance[] = [];
   public maintenances_temp : Imaintenance[] = [];
   public maintenances_temp2 : Imaintenance[] = [];
@@ -26,17 +27,17 @@ export class PlanMaintenanceComponent implements OnInit{
 
   }
   ngOnInit(): void {
-      this.maintenanceService.getMaintenanceByEntreprise(1).subscribe((data)=>
+      this.maintenanceService.getMaintenanceByEntreprise(this.entreprise_id).subscribe((data)=>
       {
         this.maintenances = data ; 
         this.maintenances_temp = data;
         this.maintenances_temp2 = data;
       })
-      this.agenceService.getAgencesEntreprise(1).subscribe((data)=>
+      this.agenceService.getAgencesEntreprise(this.entreprise_id).subscribe((data)=>
       {
         this.agencesList = data;
       })
-      this.possessionEqServ.listEquipementByEntreprise(1).subscribe((data)=>
+      this.possessionEqServ.listEquipementByEntreprise(this.entreprise_id).subscribe((data)=>
       {
         data.forEach((possession)=>
         {

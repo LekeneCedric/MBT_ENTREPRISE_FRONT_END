@@ -16,6 +16,9 @@ import { AgencesComponent } from './components/agences/agences.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CategorieEquipementComponent } from './components/categorie-equipement/categorie-equipement.component';
 import { EquipementAgenceComponent } from './components/equipement-agence/equipement-agence.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { MappingComponent } from './components/mapping/mapping.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +32,9 @@ import { EquipementAgenceComponent } from './components/equipement-agence/equipe
     PlanMaintenanceComponent,
     AgencesComponent,
     CategorieEquipementComponent,
-    EquipementAgenceComponent
+    EquipementAgenceComponent,
+    SignInComponent,
+    MappingComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +44,7 @@ import { EquipementAgenceComponent } from './components/equipement-agence/equipe
     FormsModule,
     NbSelectModule,
     NbThemeModule.forRoot(),
-    
+    GoogleMapsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

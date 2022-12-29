@@ -3,6 +3,8 @@ export interface Iequipement {
 
     id?:number,
     id_parent?:number,
+    parent?:Iequipement,
+    child?:Iequipement,
     id_output?:number,
     idcategorie?:number,
     categorie?:ICategorie,
@@ -15,5 +17,7 @@ export interface Iequipement {
     designation?:string,
     // gamme_maintenance?:string,
     specialite?:string,
-    description?:string;
+    description?:string,
+    longitude?:number,
+    latitude?:number 
 }

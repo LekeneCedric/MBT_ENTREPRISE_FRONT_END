@@ -10,10 +10,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./equipements.component.scss']
 })
 export class EquipementsComponent implements OnInit{
-
+  private entreprise_id :number = JSON.parse(localStorage.getItem("entreprise")!).id;
   public searchEquipement:string = "";
   public createEq:boolean = false;
   public updateEq:boolean = false;
+  public equipements_parents_list : Iequipement[] = [];
   public equipements_list : Iequipement[] = [];
   public equipements_list_temp : Iequipement [] = [];
   public categories_list : ICategorie [] = [];
@@ -30,6 +31,9 @@ export class EquipementsComponent implements OnInit{
         {
           this.equipements_list = data;
           this.equipements_list_temp = data ; 
+          this.equipements_parents_list = data.filter((equip)=>{
+            return equip.id_parent==0;
+          })
         }
       )
       this.CategorieService.getCategories().subscribe(
@@ -47,7 +51,7 @@ export class EquipementsComponent implements OnInit{
   {
     this.equipements_list = this.equipements_list_temp;
     this.equipements_list = this.equipements_list.filter((cat)=>{
-      return cat.categorie?.intitule == this.selectedCategorie  
+      return cat.categorie?.intitule == this.selectedCategorie || this.selectedCategorie=="" 
     })
   }
   public filterEquipement()
@@ -67,6 +71,21 @@ export class EquipementsComponent implements OnInit{
   {
     this.selectEquipement = equipement;
   }
+  public selectWithId(event:any)
+  {
+    if (event.target.value == 0)
+    {
+      this.selectEquipement = {};
+      this.new_equipement.id_parent = undefined;
+    }
+    this.equipements_list.forEach((eq)=>{
+      if (eq.id == event.target.value)
+      {
+        this.selectEquipement = eq;
+        this.new_equipement.idcategorie = eq.categorie?.id
+      }
+    })
+  }
   public selectEdit(equipement:Iequipement)
   {
     this.createEq = false;
@@ -75,7 +94,11 @@ export class EquipementsComponent implements OnInit{
   }
   public addEquipement()
   {
-    this.new_equipement.id_parent = 0;
+    // this.new_equipement.id_parent = 0;
+    if(this.new_equipement.id_parent == null || this.new_equipement.id_parent == undefined)
+    {
+      this.new_equipement.id_parent = 0;
+    }
     this.equipementService.createEquipement(this.new_equipement).subscribe(
       (data)=>
       {

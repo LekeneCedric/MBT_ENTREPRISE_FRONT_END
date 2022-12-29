@@ -10,7 +10,7 @@ import { AgentsService } from 'src/services/agents.service';
   styleUrls: ['./agents.component.scss']
 })
 export class AgentsComponent implements OnInit{
-
+  private entreprise_id :number = JSON.parse(localStorage.getItem("entreprise")!).id;
   public agents : IAgent[] | undefined;
   public agentsTemp : IAgent[] | undefined;
   public selected_agent : IAgent = {};
@@ -19,11 +19,11 @@ export class AgentsComponent implements OnInit{
   public searchAgent:string  = "";
   constructor(private agenceService : AgenceService,private agentService:AgentsService){}
   ngOnInit(): void {
-    this.agenceService.getAgencesEntreprise(1).subscribe((data)=>
+    this.agenceService.getAgencesEntreprise(this.entreprise_id).subscribe((data)=>
     {
       this.agences = data;
     })
-    this.agentService.getAgentsByEntreprise(1).subscribe((data)=>
+    this.agentService.getAgentsByEntreprise(this.entreprise_id).subscribe((data)=>
     {
       this.agentsTemp = data;
       this.agents = data;

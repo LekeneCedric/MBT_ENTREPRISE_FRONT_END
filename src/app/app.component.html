@@ -4,9 +4,10 @@
       <!-- <app-header></app-header>
       <app-sidebar></app-sidebar> -->
       <!-- Header-->
-     
+    
+      
       <!-- Navigation-->
-      <div class="main-content app-content">
+      <div class="main-content app-content" id="main" style="display: {{is_login?'block':'none'}};">
 
         <app-sidemenu></app-sidemenu>
         <app-navbar></app-navbar>
@@ -18,4 +19,8 @@
       <router-outlet></router-outlet>
       </div>
       </div>
+      <app-sign-in style="display: {{!is_login?'block':'none'}};"></app-sign-in>
+      
+      
+      <!-- <app-sign-in ></app-sign-in> -->
       <!-- </section> -->

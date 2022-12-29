@@ -23,7 +23,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped mg-b-0 text-md-nowrap border">
+                <table class="table table-striped table-bordered text-nowrap">
                     <thead style="text-align: center;">
                         <tr>
                             <th class="wd-15p border-bottom-0">Nom</th>
@@ -33,11 +33,13 @@
                     <tbody style="text-align:center">
                         <tr *ngFor="let categorie of categories">
                             <td>{{ categorie.intitule }}</td>
-                            <td style="text-align:center;display:flex;justify-content:space-between;padding-left:20%;padding-right:20%">
+                            <td >
+                                <div class="btn-icon-list mx-5">
                                     <button class="btn btn-warning btn-icon" (click)="selectCategorie(categorie)" data-target="#editCategorie" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
                                     <button class="btn btn-danger btn-icon" (click)="selectCategorie(categorie)" data-target="#deleteCategorie" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
                                     <button class="btn btn-primary btn-icon" (click)="seeSubCategorie(categorie);searchSubCategorie=''"><i class="typcn typcn-flow-merge"></i></button>
-                               
+                                </div>
+                                    
                             </td>
                         </tr>
                         <!-- <tr *ngFor="let agence of agences">
@@ -88,7 +90,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped mg-b-0 text-md-nowrap border">
+                <table class="table table-striped table-bordered text-nowrap">
                     <thead style="text-align: center;">
                         <tr>
                             <th class="wd-15p border-bottom-0">Nom</th>
@@ -98,10 +100,12 @@
                     <tbody style="text-align:center">
                         <tr *ngFor="let categorie of sub_categories">
                             <td>{{ categorie.intitule }}</td>
-                            <td  style="text-align:center;display:flex;justify-content:space-between;align-items:center;padding-left:30%;padding-right:30%">
+                            <td >
+                                <div class="btn-icon-list mx-5">
                                     <button class="btn btn-warning btn-icon" (click)="selectCategorie(categorie)" data-target="#editCategorie" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
                                     <button class="btn btn-danger btn-icon" (click)="selectCategorie(categorie)" data-target="#deleteCategorie" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
-                            </td>
+                                </div>
+                                    </td>
                         </tr>
                         <!-- <tr *ngFor="let agence of agences">
                             <th> <input type="checkbox" (click)="checkAgence(agence.id)"></th>

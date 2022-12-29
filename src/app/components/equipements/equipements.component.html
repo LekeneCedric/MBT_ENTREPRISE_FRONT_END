@@ -4,7 +4,9 @@
             <div class="d-flex justify-content-between">
                 <div class="d-flex justify-content-between mb-5">
                     <p style="font-weight: bold">Filtrer par categorie : </p>
-                    <select class="form-control select2-no-search" [(ngModel)]="selectedCategorie" (ngModelChange)="filterEquipementByCategorie()">
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedCategorie" (ngModelChange)="filterEquipementByCategorie()">
+                        <option selected value="">Toutes les categories
+                        </option>
                         <option *ngFor="let categorie of categories_list" value="{{ categorie.intitule }}">
                             {{ categorie.intitule }}
                         </option>
@@ -33,11 +35,12 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped mg-b-0 text-md-nowrap border">
+                <table class="table table-striped table-bordered text-nowrap">
                     <thead style="text-align: center;">
                         <tr>
                             <!-- <th class="wd-5p border-bottom-0"> # </th> -->
                             <th class="wd-15p border-bottom-0">Nom</th>
+                            <th class="wd-15p border-bottom-0">Equipement parent</th>
                             <th class="wd-15p border-bottom-0">Categorie</th>
                             <!-- <th class="wd-15p border-bottom-0">Operation</th>
                             <th class="wd-10p border-bottom-0">charge</th> -->
@@ -53,6 +56,7 @@
                     <tbody style="text-align:center">
                         <tr *ngFor = "let equipement of equipements_list" >
                             <td>{{ equipement.element }}</td>
+                            <td>{{ equipement.parent?.element!=null ? equipement.parent?.element: "Aucun"}}</td>
                             <td>{{ equipement.categorie?.intitule }}</td>
                             <!-- <td>{{ equipement.operation }}</td>
                             <td>{{ equipement.chargePrevue }}</td> -->
@@ -62,10 +66,12 @@
                             <td>{{ equipement.designation }}</td>
                             <!-- <td>{{ equipement.gamme_maintenance }}</td> -->
                             <td>{{ equipement.specialite }}</td>
-                            <td style="text-align:center;display:flex;justify-content:space-between">
+                            <td>
+                                <div class="btn-icon-list mx-5">
                                 <button class="btn btn-warning btn-icon"  (click)="selectEdit(equipement)" data-target="#addEquipement" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
                                 <button class="btn btn-danger btn-icon" (click)="select(equipement)"  data-target="#deleteEquipement" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
                                 <button class="btn btn-primary btn-icon" (click)="select(equipement)"><i class="typcn typcn-clipboard" data-target="#detailEquipement" data-toggle="modal"></i></button>
+                                </div>
                             </td>
 
                         </tr>
@@ -120,10 +126,21 @@
             </div>
              <div class="modal-body">
                 <div class="col-lg">
+                    <label for="parent" class="form-label">Equipement parent<span style="color:red">*</span></label>
+                    <select class="form-select"  id="categorie" [(ngModel)]="new_equipement.id_parent" (change)="selectWithId($event)" >
+                        <option value="0">
+                            aucun
+                        </option> 
+                            <option *ngFor="let equipement of equipements_parents_list" value="{{ equipement.id }}">
+                                {{ equipement.element }}
+                            </option>
+                    </select>
+                </div>
+                <div class="col-lg">
                     <label for="nom" class="form-label">Nom<span style="color:red">*</span></label>
                     <input id = "nom" class="form-control" placeholder="Nom de l'equipement" type="text" [(ngModel)]="new_equipement.element">
                 </div>
-                <div class="col-lg mt-3">
+                <div class="col-lg mt-3" *ngIf="new_equipement.id_parent==null">
                     <label for="categorie" class="form-label">Categorie<span style="color:red">*</span></label>
                     <select class="form-select"  id="categorie" [(ngModel)]="new_equipement.idcategorie" >
                         <option>

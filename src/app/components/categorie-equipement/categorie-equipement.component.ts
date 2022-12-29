@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./categorie-equipement.component.scss']
 })
 export class CategorieEquipementComponent implements OnInit {
-
+  private entreprise_id :number = JSON.parse(localStorage.getItem("entreprise")!).id;
   public searchCategorie: string = "";
   public searchSubCategorie:string = "";
   public selectedIntitule:string = ""

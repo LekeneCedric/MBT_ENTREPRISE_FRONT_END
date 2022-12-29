@@ -1,3 +1,4 @@
+import { SignInComponent } from './components/sign-in/sign-in.component';
 import { EquipementAgenceComponent } from './components/equipement-agence/equipement-agence.component';
 import { CategorieEquipementComponent } from './components/categorie-equipement/categorie-equipement.component';
 import { AgencesComponent } from './components/agences/agences.component';
@@ -8,8 +9,12 @@ import { AgentsComponent } from './components/agents/agents.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { MappingComponent } from './components/mapping/mapping.component';
 
 const routes: Routes = [
+  {
+    path:"",component:AgencesComponent
+  },
   {
     path:"dashboard",component:DashboardComponent
   },
@@ -36,6 +41,12 @@ const routes: Routes = [
   },
   {
     path:"plan_maintenance",component:PlanMaintenanceComponent
+  },
+  {
+    path:"map",component:MappingComponent
+  },
+  {
+    path:"signIn",component:SignInComponent
   }
   
 ];

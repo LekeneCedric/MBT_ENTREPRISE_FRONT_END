@@ -12,6 +12,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./equipement-agence.component.scss']
 })
 export class EquipementAgenceComponent implements OnInit{
+  private entreprise_id :number = JSON.parse(localStorage.getItem("entreprise")!).id;
   public equipements_list : IPossessionEquipement[] = [];
   public equipements_list_temp : IPossessionEquipement[] = [];
   public searchEquipement : String = "";
@@ -21,12 +22,12 @@ export class EquipementAgenceComponent implements OnInit{
 constructor(private agenceService:AgenceService,private possessionEquipement:PossessionEquipementService){}
 
 ngOnInit(): void {
-  this.possessionEquipement.listEquipementByEntreprise(1).subscribe((data)=>
+  this.possessionEquipement.listEquipementByEntreprise(this.entreprise_id).subscribe((data)=>
   {
     this.equipements_list = data;
     this.equipements_list_temp = data;
   });
-  this.agenceService.getAgencesEntreprise(1).subscribe((data)=>
+  this.agenceService.getAgencesEntreprise(this.entreprise_id).subscribe((data)=>
   {
     this.agence_list = data;
   })
