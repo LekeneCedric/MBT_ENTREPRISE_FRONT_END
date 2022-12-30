@@ -19,6 +19,7 @@ import { EquipementAgenceComponent } from './components/equipement-agence/equipe
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { MappingComponent } from './components/mapping/mapping.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { SalleComponent } from './components/salle/salle.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +35,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
     CategorieEquipementComponent,
     EquipementAgenceComponent,
     SignInComponent,
-    MappingComponent
+    MappingComponent,
+    SalleComponent
   ],
   imports: [
     BrowserModule,

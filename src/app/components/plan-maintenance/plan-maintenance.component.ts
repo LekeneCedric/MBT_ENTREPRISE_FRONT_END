@@ -1,3 +1,4 @@
+import { IAgent } from './../../../models/agent';
 import { IPossessionEquipement } from './../../../models/possessionEquipement';
 import { PossessionEquipementService } from './../../../services/possession-equipement.service';
 import { Iagence } from 'src/models/agence';
@@ -16,10 +17,12 @@ export class PlanMaintenanceComponent implements OnInit{
   public maintenances : Imaintenance[] = [];
   public maintenances_temp : Imaintenance[] = [];
   public maintenances_temp2 : Imaintenance[] = [];
+  public agents_maintient : IAgent[] = [];
   public searchEquipement : string = "";
   public selectedMaintenance : Imaintenance = {};
   public agencesList : Iagence[] = [];
   public possession_eq_list : string[] =[];
+  public selected_agent_id:number = 0;
   public selected_agence_id:number = 0;
   public selected_possession_eq_name : string = "";
   constructor(private maintenanceService:MaintenanceService,private agenceService:AgenceService,private possessionEqServ : PossessionEquipementService)
@@ -27,6 +30,9 @@ export class PlanMaintenanceComponent implements OnInit{
 
   }
   ngOnInit(): void {
+      this.maintenanceService.getMainteneurs().subscribe((data)=>{
+        this.agents_maintient = data;
+      })
       this.maintenanceService.getMaintenanceByEntreprise(this.entreprise_id).subscribe((data)=>
       {
         this.maintenances = data ; 
@@ -75,10 +81,19 @@ export class PlanMaintenanceComponent implements OnInit{
   }
   public filterByEquipement()
   {
+    this.selected_agent_id = 0;
     this.maintenances = this.maintenances_temp2;
     this.maintenances = this.maintenances.filter((maint)=>
     {
       return maint.possession?.equipement?.element == this.selected_possession_eq_name || this.selected_possession_eq_name == "";
+    })
+  }
+  public filterByAgents()
+  {
+    this.maintenances = this.maintenances_temp
+    this.maintenances = this.maintenances.filter((maint)=>
+    {
+      return maint.id_agent == this.selected_agent_id || this.selected_agent_id ==0;
     })
   }
   public filterMaintenance()

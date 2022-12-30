@@ -1,3 +1,4 @@
+import { SalleComponent } from './components/salle/salle.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { EquipementAgenceComponent } from './components/equipement-agence/equipement-agence.component';
 import { CategorieEquipementComponent } from './components/categorie-equipement/categorie-equipement.component';
@@ -26,6 +27,9 @@ const routes: Routes = [
   },
   {
     path:"agences",component:AgencesComponent
+  },
+  {
+    path:"salles",component:SalleComponent
   },
   {
     path:"equipements",component:EquipementsComponent

@@ -5,6 +5,7 @@ export interface IPossessionEquipement{
     id_entreprise?:number,
     id_equipement?:number,
     id_agence?:number,
+    id_salle?:number,
     id_fournisseur?:number,
     position?:string,
     etat?:string,

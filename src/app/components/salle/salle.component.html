@@ -1,0 +1,276 @@
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header pb-0 pd-t-25 ">
+            <div class="d-flex justify-content-between mb-5">
+                <h4 class="card-title mg-t-5">SALLES</h4>
+                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0"><button data-target="#addAgence" data-toggle="modal" class="btn btn-primary btn-with-icon btn-block"><i class="typcn typcn-plus"></i> Creer nouvelle salle </button></div>
+                
+                
+
+            </div>
+           
+            <div class="d-flex justify-content-between mb-3">
+            
+                <p class="tx-12 text-muted mb-2">List des salles de l'entreprise <a href="#">Learn more</a></p>
+                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Recherchez par nom ou localisation " type="text" [(ngModel)]="searchSalle" (ngModelChange)="filterSalle()"> <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table  class="table table-striped table-bordered text-nowrap" >
+                    <thead style="text-align: center;">
+                        <tr>
+                            <th class="wd-5p border-bottom-0"> # </th>
+                            <th class="wd-15p border-bottom-0">Nom</th>
+                            <th class="wd-15p border-bottom-0">Agence</th>
+                            <th class="wd-10p border-bottom-0">Tel</th>
+                            <th class="wd-10p border-bottom-0">indication</th>
+                            <th class="wd-5p border-bottom-0">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                        <tr *ngFor="let salle of salles_list">
+                            <!-- (click)="checkAgence(agence!.id!)" -->
+                            <th> <input type="checkbox" (click)="checkSalle(salle!.id!)"></th>
+                            <td>{{ salle.nom }}</td>
+                            <td>{{ salle.agence!.nom}} </td>
+                            <td>{{ salle.tel }}</td>
+                            <td>{{ salle.indication }}</td>
+                            <td style="align-items:center">
+                                <div class="btn-icon-list">
+                                    <button (click)="selectSalle(salle)" data-target="#updatesalle" data-toggle="modal" class="btn btn-warning btn-icon"><i class="typcn typcn-brush"></i></button>
+                                    <button (click)="selectSalle(salle)" data-target="#deletesalle" data-toggle="modal" class="btn btn-danger btn-icon"><i class="typcn typcn-trash"></i></button>
+                                    <button (click)="selectSalle(salle)" data-target="#linkEquipement" data-toggle="modal" class="btn btn-success btn-icon"><i class="typcn typcn-link"></i></button>
+                                    <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- bd -->
+        </div><!-- bd -->
+    </div><!-- bd -->
+</div>
+
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header pb-0 pd-t-25 ">
+            <div class="d-flex justify-content-between mb-5">
+                <h1 class="card-title mg-b-0">Equipements Salle(s)</h1>
+                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                    <div class="input-group">
+                        <input [(ngModel)]="searchEquipement" (ngModelChange)="filterEquipement()" class="form-control" placeholder="Recherchez par nom | localisation | agence" type="text"> <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered text-nowrap">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <th class="wd-15p border-bottom-0">Agence</th> 
+                            <th class="wd-15p border-bottom-0">Etat</th>
+                            <th class="wd-15p border-bottom-0">Nom</th>
+                            <th class="wd-15p border-bottom-0">Categorie</th>
+                            <!-- <th class="wd-15p border-bottom-0">Operation</th>
+                            <th class="wd-10p border-bottom-0">charge</th> -->
+                            <th class="wd-15p border-bottom-0">Periodicite Verif</th>
+                            <!-- <th class="wd-15p border-bottom-0">Outillage</th>
+                            <th class="wd-15p border-bottom-0">condi_syste</th> -->
+                            <th class="wd-15p border-bottom-0">designation</th>
+                            <!-- <th class="wd-5p border-bottom-0">gamme_maintenance</th> -->
+                            <th class="wd-15p border-bottom-0">specialiste</th>
+                            <th class="wd-15p border-bottom-0"> details </th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                        <tr *ngFor="let equipement of possessionsEq_list">
+                            <td>{{ equipement.agence?.nom }}</td>
+                            <td>{{ equipement.etat }}</td>
+                            <td>{{ equipement.equipement?.element }}</td>
+                            <td>{{ equipement.equipement?.categorie?.intitule }}</td>
+                            <!-- <td>{{ equipement.equipement?.operation }}</td>
+                            <td>{{ equipement.equipement?.chargePrevue }}</td> -->
+                            <td>{{ equipement.equipement?.periodicite }}</td>
+                            <!-- <td>{{ equipement.equipement?.outillage }}</td>
+                            <td>{{ equipement.equipement?.condi_syste }}</td> -->
+                            <td>{{ equipement.equipement?.designation }}</td>
+                            <!-- <td>{{ equipement.equipement?.gamme_maintenance }}</td> -->
+                            <td>{{ equipement.equipement?.specialite }}</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- bd -->
+        </div><!-- bd -->
+    </div><!-- bd -->
+</div>
+<!-- Add salle  -->
+<div class="modal" id="addAgence">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title" style="font-weight:bolder">Ajouter une nouvelle salle</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+             <div class="modal-body">
+                <div class="col-lg mt-3">
+                    <label for="localisation" class="form-label">Agence<span style="color:red">*</span></label>
+                    <select class="form-select"  id="agence" [(ngModel)]="new_salle.id_agence" >
+                        <option>
+                            Choisir l'agence
+                        </option> 
+                        <option *ngFor="let agence of agences_list" value="{{ agence.id }}">{{ agence.nom }}</option>
+                    </select>
+                </div>
+                <div class="col-lg">
+                    <label for="nom" class="form-label">Nom<span style="color:red">*</span></label>
+                    <input id = "nom" class="form-control" placeholder="Nom de la salle" type="text" [(ngModel)]="new_salle.nom">
+                </div>
+                <div class="col-lg">
+                    <label for="code" class="form-label">telephone de la salle <span style="color:red">*</span></label>
+                    <input id = "code" class="form-control" placeholder="Tel" type="text" [(ngModel)]="new_salle.tel">
+                </div>
+                <div class="col-lg">
+                    <label for="code" class="form-label">indication de la salle <span style="color:red">*</span></label>
+                    <input id = "code" class="form-control" placeholder="Indication(s)" type="text" [(ngModel)]="new_salle.indication">
+                </div>
+                <div class="col-lg">
+                    <label for="description" class="form-label">description</label>
+                    <textarea id = "description" class="form-control" placeholder="description de la salle " rows="5" [(ngModel)]="new_salle.description"></textarea>
+                </div>
+                
+            <div class="modal-footer">
+                <button *ngIf="new_salle.nom!=undefined && new_salle.tel!= undefined && new_salle.indication!=undefined
+                 && new_salle.description!=undefined && new_salle.nom.length>4" class="btn ripple btn-primary" 
+                 (click)="createSalle()" data-dismiss="modal" type="button">Save changes</button>
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- update salle  -->
+<!-- Add salle  -->
+<div class="modal" id="addAgence">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title" style="font-weight:bolder">Modifier la salle {{ select_salle.nom }}</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+             <div class="modal-body">
+                <div class="col-lg mt-3">
+                    <label for="localisation" class="form-label">Agence<span style="color:red">*</span></label>
+                    <select class="form-select"  id="agence" [(ngModel)]="select_salle.id_agence" >
+                        <option>
+                            Choisir l'agence
+                        </option> 
+                        <option *ngFor="let agence of agences_list" value="{{ agence.id }}">{{ agence.nom }}</option>
+                    </select>
+                </div>
+                <div class="col-lg">
+                    <label for="nom" class="form-label">Nom<span style="color:red">*</span></label>
+                    <input id = "nom" class="form-control" placeholder="Nom de la salle" type="text" [(ngModel)]="select_salle.nom">
+                </div>
+                <div class="col-lg">
+                    <label for="code" class="form-label">telephone de la salle <span style="color:red">*</span></label>
+                    <input id = "code" class="form-control" placeholder="Tel" type="number" [(ngModel)]="select_salle.tel">
+                </div>
+                <div class="col-lg">
+                    <label for="code" class="form-label">indication de la salle <span style="color:red">*</span></label>
+                    <input id = "code" class="form-control" placeholder="Indication(s)" type="text" [(ngModel)]="select_salle.indication">
+                </div>
+                <div class="col-lg">
+                    <label for="description" class="form-label">description</label>
+                    <textarea id = "description" class="form-control" placeholder="description de la salle " rows="5" [(ngModel)]="select_salle.description"></textarea>
+                </div>
+                
+            <div class="modal-footer">
+                <button *ngIf="new_salle.nom!=undefined && new_salle.tel!= undefined && new_salle.indication!=undefined
+                 && new_salle.description!=undefined && new_salle.nom.length>4" class="btn ripple btn-primary" 
+                 (click)="updateSalle()" data-dismiss="modal" type="button">Save changes</button>
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- delete salle  -->
+<div class="modal" id="deleteAgence">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-danger mg-b-20">Attention : Suppression d'une salle </h4>
+                <p class="mg-b-20 mg-x-20">Voulez vous vraiment valider la suppression de la salle  <span style="font-weight:bolder">{{ select_salle.nom }} ?</span> </p>
+                <div style="display:flex;justify-content:space-between">
+                    <button aria-label="Close" class="btn ripple btn-light pd-x-25" data-dismiss="modal" type="button">Annuler</button>
+                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="removeSalle()" data-dismiss="modal" type="button">Continue</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Link equipment to salle  -->
+<div class="modal" id="linkEquipement">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title" style="font-weight:bolder">Ajouter un nouvel equipement a la salle  <span style="font-weight:bold">{{ select_salle.nom }}</span></h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+             <div class="modal-body">
+                <div class="col-lg mt-3">
+                    <label for="equipement" class="form-label">Equipement<span style="color:red">*</span></label>
+                    <select class="form-select"  id="equipement" [(ngModel)]="new_possessionEq.id_equipement">
+                        <option *ngFor="let equipement of equipements_list" value="{{ equipement.id }}">
+                            {{ equipement.element }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg mt-3">
+                    <label for="fournisseur" class="form-label">Fournisseur<span style="color:red">*</span></label>
+                    <select class="form-select"  id="fournisseur" [(ngModel)]="new_possessionEq.id_fournisseur">
+                        <option *ngFor="let fournisseur of fournisseurs_list" value="{{ fournisseur.id }}">
+                            {{ fournisseur.nom }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg mt-3">
+                <label for="code" class="form-label">Etat actuel<span style="color:red">*</span></label>
+                <select class="form-select"  id="fournisseur" [(ngModel)]="new_possessionEq.etat">
+                    <option  value="M">
+                        Marche
+                    </option>
+                    <option  value="A">
+                        Arret
+                    </option>
+                </select>
+                </div>
+                <!-- <div class="col-lg">
+                    <label for="code" class="form-label">email<span style="color:red">*</span></label>
+                    <input id = "code" class="form-control" placeholder="e-mail de l'agent'" type="email" [(ngModel)]="selected_agent.email">
+                </div> -->
+                
+                
+            <div class="modal-footer">
+                <button *ngIf="new_possessionEq.id_equipement!=null && new_possessionEq.id_fournisseur!=null && new_possessionEq.etat!=null" class="btn ripple btn-primary"
+                 (click)="linkEquipmentToSalle()" data-dismiss="modal" type="button">Save changes</button>
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

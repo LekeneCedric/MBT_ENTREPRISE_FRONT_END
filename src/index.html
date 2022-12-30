@@ -44,11 +44,7 @@
 		<link id="theme" href="assets/css/colors/color.css" rel="stylesheet">
 
 		<!-- Internal Data table css -->
-		<link href="assets/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-		<link href="assets/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
-		<link href="assets/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
-		<link href="assets/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
-		<link href="assets/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
+		
 		<link href="assets/plugins/select2/css/select2.min.css" rel="stylesheet">
 
 		<!--  Owl-carousel css-->
@@ -157,7 +153,7 @@
 		<script src="assets/plugins/jquery.flot/jquery.flot.categories.js"></script>
 		<script src="assets/js/dashboard.sampledata.js"></script>
 		<script src="assets/js/chart.flot.sampledata.js"></script>
-
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css"/>
 		<!-- Chart-circle js -->
 		<script src="assets/plugins/circle-progress/circle-progress.min.js"></script>
 		<script src="assets/plugins/chart-circle/chart-circle.js"></script>
@@ -171,26 +167,13 @@
 
 
 		<!-- custom js -->	
-		<script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
-		<script src="assets/plugins/datatable/js/dataTables.dataTables.min.js"></script>
-		<script src="assets/plugins/datatable/js/dataTables.responsive.min.js"></script>
-		<script src="assets/plugins/datatable/js/responsive.dataTables.min.js"></script>
-		<script src="assets/plugins/datatable/js/jquery.dataTables.js"></script>
-		<script src="assets/plugins/datatable/js/dataTables.bootstrap4.js"></script>
-		<script src="assets/plugins/datatable/js/dataTables.buttons.min.js"></script>
-		<script src="assets/plugins/datatable/js/buttons.bootstrap4.min.js"></script>
-		<script src="assets/plugins/datatable/js/jszip.min.js"></script>
-		<script src="assets/plugins/datatable/js/pdfmake.min.js"></script>
-		<script src="assets/plugins/datatable/js/vfs_fonts.js"></script>
-		<script src="assets/plugins/datatable/js/buttons.html5.min.js"></script>
-		<script src="assets/plugins/datatable/js/buttons.print.min.js"></script>
-		<script src="assets/plugins/datatable/js/buttons.colVis.min.js"></script>
-		<script src="assets/plugins/datatable/js/dataTables.responsive.min.js"></script>
-		<script src="assets/plugins/datatable/js/responsive.bootstrap4.min.js"></script>
-		<script src="assets/js/table-data.js"></script>
+		
 		<script src="assets/js/custom.js"></script>
 		<script src="assets/switcher/js/switcher.js"></script>
-		<script src="assets/js/table-data.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
+		<script type="text/javascript">
+			$("#table").DataTable();
+		</script>
 				<!-- Internal Select2.min js -->
     </body>
 
