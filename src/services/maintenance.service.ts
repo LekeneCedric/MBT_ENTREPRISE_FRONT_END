@@ -3,13 +3,14 @@ import { EnvironmentService } from './environment.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Imaintenance } from 'src/models/maintenance';
+import { IAgent } from 'src/models/agent';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MaintenanceService {
 
-  constructor(public http:HttpClient , public environment:EnvironmentService) { }
+  constructor(private http:HttpClient , private environment:EnvironmentService) { }
 
   public getAllMaintenance():Observable<Imaintenance[]>
   {
@@ -21,6 +22,10 @@ export class MaintenanceService {
     return this.http.get<Imaintenance>(`${this.environment.api}/maintenance/${id_maintenance}`,{headers:this.environment.httpHeader});
   }
 
+  public getMainteneurs():Observable<IAgent[]>
+  {
+    return this.http.get<IAgent[]>(`${this.environment.api}/maintenance/mainteneurs/${JSON.parse(localStorage.getItem("entreprise")!).id}`,{headers:this.environment.httpHeader});
+  }
   public getMaintenanceByEquipement(id_equipement:number):Observable<Imaintenance[]>
   {
     return this.http.get<Imaintenance[]>(`${this.environment.api}/maintenance/equipement/${id_equipement}`,{headers:this.environment.httpHeader});
