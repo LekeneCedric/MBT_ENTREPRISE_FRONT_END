@@ -32,10 +32,13 @@ export class EquipementService {
   {
     return this.http.get<Iequipement[]>(this.environementService.api+`/equipement/`);
   }
-
-  public getOneEquipment(id_equipement:number):Observable<Iequipement[]>
+  public getAllSubEquipements(id:number):Observable<Iequipement[]>
   {
-    return this.http.get<Iequipement[]>(this.environementService.api+`/equipement/${id_equipement}`);
+    return this.http.get<Iequipement[]>(`${this.environementService.api}/equipement/sub/${id}`,{headers:this.environementService.httpHeader});
+  }
+  public getOneEquipment(id_equipement:number):Observable<Iequipement>
+  {
+    return this.http.get<Iequipement>(this.environementService.api+`/equipement/${id_equipement}`);
   }
 
   public linkEquipement(data_link:any):Observable<Iequipement>

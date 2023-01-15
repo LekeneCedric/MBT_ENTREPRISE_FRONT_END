@@ -3,7 +3,8 @@
         <div class="card-header pb-0 pd-t-25 ">
             <div class="d-flex justify-content-between mb-5">
                 <h4 class="card-title mg-t-5">AGENCES</h4>
-                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0"><button data-target="#addAgence" data-toggle="modal" class="btn btn-primary btn-with-icon btn-block"><i class="typcn typcn-plus"></i> Creer agence </button></div>
+                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0"><button data-target="#addAgence" data-toggle="modal" class="btn btn-primary btn-with-icon btn-block">
+                    <i class="typcn typcn-plus"></i>Agence</button></div>
                 
                 
 
@@ -37,7 +38,7 @@
                     </thead>
                     <tbody style="text-align:center">
                         <tr *ngFor="let agence of agences">
-                            <th> <input type="checkbox" (click)="checkAgence(agence!.id!)"></th>
+                            <th>#</th>
                             <td>{{ agence.nom }}</td>
                             <td>{{ agence.localisation | slice:0:20}} </td>
                             <td>{{ agence.nbremploye }}</td>
@@ -48,7 +49,6 @@
                                     <button (click)="selectAgence(agence)" data-target="#updateAgence" data-toggle="modal" class="btn btn-warning btn-icon"><i class="typcn typcn-brush"></i></button>
                                     <button (click)="selectAgence(agence)" data-target="#deleteAgence" data-toggle="modal" class="btn btn-danger btn-icon"><i class="typcn typcn-trash"></i></button>
                                     <button (click)="selectAgence(agence)" data-target="#linkEquipement" data-toggle="modal" class="btn btn-success btn-icon"><i class="typcn typcn-link"></i></button>
-                                    <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -60,123 +60,7 @@
     </div><!-- bd -->
 </div>
 
-<div class="col-xl-12">
-    <div class="card">
-        <div class="card-header pb-0 pd-t-25 ">
-            <div class="d-flex justify-content-between mb-5">
-                <h1 class="card-title mg-b-0">AGENTS</h1>
-                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0"><button data-target="#addAgent" data-toggle="modal" class="btn btn-primary btn-with-icon btn-block"><i class="typcn typcn-plus"></i> Ajouter une nouvel agent</button></div>
-            </div>
-            <div class="d-flex justify-content-between mb-3">
-                <p class="tx-12 text-muted mb-2">List des agents des agences selectionnes <a href="#">Learn more</a></p>
-                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-                    <div class="input-group">
-                        <input [(ngModel)]="searchAgent" (ngModelChange)="filterAgent()" class="form-control" placeholder="Recherchez par nom | localisation | agence" type="text"> <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
-                    </div>
-                </div>
-                
-            </div>
-            
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered text-nowrap">
-                    <thead style="text-align: center;">
-                        <tr>
-                            <th class="wd-15p border-bottom-0">Specialite</th>
-                            <th class="wd-15p border-bottom-0">Nom</th>
-                            <th class="wd-15p border-bottom-0">Pseudo</th>
-                            <th class="wd-15p border-bottom-0">Telephone</th>
-                            <th class="wd-10p border-bottom-0">email</th>
-                            <th class="wd-10p border-bottom-0">Agence</th>
-                            <th class="wd-25p border-bottom-0">Depuis le </th>
-                            <th class="wd-25p border-bottom-0">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody style="text-align:center">
-                        <tr *ngFor="let agent of agents">
-                            <td>{{ agent.specialite }}</td>
-                            <td>{{ agent.nom }}</td>
-                            <td>{{ agent.pseudo }}</td>
-                            <td>{{ agent.telephone }}</td>
-                            <td>{{ agent.email }}</td>
-                            <td>{{ agent.agence!.nom }}</td>
-                            <td>{{ agent.created_at |  date:"MMM d, y, h:mm:ss a"}}</td>
-                            <td>
-                                <div class="btn-icon-list">
-                                    <button  class="btn btn-warning btn-icon" data-target="#updateAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-brush"></i></button>
-                                    <button class="btn btn-danger btn-icon" data-target="#deleteAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-trash"></i></button>
-                                    <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- bd -->
-        </div><!-- bd -->
-    </div><!-- bd -->
-</div>
 
-<!-- Liste equipements agences selectionnes -->
-<div class="col-xl-12">
-    <div class="card">
-        <div class="card-header pb-0 pd-t-25 ">
-            <div class="d-flex justify-content-between mb-5">
-                <h1 class="card-title mg-b-0">Equipements Agence(s)</h1>
-                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-                    <div class="input-group">
-                        <input [(ngModel)]="searchAgent" (ngModelChange)="filterAgent()" class="form-control" placeholder="Recherchez par nom | localisation | agence" type="text"> <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered text-nowrap">
-                    <thead style="text-align: center;">
-                        <tr>
-                            <th class="wd-15p border-bottom-0">Agence</th> 
-                            <th class="wd-15p border-bottom-0">Etat</th>
-                            <th class="wd-15p border-bottom-0">Nom</th>
-                            <th class="wd-15p border-bottom-0">Categorie</th>
-                            <!-- <th class="wd-15p border-bottom-0">Operation</th>
-                            <th class="wd-10p border-bottom-0">charge</th> -->
-                            <th class="wd-15p border-bottom-0">Periodicite Verif</th>
-                            <!-- <th class="wd-15p border-bottom-0">Outillage</th>
-                            <th class="wd-15p border-bottom-0">condi_syste</th> -->
-                            <th class="wd-15p border-bottom-0">designation</th>
-                            <!-- <th class="wd-5p border-bottom-0">gamme_maintenance</th> -->
-                            <th class="wd-15p border-bottom-0">specialiste</th>
-                            <th class="wd-15p border-bottom-0"> details </th>
-                        </tr>
-                    </thead>
-                    <tbody style="text-align:center">
-                        <tr *ngFor="let equipement of equipements_agence_list">
-                            <td>{{ equipement.agence?.nom }}</td>
-                            <td>{{ equipement.etat }}</td>
-                            <td>{{ equipement.equipement?.element }}</td>
-                            <td>{{ equipement.equipement?.categorie?.intitule }}</td>
-                            <!-- <td>{{ equipement.equipement?.operation }}</td>
-                            <td>{{ equipement.equipement?.chargePrevue }}</td> -->
-                            <td>{{ equipement.equipement?.periodicite }}</td>
-                            <!-- <td>{{ equipement.equipement?.outillage }}</td>
-                            <td>{{ equipement.equipement?.condi_syste }}</td> -->
-                            <td>{{ equipement.equipement?.designation }}</td>
-                            <!-- <td>{{ equipement.equipement?.gamme_maintenance }}</td> -->
-                            <td>{{ equipement.equipement?.specialite }}</td>
-                            <td style="text-align:center;display:flex;justify-content:space-between">
-                                 <button class="btn btn-primary btn-icon" (click)="selectEquipement(equipement.equipement!)"><i class="typcn typcn-clipboard" data-target="#detailEquipement" data-toggle="modal"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- bd -->
-        </div><!-- bd -->
-    </div><!-- bd -->
-</div>
     
 <!-- Modal add Agence  -->
 <div class="modal" id="addAgence">
@@ -190,25 +74,16 @@
                     <label for="nom" class="form-label">Nom<span style="color:red">*</span></label>
                     <input id = "nom" class="form-control" placeholder="Nom de l'agence" type="text" [(ngModel)]="new_agence.nom">
                 </div>
-                <div class="col-lg">
-                    <label for="code" class="form-label">Code<span style="color:red">*</span></label>
-                    <input id = "code" class="form-control" placeholder="code de l'agence" type="password" [(ngModel)]="new_agence.code">
-                </div>
+                
                 <div class="col-lg mt-3">
                     <label for="localisation" class="form-label">Localisation<span style="color:red">*</span></label>
-                    <select class="form-select"  id="localisation" [(ngModel)]="new_agence.localisation" >
-                        <option>
-                            Choisir la localisation
-                        </option> 
-                        <option value="Cameroun Yaounde cite-verte">Cameroun Yaounde cite-verte</option>
-                        <option value="Cameroun Yaounde Poste-centrale">Cameroun Yaounde Poste-centrale</option>
-                        <option value="Cameroun Yaounde Avenue-kenedy">Cameroun Yaounde Avenue-kenedy</option>
-                    </select>
+                    <input id = "localisation" class="form-control" placeholder="Localisation de l'agence" type="text" [(ngModel)]="new_agence.localisation">
+                    
                 </div>
                 
             <div class="modal-footer">
-                <button *ngIf="new_agence.nom!=undefined && new_agence.code!= undefined && new_agence.localisation!=undefined && new_agence.nom.length>4" class="btn ripple btn-primary" (click)="createAgence()" data-dismiss="modal" type="button">Save changes</button>
-                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+                <button *ngIf="new_agence.nom!=undefined && new_agence.localisation!=undefined && new_agence.nom.length>4" class="btn ripple btn-primary" (click)="createAgence()" data-dismiss="modal" type="button">Valider</button>
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Fermer</button>
             </div>
         </div>
     </div>
@@ -244,172 +119,21 @@
                     <label for="nom" class="form-label">Nom<span style="color:red">*</span></label>
                     <input id = "nom" class="form-control" placeholder="Nom de l'agence" type="text" [(ngModel)]="selected_agence.nom">
                 </div>
-                <div class="col-lg">
-                    <label for="code" class="form-label">Code<span style="color:red">*</span></label>
-                    <input id = "code" class="form-control" placeholder="code de l'agence" type="password" [(ngModel)]="selected_agence.code">
-                </div>
+               
                 <div class="col-lg mt-3">
                     <label for="localisation" class="form-label">Localisation<span style="color:red">*</span></label>
-                    <select class="form-select"  id="localisation" [(ngModel)]="selected_agence.localisation" >
-                        <option>
-                            Choisir la localisation
-                        </option> 
-                        <option value="Cameroun Yaounde cite-verte">Cameroun Yaounde cite-verte</option>
-                        <option value="Cameroun Yaounde Poste-centrale">Cameroun Yaounde Poste-centrale</option>
-                        <option value="Cameroun Yaounde Avenue-kenedy">Cameroun Yaounde Avenue-kenedy</option>
-                    </select>
+                    <input id = "localisation" class="form-control" placeholder="Localisation de l'agence" type="text" [(ngModel)]="selected_agence.localisation">
                 </div>
                 
             <div class="modal-footer">
-                <button *ngIf="selected_agence.nom!=undefined && selected_agence.code!= undefined && selected_agence.localisation!=undefined && selected_agence.nom.length>4" class="btn ripple btn-primary" (click)="updateAgence()" data-dismiss="modal" type="button">Save changes</button>
-                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-<!-- Add Agent -->
-<div class="modal" id="addAgent">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content modal-content-demo">
-            <div class="modal-header">
-                <h6 class="modal-title" style="font-weight:bolder">Ajouter une nouvel Agent</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-            </div>
-             <div class="modal-body">
-                <div class="col-lg mt-3">
-                    <label for="agence" class="form-label">Agence<span style="color:red">*</span></label>
-                    <select class="form-select"  id="agence" [(ngModel)]="new_agent.id_agence" >
-                        <option disabled>
-                            Choisir l'agence correspondante
-                        </option> 
-                        <option *ngFor="let agence of agences" value="{{ agence.id }}">
-                            {{ agence.nom }}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-lg">
-                    <label for="nom" class="form-label">Nom<span style="color:red">*</span></label>
-                    <input id = "nom" class="form-control" placeholder="Nom de l'agent'" type="text" [(ngModel)]="new_agent.nom">
-                </div>
-                <div class="col-lg">
-                    <label for="code" class="form-label">Pseudo<span style="color:red">*</span></label>
-                    <input id = "code" class="form-control" placeholder="Pseudo de l'agent'" type="test" [(ngModel)]="new_agent.pseudo">
-                </div>
-                <div class="col-lg">
-                    <label for="code" class="form-label">Telephone<span style="color:red">*</span></label>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"><i class="typcn typcn-phone-outline"></i></span>
-                        </div>
-                        <input aria-describedby="basic-addon1" aria-label="phone" class="form-control" [(ngModel)]="new_agent.telephone" placeholder="Contact de l'agent" type="text">
-                    </div>
-                </div>
-                <div class="col-lg">
-                <label for="code" class="form-label">Email<span style="color:red">*</span></label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                    </div>
-                    <input aria-describedby="basic-addon1" aria-label="e-mail" class="form-control" [(ngModel)]="new_agent.email" placeholder="Email" type="text">
-                </div>
-                </div>
-                <!-- <div class="col-lg">
-                    <label for="code" class="form-label">email<span style="color:red">*</span></label>
-                    <input id = "code" class="form-control" placeholder="e-mail de l'agent'" type="email" [(ngModel)]="new_agent.email">
-                </div> -->
-                <div class="col-lg">
-                    <label for="code" class="form-label">password<span style="color:red">*</span></label>
-                    <input id = "code" class="form-control" placeholder="password de l'agent'" type="password" [(ngModel)]="new_agent.password">
-                </div>
-                
-                
-            <div class="modal-footer">
-                <button *ngIf="new_agent.id_agence!=undefined && new_agent.nom != undefined && new_agent.pseudo!=undefined && new_agent.email !=undefined && new_agent.password !=undefined" class="btn ripple btn-primary" (click)="createAgent()" data-dismiss="modal" type="button">Save changes</button>
-                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+                <button *ngIf="selected_agence.nom!=undefined && selected_agence.localisation!=undefined && selected_agence.nom.length>4" class="btn ripple btn-primary" (click)="updateAgence()" data-dismiss="modal" type="button">Valider</button>
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Fermer</button>
             </div>
         </div>
     </div>
 </div>
 </div>
 
-<!-- Delete Agent -->
-<div class="modal" id="deleteAgent">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content tx-size-sm">
-            <div class="modal-body tx-center pd-y-20 pd-x-20">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                <h4 class="tx-danger mg-b-20">Attention : Suppression d'un agent </h4>
-                <p class="mg-b-20 mg-x-20">Voulez vous vraiment valider la suppression de l'agent <span style="font-weight:bolder">{{ selected_agent.nom }} ?</span> </p>
-                <div style="display:flex;justify-content:space-between">
-                    <button aria-label="Close" class="btn ripple btn-light pd-x-25" data-dismiss="modal" type="button">Annuler</button>
-                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="removeAgent()" data-dismiss="modal" type="button">Continue</button>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Update Agent Modal  -->
-
-<div class="modal" id="updateAgent">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content modal-content-demo">
-            <div class="modal-header">
-                <h6 class="modal-title" style="font-weight:bolder">Modifier les informations de l'agent <span style="font-weight:bold">{{ selected_agent.nom }}</span></h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-            </div>
-             <div class="modal-body">
-                <div class="col-lg mt-3">
-                    <label for="agence" class="form-label">Agence<span style="color:red">*</span></label>
-                    <select class="form-select"  id="agence" [(ngModel)]="selected_agent.id_agence" >
-                        <option disabled>
-                            Choisir l'agence correspondante
-                        </option> 
-                        <option *ngFor="let agence of agences" value="{{ agence.id }}">
-                            {{ agence.nom }}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-lg">
-                    <label for="nom" class="form-label">Nom<span style="color:red">*</span></label>
-                    <input id = "nom" class="form-control" placeholder="Nom de l'agent'" type="text" [(ngModel)]="selected_agent.nom">
-                </div>
-                <div class="col-lg">
-                    <label for="code" class="form-label">Pseudo<span style="color:red">*</span></label>
-                    <input id = "code" class="form-control" placeholder="Pseudo de l'agent'" type="test" [(ngModel)]="selected_agent.pseudo">
-                </div>
-                <div class="col-lg">
-                    <label for="code" class="form-label">Telephone<span style="color:red">*</span></label>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"><i class="typcn typcn-phone-outline"></i></span>
-                        </div>
-                        <input aria-describedby="basic-addon1" aria-label="phone" class="form-control" [(ngModel)]="selected_agent.telephone" placeholder="Contact de l'agent" type="text">
-                    </div>
-                </div>
-                <div class="col-lg">
-                <label for="code" class="form-label">Email<span style="color:red">*</span></label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                    </div>
-                    <input aria-describedby="basic-addon1" aria-label="e-mail" class="form-control" [(ngModel)]="selected_agent.email" placeholder="Email" type="text">
-                </div>
-                </div>
-                <!-- <div class="col-lg">
-                    <label for="code" class="form-label">email<span style="color:red">*</span></label>
-                    <input id = "code" class="form-control" placeholder="e-mail de l'agent'" type="email" [(ngModel)]="selected_agent.email">
-                </div> -->
-                
-                
-            <div class="modal-footer">
-                <button *ngIf="selected_agent.id_agence!=undefined && selected_agent.nom != undefined && selected_agent.pseudo!=undefined && selected_agent.email !=undefined" class="btn ripple btn-primary" (click)="updateAgent()" data-dismiss="modal" type="button">Save changes</button>
-                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
 
 <!-- Update LinkEquipementToAgence  -->
 
@@ -454,8 +178,8 @@
                 
                 
             <div class="modal-footer">
-                <button *ngIf="new_possessionEq.id_equipement!=null && new_possessionEq.id_fournisseur!=null && new_possessionEq.etat!=null" class="btn ripple btn-primary" (click)="linkEquipment()" data-dismiss="modal" type="button">Save changes</button>
-                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+                <button *ngIf="new_possessionEq.id_equipement!=null && new_possessionEq.id_fournisseur!=null && new_possessionEq.etat!=null" class="btn ripple btn-primary" (click)="linkEquipment()" data-dismiss="modal" type="button">Valider</button>
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Fermer</button>
             </div>
         </div>
     </div>

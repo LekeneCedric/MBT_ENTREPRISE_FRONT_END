@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 export class AppComponent {
   constructor(private eventService:EventsService,private _router:Router){
     this.eventService.subscribe('is_login',(data)=>{
-      console.log(data)
       this.is_login = data;
     })
     

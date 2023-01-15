@@ -18,12 +18,25 @@
                 
                     <div class="form-group">
                         <label>Email</label>
-                        <input [(ngModel)]="login_data.email" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                        <input [(ngModel)]="login_data.email_entreprise" type="text" class="form-control" placeholder="Email de l'entreprise" aria-label="Username" aria-describedby="basic-addon1">
                         
                     </div>
                     <div class="form-group">
-                        <label>Code</label> <input [(ngModel)]="login_data.code" class="form-control" placeholder="Enter entreprise code" type="password">
-                    </div><button class="btn btn-main-primary btn-block" (click)="signIn()">Sign In</button>
+                        <label>Code</label> 
+                        <input [(ngModel)]="login_data.code_entreprise" class="form-control" placeholder="code de l'entreprise" type="password">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pseudo</label> 
+                        <input [(ngModel)]="login_data.pseudo" class="form-control" placeholder="Pseudo de l'agent " type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mot de passe</label> 
+                        <input [(ngModel)]="login_data.password" class="form-control" placeholder="Mot de passe " type="password">
+                    </div>
+                    
+                    <button class="btn btn-main-primary btn-block" (click)="signIn()">Sign In</button>
                 
             </div>
             <div class="main-signin-footer mt-3 mg-t-5">

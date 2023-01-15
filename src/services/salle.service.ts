@@ -18,7 +18,7 @@ export class SalleService {
 
   public getOneSalle(id_salle:number):Observable<Isalle>
   {
-    return this.http.get<Isalle>(`${this.env.api}/salle${id_salle}`,{headers:this.env.httpHeader})
+    return this.http.get<Isalle>(`${this.env.api}/salle/${id_salle}`,{headers:this.env.httpHeader})
   }
 
   public getSallesByEntreprise(id_entreprise:number):Observable<Isalle[]>

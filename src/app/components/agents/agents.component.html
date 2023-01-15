@@ -3,10 +3,29 @@
         <div class="card-header pb-0 pd-t-25 ">
             <div class="d-flex justify-content-between mb-5">
                 <h1 class="card-title mg-b-0">AGENTS</h1>
-                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0"><button data-target="#addAgent" data-toggle="modal" class="btn btn-primary btn-with-icon btn-block"><i class="typcn typcn-plus"></i> Ajouter une nouvel agent</button></div>
+                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0"><button data-target="#addAgent" data-toggle="modal" class="btn btn-primary btn-with-icon btn-block">
+                    <i class="typcn typcn-plus"></i>Agent</button></div>
             </div>
             <div class="d-flex justify-content-between mb-3">
-                <p class="tx-12 text-muted mb-2">List des agents des agences selectionnes <a href="#">Learn more</a></p>
+                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="selected_agence_id" (ngModelChange)="filterByAgence(0)">
+                        <option selected value="0">Toutes les agences
+                        </option>
+                        <option *ngFor="let agence of agences" value="{{ agence.id }}">
+                            {{ agence.nom }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="selected_specialite" (ngModelChange)="filterBySpecialite()">
+                        <option selected value = "">
+                            specialite de l'agent
+                        </option>
+                        <option *ngFor="let specialite of specialites" value="{{ specialite }}">
+                            {{ specialite }}
+                        </option>
+                    </select>
+                </div>
                 <div class="col-lg-4 mg-t-20 mg-lg-t-0">
                     <div class="input-group">
                         <input [(ngModel)]="searchAgent" (ngModelChange)="filterAgent()" class="form-control" placeholder="Recherchez par nom | localisation | agence" type="text"> <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
@@ -44,7 +63,7 @@
                                 <div class="btn-icon-list">
                                     <button  class="btn btn-warning btn-icon" data-target="#updateAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-brush"></i></button>
                                     <button class="btn btn-danger btn-icon" data-target="#deleteAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-trash"></i></button>
-                                    <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
+                                    <button class="btn btn-primary btn-icon" [routerLink]="['/details_agent',agent.id]"   data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-contacts"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -75,7 +94,7 @@
                     </select>
                 </div>
                 <div class="col-lg mt-3">
-                    <label for="specialite" class="form-label">Specialite<span style="color:red">*</span></label>
+                    <label for="specialite" class="form-label">Specialite</label>
                     <select class="form-select"  id="specialite" [(ngModel)]="new_agent.specialite" >
                         <option disabled>
                             specialite de l'agent
@@ -90,7 +109,7 @@
                     <input id = "nom" class="form-control" placeholder="Nom de l'agent'" type="text" [(ngModel)]="new_agent.nom">
                 </div>
                 <div class="col-lg">
-                    <label for="code" class="form-label">Pseudo<span style="color:red">*</span></label>
+                    <label for="code" class="form-label">Pseudo</label>
                     <input id = "code" class="form-control" placeholder="Pseudo de l'agent'" type="test" [(ngModel)]="new_agent.pseudo">
                 </div>
                 <div class="col-lg">
@@ -103,7 +122,7 @@
                     </div>
                 </div>
                 <div class="col-lg">
-                <label for="code" class="form-label">Email<span style="color:red">*</span></label>
+                <label for="code" class="form-label">Email</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">@</span>
@@ -111,19 +130,19 @@
                     <input aria-describedby="basic-addon1" aria-label="e-mail" class="form-control" [(ngModel)]="new_agent.email" placeholder="Email" type="text">
                 </div>
                 </div>
+                <div class="col-lg">
+                    <label for="code" class="form-label">Password</label>
+                    <input id = "code" class="form-control" placeholder="Mot de passe" type="password" [(ngModel)]="new_agent.password">
+                </div>
                 <!-- <div class="col-lg">
                     <label for="code" class="form-label">email<span style="color:red">*</span></label>
                     <input id = "code" class="form-control" placeholder="e-mail de l'agent'" type="email" [(ngModel)]="new_agent.email">
                 </div> -->
-                <div class="col-lg">
-                    <label for="code" class="form-label">password<span style="color:red">*</span></label>
-                    <input id = "code" class="form-control" placeholder="password de l'agent'" type="password" [(ngModel)]="new_agent.password">
-                </div>
                 
                 
             <div class="modal-footer">
-                <button *ngIf="new_agent.id_agence!=undefined && new_agent.nom != undefined && new_agent.pseudo!=undefined && new_agent.email !=undefined && new_agent.password !=undefined" class="btn ripple btn-primary" (click)="createAgent()" data-dismiss="modal" type="button">Save changes</button>
-                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+                <button *ngIf="new_agent.id_agence!=undefined && new_agent.nom != undefined && new_agent.telephone != undefined" class="btn ripple btn-primary" (click)="createAgent()" data-dismiss="modal" type="button">Valider</button>
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Fermer</button>
             </div>
         </div>
     </div>
@@ -169,7 +188,7 @@
                     </select>
                 </div>
                 <div class="col-lg mt-3">
-                    <label for="specialite" class="form-label">Specialite<span style="color:red">*</span></label>
+                    <label for="specialite" class="form-label">Specialite</label>
                     <select class="form-select"  id="specialite" [(ngModel)]="selected_agent.specialite" >
                         <option disabled>
                             specialite de l'agent
@@ -184,7 +203,7 @@
                     <input id = "nom" class="form-control" placeholder="Nom de l'agent'" type="text" [(ngModel)]="selected_agent.nom">
                 </div>
                 <div class="col-lg">
-                    <label for="code" class="form-label">Pseudo<span style="color:red">*</span></label>
+                    <label for="code" class="form-label">Pseudo</label>
                     <input id = "code" class="form-control" placeholder="Pseudo de l'agent'" type="test" [(ngModel)]="selected_agent.pseudo">
                 </div>
                 <div class="col-lg">
@@ -197,7 +216,7 @@
                     </div>
                 </div>
                 <div class="col-lg">
-                <label for="code" class="form-label">Email<span style="color:red">*</span></label>
+                <label for="code" class="form-label">Email</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">@</span>

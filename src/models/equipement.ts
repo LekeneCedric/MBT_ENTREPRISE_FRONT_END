@@ -19,5 +19,6 @@ export interface Iequipement {
     specialite?:string,
     description?:string,
     longitude?:number,
-    latitude?:number 
+    latitude?:number,
+    isLink?:boolean
 }

@@ -1,0 +1,59 @@
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header pb-0 pd-t-25 ">
+            <div class="d-flex justify-content-between">
+                <h1 class="card-title mg-b-0">Historique de maintenance de l'equipement : <span class="badge badge-primary" style="font-size: medium;">{{ possession.equipement?.element }}</span> Salle : <span class="badge badge-warning" style="font-size: medium;">{{ possession.salle?.nom }}</span></h1>
+                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
+                    <button data-target="#generate_plan_maint_modal" data-toggle="modal" class="btn btn-success btn-with-icon btn-block"><i class="typcn typcn-document-text"></i> Generer</button>
+                </div>
+            </div>
+           
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered text-nowrap" >
+                    <thead style="text-align: center;">
+                        <tr>
+                            <th class="wd-5p border-bottom-0">Nom</th>
+                            <th class="wd-5p border-bottom-0">Agent</th>
+                            <th class="wd-5p border-bottom-0">Operation</th>
+                            <th class="wd-15p border-bottom-0">Outillage</th>
+                            <th class="wd-5p border-bottom-0">Charge prevue</th>
+                            <th class="wd-15p border-bottom-0">Condi_systeme</th>
+                            <th class="wd-5p border-bottom-0">Gamme de maintenance</th>
+                            <th class="wd-15p border-bottom-0">Date</th>
+
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                        <tr *ngFor="let maintenance of maintenancesList">
+                            <td>{{ maintenance.equipement?.element }}</td>
+                            
+                            <td>{{ maintenance.agent?.nom }}</td>
+                            
+                            <td>{{maintenance.operation}}</td>
+                            <td>{{ maintenance.outillage }}</td>
+                            <td>{{ maintenance.charge }}</td>
+                            <td>{{ maintenance.condi_syste }}</td>
+                            <td>{{ maintenance.gamme_maintenance }}</td>
+                            <td>{{ maintenance.created_at | date:"EEEE, MMMM d, y, h:mm:ss" }}</td>
+                            <!-- <td>{{ maintenance.outillage }}
+                            <td>{{ maintenance.condi_syste }}</td>
+                            <td>{{ maintenance.equipement?.designation }}</td>
+                            <td>{{ maintenance.gamme_maintenance }}</td>
+                            <td>{{ maintenance.equipement?.specialite }}</td> -->
+                            <!-- <td>
+                                <div class="btn-icon-list">
+                                    <button  class="btn btn-warning btn-icon" data-target="#updateAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-brush"></i></button>
+                                    <button class="btn btn-danger btn-icon" data-target="#deleteAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-trash"></i></button>
+                                    <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
+                                </div>
+                            </td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- bd -->
+        </div><!-- bd -->
+    </div><!-- bd -->
+</div>

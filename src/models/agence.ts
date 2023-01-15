@@ -5,7 +5,6 @@ export interface Iagence{
     entreprise_id ?: number,
     nom ?: string,
     localisation?: string,
-    code?: string,
     nbremploye?:number,
     nbrequipement?:number,
     nbrfournisseur?:number,

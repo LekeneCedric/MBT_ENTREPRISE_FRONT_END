@@ -3,6 +3,7 @@ import { IAgent } from 'src/models/agent';
 import { IPossessionEquipement } from './possessionEquipement';
 export interface Imaintenance
 {
+    
     id?: number,
     id_entreprise?:number,
     id_agence?:number,

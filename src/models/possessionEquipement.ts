@@ -1,3 +1,4 @@
+import { Isalle } from './salle';
 import { Iagence } from './agence';
 import { Iequipement } from './equipement';
 export interface IPossessionEquipement{
@@ -9,6 +10,7 @@ export interface IPossessionEquipement{
     id_fournisseur?:number,
     position?:string,
     etat?:string,
+    salle?:Isalle,
     equipement?:Iequipement,
     agence?:Iagence,
     created_at?:Date,

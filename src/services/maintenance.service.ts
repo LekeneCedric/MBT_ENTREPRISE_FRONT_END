@@ -38,7 +38,10 @@ export class MaintenanceService {
   {
     return this.http.get<Imaintenance[]>(`${this.environment.api}/maintenance/agence/${id_agence}`,{headers:this.environment.httpHeader});
   }
-
+  public getHistoriqueMaintenanceByAgent(id_agent:number):Observable<Imaintenance[]>
+  {
+    return this.http.get<Imaintenance[]>(`${this.environment.api}/maintenance/agent/${id_agent}`,{headers:this.environment.httpHeader});
+  }
   public addMaintenance(data:Imaintenance):Observable<Imaintenance>
   {
     return this.http.post<Imaintenance>(`${this.environment.api}/maintenance`,data,{headers:this.environment.httpHeader});
@@ -48,9 +51,14 @@ export class MaintenanceService {
   {
     return this.http.post<Imaintenance>(`${this.environment.api}/maintenance/${id_maint}`,data,{headers:this.environment.httpHeader});
   }
-
+  
   public deleteMaintenance(id_maint:number):Observable<Imaintenance>
   {
     return this.http.delete<Imaintenance>(`${this.environment.api}/maintenance/${id_maint}`,{headers:this.environment.httpHeader});
+  }
+
+  public genereateClassmentPlanWithAgenceAndSalle(id_agence:number,id_salle:number):Observable<any[]>
+  {
+    return this.http.get<any[]>(`${this.environment.api}/plan_maintenance/agence/salle/${id_agence}-${id_salle}`,{headers:this.environment.httpHeader});
   }
 }

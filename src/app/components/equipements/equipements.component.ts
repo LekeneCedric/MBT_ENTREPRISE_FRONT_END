@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { CategorieService } from './../../../services/categorie.service';
 import { ICategorie } from 'src/models/categorie';
 import { EquipementService } from './../../../services/equipement.service';
@@ -20,9 +21,11 @@ export class EquipementsComponent implements OnInit{
   public categories_list : ICategorie [] = [];
   public selectEquipement : Iequipement|undefined;
   public selectedCategorie : string = ""
+  public new_eq_p_day:string = "1";
+  public new_eq_p_periodicite:string = "day"
   // Values for equipement Form 
   public new_equipement:Iequipement = {};
-  constructor(private equipementService:EquipementService,private CategorieService:CategorieService){}
+  constructor(private equipementService:EquipementService,private CategorieService:CategorieService,private router:Router){}
   ngOnInit(): void 
   {
     this.new_equipement.id_parent = 0;
@@ -43,9 +46,13 @@ export class EquipementsComponent implements OnInit{
         }
       )
   }
+  public navigateToChild(id:number)
+  {
+    this.router.navigateByUrl(`/equipements/${id}`)
+  }
   get form_is_valid():boolean
   {
-    return this.new_equipement.idcategorie != undefined && this.new_equipement.element!=undefined  && this.new_equipement.periodicite!=undefined && this.new_equipement.specialite!=undefined
+    return this.new_equipement.idcategorie != undefined && this.new_equipement.element!=undefined  && this.new_equipement.specialite!=undefined
   }
   public filterEquipementByCategorie()
   {
@@ -95,6 +102,7 @@ export class EquipementsComponent implements OnInit{
   public addEquipement()
   {
     // this.new_equipement.id_parent = 0;
+    this.new_equipement.periodicite = `${this.new_eq_p_day} ${this.new_eq_p_periodicite}`
     if(this.new_equipement.id_parent == null || this.new_equipement.id_parent == undefined)
     {
       this.new_equipement.id_parent = 0;
@@ -102,6 +110,7 @@ export class EquipementsComponent implements OnInit{
     this.equipementService.createEquipement(this.new_equipement).subscribe(
       (data)=>
       {
+        // console.log(data);
         this.ngOnInit();
       }
     )
@@ -118,6 +127,7 @@ export class EquipementsComponent implements OnInit{
   }
   public editEquipement()
   {
+    this.new_equipement.periodicite = `${this.new_eq_p_day} ${this.new_eq_p_periodicite}`
     this.equipementService.editEquipement(this.new_equipement,this.new_equipement?.id!).subscribe(
       (data)=>
       {

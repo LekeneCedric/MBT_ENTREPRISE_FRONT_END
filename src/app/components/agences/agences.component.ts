@@ -23,18 +23,11 @@ export class AgencesComponent implements OnInit{
   public selected_equipement: Iequipement = {};
   public fournisseurs_list : IFournisseur[] = [];
   public new_possessionEq : IPossessionEquipement = {};
-  public selected_agent : IAgent = {}
   public selected_agence : Iagence = {entreprise_id:this.entreprise_id};
   public new_agence :Iagence = {entreprise_id:this.entreprise_id};
-  public new_agent : IAgent = {};
   public searchAgence:string  = "";
-  public searchAgent:string  = "";
   public agences : Iagence[] | undefined;
   public agencesTemp: Iagence[] | undefined;
-  public agents : IAgent[] | undefined;
-  public agentsTemp : IAgent[] | undefined;
-  public agentsTemp2 : IAgent[] | undefined;
-  public idSelectedAgences:number[] | undefined = [0];
   constructor(private agenceService : AgenceService,private agentService:AgentsService,private possessionEqServ:PossessionEquipementService,
     private fournisseurService:FournisseurService,private equipementService:EquipementService)
   {}
@@ -45,10 +38,6 @@ export class AgencesComponent implements OnInit{
     {
       this.agences = data;
       this.agencesTemp = data;
-    })
-    this.agentService.getAgentsByEntreprise(this.entreprise_id).subscribe((data)=>
-    {
-      this.agentsTemp = data;
     })
 
     this.fournisseurService.getFournisseur().subscribe((data)=>
@@ -69,17 +58,6 @@ export class AgencesComponent implements OnInit{
   {
     this.selected_agence = agence;
   }
-  public selectAgent(agent:IAgent)
-  {
-    this.selected_agent = agent;
-  }
-  public filterAgent ()
-  {
-    this.agents = this.agentsTemp2;
-    this.agents = this.agents?.filter((agent)=>{
-      return agent!.nom!.toLowerCase().includes(this.searchAgent) || agent!.email!.toLowerCase().includes(this.searchAgent.toLowerCase()) || agent!.agence!.nom!.toLowerCase().includes(this.searchAgent.toLowerCase()) || this.searchAgent== ""
-    })
-  }
   public filterAgence()
   {
     this.agences = this.agencesTemp;
@@ -87,35 +65,7 @@ export class AgencesComponent implements OnInit{
       return agence!.nom!.toLowerCase().includes(this.searchAgence.toLowerCase()) || agence!.localisation!.toLowerCase().includes(this.searchAgence.toLowerCase()) || this.searchAgence == ""
     })
   }
-  public checkAgence(id_agence:number)
-  {
-    console.log("changement agents")
-    console.log(this.idSelectedAgences);
-    console.log(this.agentsTemp)
-    console.log(this.agents)
-    if(this.idSelectedAgences?.includes(id_agence))
-    {
-      console.log('include')
-      const index = this.idSelectedAgences.indexOf(id_agence);
-    if (index > -1) { // only splice array when item is found
-        this.idSelectedAgences.splice(index, 1); // 2nd parameter means remove one item only
-      }
-    }
-    else
-    {
-      this.idSelectedAgences?.push(id_agence);
-    }
-    this.agents = this.agentsTemp?.filter((agent)=>{
-      return this.idSelectedAgences?.includes(agent!.id_agence!)
-    })
-    this.agentsTemp2 = this.agents;
-    this.possessionEqServ.listEquipementByAgence(this.idSelectedAgences![1]).subscribe(
-      (data)=>
-      {
-        this.equipements_agence_list = data;
-      }
-    )
-  }
+  
 
   public createAgence()
   {
@@ -144,34 +94,7 @@ export class AgencesComponent implements OnInit{
       }
     )
   }
-  public createAgent()
-  {
-    this.agentService.addAgent(this.new_agent).subscribe(
-      (data)=>
-      {
-        this.ngOnInit()
-      }
-    )
-  }
-  public removeAgent()
-  {
-    this.agentService.removeAgent(this.selected_agent.id!).subscribe(
-      (data)=>
-      {
-        this.ngOnInit();
-      }
-    )
-  }
 
-  public updateAgent()
-  {
-    this.agentService.editAgent(this.selected_agent,this.selected_agent.id!).subscribe(
-      (data)=>
-      {
-        console.log(data);
-      }
-    )
-  }
   public selectEquipement(equipement:Iequipement)
   {
     this.selected_equipement = equipement

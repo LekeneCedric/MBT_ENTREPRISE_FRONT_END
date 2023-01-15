@@ -1,0 +1,231 @@
+<div class="col-xl-12">
+    <div class="card">
+        <div class="card-header pb-0 pd-t-25 ">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between mb-5">
+                    <h2 class="card-title mg-b-0">SOUS EQUIPEMENTS DE <h1 style="font-weight:bolder"><a routerLink="/equipements">{{ parentEq?.element }}</a></h1></h2>
+                    
+                </div>
+                <div class="col-sm-5 col-md-4 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-primary btn-with-icon btn-block" data-target="#addEquipement" data-toggle="modal" (click)="cleanNew()">
+                        <i class="typcn typcn-plus">sous-equipement</i> 
+                    </button>
+                </div>
+
+            </div>
+           
+            <div class="d-flex justify-content-between mb-3">
+                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedCategorie" (ngModelChange)="filterEquipementByCategorie()">
+                    <option selected value="">Toutes les categories
+                    </option>
+                    <option *ngFor="let categorie of categories_list" value="{{ categorie.intitule }}">
+                        {{ categorie.intitule }}
+                    </option>
+                </select>
+                </div>
+                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Recherchez par nom ou categorie " type="text" [(ngModel)]="searchEquipement" (ngModelChange)="filterEquipement()"> <span class="input-group-btn"><button class="btn btn-light" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
+                    </div>
+                </div>
+                
+            </div>
+            
+            
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered text-nowrap">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <!-- <th class="wd-5p border-bottom-0"> # </th> -->
+                            <th class="wd-15p border-bottom-0">Nom</th>
+                            <th class="wd-15p border-bottom-0">Equipement parent</th>
+                            <th class="wd-15p border-bottom-0">Categorie</th>
+                            <!-- <th class="wd-15p border-bottom-0">Operation</th>
+                            <th class="wd-10p border-bottom-0">charge</th> -->
+                            <th class="wd-15p border-bottom-0">Periodicite Verif</th>
+                            <!-- <th class="wd-15p border-bottom-0">Outillage</th>
+                            <th class="wd-15p border-bottom-0">condi_syste</th> -->
+                            <th class="wd-15p border-bottom-0">designation</th>
+                            <!-- <th class="wd-5p border-bottom-0">gamme_maintenance</th> -->
+                            <th class="wd-15p border-bottom-0">specialiste</th>
+                            <th class="wd-15p border-bottom-0">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align:center">
+                        <tr *ngFor = "let equipement of equipements_list" >
+                            <td>{{ equipement.element }}</td>
+                            <td>{{ equipement.parent?.element!=null ? equipement.parent?.element: "Aucun"}}</td>
+                            <td>{{ equipement.categorie?.intitule }}</td>
+                            <!-- <td>{{ equipement.operation }}</td>
+                            <td>{{ equipement.chargePrevue }}</td> -->
+                            <td>{{ equipement.periodicite}}</td>
+                            <!-- <td>{{ equipement.outillage }}</td>
+                            <td>{{ equipement.condi_syste }}</td> -->
+                            <td>{{ equipement.designation }}</td>
+                            <!-- <td>{{ equipement.gamme_maintenance }}</td> -->
+                            <td>{{ equipement.specialite }}</td>
+                            <td>
+                                <div class="btn-icon-list mx-5">
+                                <button class="btn btn-warning btn-icon"  (click)="selectEdit(equipement)" data-target="#addEquipement" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
+                                <button class="btn btn-danger btn-icon" (click)="select(equipement)"  data-target="#deleteEquipement" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
+                                <button class="btn btn-primary btn-icon" (click)="select(equipement)"><i class="typcn typcn-clipboard" data-target="#detailEquipement" data-toggle="modal"></i></button>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <!-- <tr *ngFor="let agence of agences">
+                            <th> <input type="checkbox" (click)="checkAgence(agence.id)"></th>
+                            <td>{{ agence.nom }}</td>
+                            <td>{{ agence.localisation | slice:0:20}} </td>
+                            <td>{{ agence.nbremploye }}</td>
+                            <td>{{ agence.nbrequipement }}</td>
+                            <td>{{ agence.created_at | date:"MMM d, y, h:mm:ss a" }}</td>
+                            <td style="align-items:center">
+                                <div class="btn-icon-list">
+                                    <button class="btn btn-warning btn-icon"><i class="typcn typcn-brush"></i></button>
+                                    <button class="btn btn-danger btn-icon"><i class="typcn typcn-trash"></i></button>
+                                    <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
+                                </div>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- bd -->
+        </div><!-- bd -->
+    </div><!-- bd -->
+</div>
+
+<!-- MODALS  -->
+
+<!-- Delete Equipement -->
+<div class="modal" id="deleteEquipement">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-danger mg-b-20">Attention : Suppression de l'equipement </h4>
+                <p class="mg-b-20 mg-x-20">Voulez vous vraiment valider la suppression de l'equipement :   <span style="font-weight:bolder">{{ selectEquipement?.element }} ?</span> </p>
+                <div style="display:flex;justify-content:space-between">
+                    <button aria-label="Close" class="btn ripple btn-light pd-x-25" data-dismiss="modal" type="button">Annuler</button>
+                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="removeEquipement()" data-dismiss="modal" type="button">Continue</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Add Equipements -->
+<div class="modal" id="addEquipement">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title" style="font-weight:bolder">Ajouter un nouvel equipement</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+             <div class="modal-body">
+                <div class="col-lg">
+                    <label for="nom" class="form-label">Equipement parent <span style="color:red">*</span></label>
+                    <input disabled="true" id = "nom" class="form-control"  type="text" [(ngModel)]="parentEq!.element">
+                </div>
+                <div class="col-lg">
+                    <label for="nom" class="form-label">Nom<span style="color:red">*</span></label>
+                    <input id = "nom" class="form-control" placeholder="Nom de l'equipement" type="text" [(ngModel)]="new_equipement.element">
+                </div>
+             
+                <div class="col-lg mt-3">
+                    <label for="categorie" class="form-label">Periodicite d'entretien<span style="color:red">*</span> (chaque)</label>
+                    <div class="row row-sm mg-b-20">
+                        <div class="col-lg-4">
+                            <input id = "nom" class="form-control" placeholder="Nombre jours" type="text" [(ngModel)]="new_eq_p_day">
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                        <select class="form-select" [(ngModel)]="new_eq_p_periodicite">
+                            <option value="day">
+                                Jours
+                            </option>
+                            <option value="month">
+                                Mois
+                            </option>
+                            <option value="year">
+                                Annee
+                            </option>
+                            
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg mt-3">
+                    <label for="designation" class="form-label">Designation</label>
+                    <input id = "designation" class="form-control" placeholder="Designation de l'equipement" type="text" [(ngModel)]="new_equipement.designation">
+                </div>
+                <!-- <div class="col-lg mt-3">
+                    <label for="gamme_maintenance" class="form-label">Gamme de maintenance</label>
+                    <p style="color:rgb(142, 142, 142)">Lors de la maintenance , la gamme de maintenance doit etre conditionel(cond) ou systematique(sys)</p>
+                    <select class="form-select"  id="gamme_maintenance" [(ngModel)]="new_equipement.gamme_maintenance" >
+                        <option value="cond">
+                                conditionnel
+                        </option>
+                        <option value="sys">
+                                systematique
+                        </option>
+                           
+                    </select>
+                </div> -->
+                <div class="col-lg mt-3">
+                    <label for="specialite" class="form-label">specialiste charge de la maintenance<span style="color:red">*</span></label>
+                    <p style="color:rgb(142, 142, 142)">Lors de la maintenance quel type de maintenancier prendra en charge l'equipement</p>
+                    <select class="form-select"  id="specialite" [(ngModel)]="new_equipement.specialite" >
+                        <option value="operateurs">
+                            Operateurs
+                        </option>
+                        <option value="Technicien de Maintenance">
+                            Technicien de Maintenance
+                        </option>
+                        <option value="Technicien informatique">
+                            Technicien informatique
+                        </option>
+                        <option value="Technicien de surface">
+                            Technicien de surface
+                        </option>
+                        <option value="Plombier">
+                            Plombier
+                        </option>
+                        <option value="architecte">
+                            Architecte
+                        </option>
+                           
+                    </select>
+                </div>
+                <div class="col-lg">
+                    <label for="description" class="form-label">description</label>
+                    <textarea id = "description" class="form-control" placeholder="description de l'equipement" rows="5" [(ngModel)]="new_equipement.description"></textarea>
+                </div>
+             </div>
+
+            <div class="modal-footer">
+                <button *ngIf="form_is_valid && updateEq" class="btn ripple btn-warning" (click)="editEquipement()" data-dismiss="modal" type="button">Edit Equipement</button>
+                <button *ngIf="form_is_valid && createEq" class="btn ripple btn-primary" (click)="addEquipement()" data-dismiss="modal" type="button">Save changes</button>
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detail Equipement -->
+<div class="modal" id="detailEquipement">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <!-- <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-primary lh-1 mg-t-20 d-inline-block"></i> -->
+                <h4 class="tx-primary mg-b-20">Details de l'equipement <span style="font-weight:bolder">{{ selectEquipement?.element }}</span> </h4>
+                <p class="mg-b-20 mg-x-20" style="text-align:left">{{ selectEquipement?.description }} </p>
+                <div style="display:flex;justify-content:space-between">
+                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" data-dismiss="modal" type="button">Sortir</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

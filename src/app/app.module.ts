@@ -20,6 +20,13 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { MappingComponent } from './components/mapping/mapping.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { SalleComponent } from './components/salle/salle.component';
+import { SpreadSheetsModule } from '@grapecity/spread-sheets-angular';
+import { ParametresComponent } from './components/parametres/parametres.component';
+import { SubequipementsComponent } from './components/subequipements/subequipements.component';
+import { LinkEquipementToSalleComponent } from './components/link-equipement-to-salle/link-equipement-to-salle.component';
+import { RappelsMaintenanceComponent } from './components/rappels-maintenance/rappels-maintenance.component';
+import { HistoriquesMaintComponent } from './components/historiques-maint/historiques-maint.component';
+import { DetailsAgentComponent } from './components/details-agent/details-agent.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +43,13 @@ import { SalleComponent } from './components/salle/salle.component';
     EquipementAgenceComponent,
     SignInComponent,
     MappingComponent,
-    SalleComponent
+    SalleComponent,
+    ParametresComponent,
+    SubequipementsComponent,
+    LinkEquipementToSalleComponent,
+    RappelsMaintenanceComponent,
+    HistoriquesMaintComponent,
+    DetailsAgentComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +59,8 @@ import { SalleComponent } from './components/salle/salle.component';
     FormsModule,
     NbSelectModule,
     NbThemeModule.forRoot(),
-    GoogleMapsModule
+    GoogleMapsModule,
+    SpreadSheetsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

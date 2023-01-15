@@ -9,6 +9,7 @@ export interface Isalle
     id_agence?:number,
     nom?:string,
     tel?:string,
+    nbequipements?:number,
     indication?:string,
     description?:string
 }

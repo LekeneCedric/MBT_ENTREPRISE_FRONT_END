@@ -17,6 +17,8 @@ export class AgentsComponent implements OnInit{
   public new_agent : IAgent = {};
   public agences : Iagence[] | undefined;
   public searchAgent:string  = "";
+  public selected_agence_id = 0;
+  public selected_specialite:string = "";
   constructor(private agenceService : AgenceService,private agentService:AgentsService){}
   ngOnInit(): void {
     this.agenceService.getAgencesEntreprise(this.entreprise_id).subscribe((data)=>
@@ -78,4 +80,31 @@ export class AgentsComponent implements OnInit{
     'cuisinier',
     'manoeuvre',
   ];
+  filterByAgence(i:number)
+  {
+    if(i==0)
+    {
+      this.selected_specialite="";
+      this.agents = this.agentsTemp;
+      this.agents = this.agents!.filter((agent)=>{
+        return agent.id_agence == this.selected_agence_id || this.selected_agence_id==0;
+      })
+    }
+    else
+    {
+      this.agents = this.agentsTemp;
+      this.agents = this.agents!.filter((agent)=>{
+        return agent.id_agence == this.selected_agence_id || this.selected_agence_id==0;
+      })
+    }
+  }
+  filterBySpecialite()
+  {
+    this.filterByAgence(1);
+    this.agents = this.agents!.filter((agent)=>
+    {
+      return agent.specialite == this.selected_specialite || this.selected_specialite == "";
+    })
+  }
 }
+

@@ -1,0 +1,56 @@
+<a aria-controls="collapseThree2" aria-expanded="false" class="collapsed" data-toggle="collapse" [routerLink]="['/salles']">
+    <h3 style="font-weight:bolder">Configutation des equipements de la salle <span class="badge badge-primary">{{ currentSalle.nom}}</span> </h3>
+</a>
+<!-- <div class="card">
+    <div class="card-body">
+        <div class="main-content-label">
+            <h3 style="font-weight:bolder">Configutation des equipements de la salle <span class="badge badge-warning">{{ currentSalle.nom}}</span> </h3>
+        </div>
+    </div>
+</div> -->
+<div class="card">
+    <div class="card-body">
+        <div class="main-content-label mg-b-5">
+            <h3 style="font-weight:bolder">Liste des equipements </h3>
+        </div>
+        <!-- <h5 class="mg-b-20 text-muted">Liste des equipements pouvant etre lies a la salle ,les equipements coches representent ceux qui sont deja lies a celle ci  </h5> -->
+        <div class="row">
+            <div class="col-lg-3 mb-2" *ngFor="let eq of equipementsList">
+                <label class="ckbox"><input type="checkbox" [(ngModel)]="eq.isLink" ><span>{{ eq.element }}</span></label>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="main-content-label mg-b-5">
+            <h3 style="font-weight:bolder">INFORMATIONS ADDITIONNELLES </h3>
+        </div>
+        <!-- <h5 class="mg-b-20 text-muted">Liste des equipements pouvant etre lies a la salle ,les equipements coches representent ceux qui sont deja lies a celle ci  </h5> -->
+        <div class="row">
+            <div class="col-lg mt-3">
+                <label for="fournisseur" class="form-label">Fournisseur</label>
+                <select class="form-select"  id="fournisseur" [(ngModel)]="new_possessionEq.id_fournisseur">
+                    <option *ngFor="let fournisseur of fournisseurs_list" value="{{ fournisseur.id }}">
+                        {{ fournisseur.nom }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-lg mt-3">
+                <label for="code" class="form-label">Etat actuel</label>
+                <select class="form-select"  id="fournisseur" [(ngModel)]="new_possessionEq.etat">
+                    <option  value="M">
+                       Marche
+                    </option>
+                    <option  value="A">
+                        Arret
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row row-xs wd-xl-80p">
+	<div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0"><button (click)="link()" class="btn btn-primary btn-with-icon btn-block"><i class="typcn typcn-plus"></i> ENREGISTRER</button></div>
+</div>

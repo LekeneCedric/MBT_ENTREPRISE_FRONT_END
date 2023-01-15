@@ -28,6 +28,7 @@ export class SalleComponent implements OnInit{
   public possessionsEq_list : IPossessionEquipement[] = [];
   public new_salle : Isalle = {};
   public select_salle : Isalle = {};
+  public selected_agence_id:number=0;
   public searchSalle: string = "";
   public searchEquipement:string ="";
   constructor(private salleServ:SalleService,private agenceServ:AgenceService,private agentServ:AgentsService,
@@ -43,10 +44,7 @@ export class SalleComponent implements OnInit{
       {
         this.agences_list = data;
       })
-      this.agentServ.getAgentsByEntreprise(JSON.parse(localStorage.getItem("entreprise")!).id).subscribe((data)=>
-      {
-        this.agents_list = data;
-      });
+     
       this.equipementService.getAllEquipments().subscribe((data)=>
     {
       this.equipements_list = data.filter((eq)=>{
@@ -116,16 +114,11 @@ export class SalleComponent implements OnInit{
       }
     )
   }
-  
-  public filterEquipement()
+  public filterByAgence()
   {
-    this.possessionEqServ.listEquipementByAgence(this.select_salle.id_agence!).subscribe((data)=>
-    {
-      this.possessionsEq_list = data;
-    })
-    this.possessionsEq_list = this.possessionsEq_list.filter((poss)=>
-    {
-      return poss.id_salle!=undefined && poss.id_salle == this.select_salle.id;
+    this.salles_list = this.salles_temp;
+    this.salles_list = this.salles_list.filter((salle)=>{
+      return salle.id_agence == this.selected_agence_id || this.selected_agence_id==0;
     })
   }
 }
