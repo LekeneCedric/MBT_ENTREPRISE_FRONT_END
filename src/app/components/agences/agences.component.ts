@@ -1,3 +1,4 @@
+import { LogService } from './../../../services/log.service';
 import { Iequipement } from './../../../models/equipement';
 import { EquipementService } from './../../../services/equipement.service';
 import { FournisseurService } from './../../../services/fournisseur.service';
@@ -28,8 +29,14 @@ export class AgencesComponent implements OnInit{
   public searchAgence:string  = "";
   public agences : Iagence[] | undefined;
   public agencesTemp: Iagence[] | undefined;
-  constructor(private agenceService : AgenceService,private agentService:AgentsService,private possessionEqServ:PossessionEquipementService,
-    private fournisseurService:FournisseurService,private equipementService:EquipementService)
+  constructor(
+    private agenceService : AgenceService,
+    private agentService:AgentsService,
+    private possessionEqServ:PossessionEquipementService,
+    private fournisseurService:FournisseurService,
+    private equipementService:EquipementService,
+    private logServ:LogService
+    )
   {}
 
   public ngOnInit(): void {
@@ -38,19 +45,19 @@ export class AgencesComponent implements OnInit{
     {
       this.agences = data;
       this.agencesTemp = data;
-    })
+    });
 
     this.fournisseurService.getFournisseur().subscribe((data)=>
     {
       this.fournisseurs_list = data;
-    })
+    });
 
     this.equipementService.getAllEquipments().subscribe((data)=>
     {
       this.equipements_list = data.filter((eq)=>{
         return eq.id_parent == 0;
       });
-    })
+    });
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
     //Add 'implements AfterViewInit' to the class.
   }
@@ -72,7 +79,19 @@ export class AgencesComponent implements OnInit{
     this.agenceService.createAgence(this.new_agence).subscribe(
       (data)=>
       {
-       this.ngOnInit();
+        this.logServ.setLogs(
+          {
+            id_entreprise:this.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Creation de l'agence ${this.new_agence.nom} `,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        })
+      
       }
     )
   }
@@ -81,7 +100,18 @@ export class AgencesComponent implements OnInit{
     this.agenceService.deleteAgence(this.selected_agence!.id!).subscribe(
       (data)=>
       {
-        this.ngOnInit();
+        this.logServ.setLogs(
+          {
+            id_entreprise:this.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Suppression de l'agence ${this.selected_agence.nom} `,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        })
       }
     )
   }
@@ -90,7 +120,18 @@ export class AgencesComponent implements OnInit{
     this.agenceService.updateAgence(this.selected_agence!,this.selected_agence!.id!).subscribe(
       (data)=>
       {
-        this.ngOnInit();
+        this.logServ.setLogs(
+          {
+            id_entreprise:this.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Modification de l'agence ${this.selected_agence.nom} `,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        })
       }
     )
   }

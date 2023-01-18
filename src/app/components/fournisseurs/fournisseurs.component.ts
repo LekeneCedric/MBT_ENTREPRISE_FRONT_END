@@ -8,17 +8,17 @@ import { FournisseurService } from 'src/services/fournisseur.service';
   styleUrls: ['./fournisseurs.component.scss']
 })
 export class FournisseursComponent implements OnInit{
-  private entreprise_id :number = JSON.parse(localStorage.getItem("entreprise")!).id;
+  private entreprise_id :number = Number(JSON.parse(localStorage.getItem("entreprise")!).id);
   public searchF:string = "";
   public fournisseurs_list : IFournisseur[] = [];
   public fournisseurs_list_temp : IFournisseur[] = [];
-  public new_fournisseur : IFournisseur = {};
+  public new_fournisseur : IFournisseur = {id_entreprise:this.entreprise_id};
   public selected_fournisseur : IFournisseur = {};
   constructor(private fournisseurService:FournisseurService){}
   ngOnInit(): void {
     this.fournisseurs_list = [];
     this.fournisseurs_list_temp = [];
-      this.fournisseurService.getFournisseur().subscribe(
+      this.fournisseurService.getFournisseurByEntreprise().subscribe(
         (data)=>
         {
           this.fournisseurs_list = data;

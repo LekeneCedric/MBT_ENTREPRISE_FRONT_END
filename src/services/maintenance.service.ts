@@ -1,3 +1,4 @@
+import { Iplan_maintenance } from './../models/plan_maintenance';
 import { Observable } from 'rxjs';
 import { EnvironmentService } from './environment.service';
 import { HttpClient } from '@angular/common/http';
@@ -57,8 +58,8 @@ export class MaintenanceService {
     return this.http.delete<Imaintenance>(`${this.environment.api}/maintenance/${id_maint}`,{headers:this.environment.httpHeader});
   }
 
-  public genereateClassmentPlanWithAgenceAndSalle(id_agence:number,id_salle:number):Observable<any[]>
+  public genereateClassmentPlanWithAgenceAndSalle(data:Iplan_maintenance):Observable<any>
   {
-    return this.http.get<any[]>(`${this.environment.api}/plan_maintenance/agence/salle/${id_agence}-${id_salle}`,{headers:this.environment.httpHeader});
+    return this.http.post<any>(`${this.environment.api}/plan_maintenance/agence/salle/${data.id_agence}-${data.id_salle}`,data,{headers:this.environment.httpHeader});
   }
 }

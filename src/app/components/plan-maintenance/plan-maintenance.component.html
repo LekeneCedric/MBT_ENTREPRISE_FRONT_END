@@ -279,6 +279,27 @@
                         </option>
                     </select>
                 </div>
+                <div class="col-lg mt-3">
+                    <label for="specialite" class="form-label">Du :<span style="color:red">*</span></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                            </div>
+                        </div><input [(ngModel)]="plan_maintenance.date_deb" class="form-control" id="datetimepicker" type="date">
+                    </div>
+                </div>
+                <div class="col-lg mt-3">
+                    <label for="specialite" class="form-label">Au :<span style="color:red">*</span></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                            </div>
+                        </div><input [(ngModel)]="plan_maintenance.date_fin" class="form-control" id="datetimepicker" type="date">
+                    </div>
+                </div>
+                
                      
                 
             <div class="modal-footer">

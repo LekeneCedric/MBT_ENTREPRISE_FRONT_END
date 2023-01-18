@@ -12,11 +12,16 @@ export class FournisseurService {
   
   constructor(private http:HttpClient,private environmentService:EnvironmentService) { }
 
+  private entreprise_id :number = Number(JSON.parse(localStorage.getItem("entreprise")!).id);
+
   public getFournisseur():Observable<IFournisseur[]>
   {
     return this.http.get<IFournisseur[]>(`${this.environmentService.api}/fournisseur`,{headers:this.environmentService.httpHeader});
   }
-
+  public getFournisseurByEntreprise():Observable<IFournisseur[]>
+  {
+    return this.http.get<IFournisseur[]>(`${this.environmentService.api}/fournisseur/entreprise/${this.entreprise_id}`,{headers:this.environmentService.httpHeader});
+  }
   public getOneFournisseur(id_f:number):Observable<IFournisseur>
   {
     return this.http.get<IFournisseur>(`${this.environmentService.api}/fournisseur/${id_f}`,{headers:this.environmentService.httpHeader});

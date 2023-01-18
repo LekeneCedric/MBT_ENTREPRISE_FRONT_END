@@ -54,3 +54,63 @@
 <div class="row row-xs wd-xl-80p">
 	<div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0"><button (click)="link()" class="btn btn-primary btn-with-icon btn-block"><i class="typcn typcn-plus"></i> ENREGISTRER</button></div>
 </div>
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered text-nowrap">
+            <thead style="text-align: center;">
+                <tr>
+                    <!-- <th class="wd-5p border-bottom-0"> # </th> -->
+                    <th class="wd-15p border-bottom-0">Nom</th>
+                    <th class="wd-15p border-bottom-0">Equipement parent</th>
+                    <th class="wd-15p border-bottom-0">Categorie</th>
+                    <!-- <th class="wd-15p border-bottom-0">Operation</th>
+                    <th class="wd-10p border-bottom-0">charge</th> -->
+                    <th class="wd-15p border-bottom-0">Periodicite Verif</th>
+                    <!-- <th class="wd-15p border-bottom-0">Outillage</th>
+                    <th class="wd-15p border-bottom-0">condi_syste</th> -->
+                    <th class="wd-15p border-bottom-0">designation</th>
+                    <!-- <th class="wd-5p border-bottom-0">gamme_maintenance</th> -->
+                    <th class="wd-15p border-bottom-0">specialiste</th>
+                    <th class="wd-15p border-bottom-0">Actions</th>
+                </tr>
+            </thead>
+            <tbody style="text-align:center">
+                <tr *ngFor = "let equipement of equipementsList" >
+                    <td>{{ equipement.element }}</td>
+                    <td>{{ equipement.parent?.element!=null ? equipement.parent?.element: "Aucun"}}</td>
+                    <td>{{ equipement.categorie?.intitule }}</td>
+                    <!-- <td>{{ equipement.operation }}</td>
+                    <td>{{ equipement.chargePrevue }}</td> -->
+                    <td>{{ equipement.periodicite}}</td>
+                    <!-- <td>{{ equipement.outillage }}</td>
+                    <td>{{ equipement.condi_syste }}</td> -->
+                    <td>{{ equipement.designation }}</td>
+                    <!-- <td>{{ equipement.gamme_maintenance }}</td> -->
+                    <td>{{ equipement.specialite }}</td>
+                    <td>
+                        <div class="btn-icon-list mx-5">
+                        <button class="btn btn-primary btn-icon" routerLink="/equipements/sub/{{ equipement.id }}"><i class="typcn typcn-flow-merge"></i></button>    
+                    </div>
+                    </td>
+
+                </tr>
+                <!-- <tr *ngFor="let agence of agences">
+                    <th> <input type="checkbox" (click)="checkAgence(agence.id)"></th>
+                    <td>{{ agence.nom }}</td>
+                    <td>{{ agence.localisation | slice:0:20}} </td>
+                    <td>{{ agence.nbremploye }}</td>
+                    <td>{{ agence.nbrequipement }}</td>
+                    <td>{{ agence.created_at | date:"MMM d, y, h:mm:ss a" }}</td>
+                    <td style="align-items:center">
+                        <div class="btn-icon-list">
+                            <button class="btn btn-warning btn-icon"><i class="typcn typcn-brush"></i></button>
+                            <button class="btn btn-danger btn-icon"><i class="typcn typcn-trash"></i></button>
+                            <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
+                        </div>
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+    <!-- bd -->
+</div>

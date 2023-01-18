@@ -12,7 +12,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignInComponent implements OnInit{
   public login_data : Iauth = {};
-  constructor(private entrepriseServ:EntrepriseService,private enventServ:EventsService){}
+  constructor(
+    private entrepriseServ:EntrepriseService,
+    private enventServ:EventsService
+    ){}
   ngOnInit(): void {
       
   }

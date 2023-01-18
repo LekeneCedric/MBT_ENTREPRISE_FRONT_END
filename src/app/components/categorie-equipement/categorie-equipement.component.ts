@@ -1,6 +1,7 @@
 import { ICategorie } from 'src/models/categorie';
 import { CategorieService } from './../../../services/categorie.service';
 import { Component, OnInit } from '@angular/core';
+import { LogService } from 'src/services/log.service';
 
 @Component({
   selector: 'app-categorie-equipement',
@@ -17,7 +18,9 @@ export class CategorieEquipementComponent implements OnInit {
   public sub_categoriesTemp : ICategorie[] = [];
   public sub_categories: ICategorie[] = [];
   public selectedCategorie: ICategorie | undefined;
-  constructor(private categorieService: CategorieService) {
+  constructor(
+    private logServ:LogService,
+    private categorieService: CategorieService) {
 
   }
   ngOnInit(): void {
@@ -58,7 +61,18 @@ export class CategorieEquipementComponent implements OnInit {
   public removeCategorie(id_categorie: number) {
     this.categorieService.deleteCategorie(id_categorie).subscribe(
       (data) => {
-        this.ngOnInit()
+        this.logServ.setLogs(
+          {
+            id_entreprise:this.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Suppression de la ${this.selectedCategorie?.idparent==0 ? "Categorie" : "Sous Categorie"} ${this.selectedCategorie?.intitule}`,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        })
       }
     )
   }
@@ -73,43 +87,76 @@ export class CategorieEquipementComponent implements OnInit {
   }
   public addCategorie()
   {
-    const data :ICategorie = 
+    const dataC :ICategorie = 
     {
       idparent:0,
       intitule:this.selectedIntitule
     }
-    this.categorieService.addCategorie(data).subscribe(
+    this.categorieService.addCategorie(dataC).subscribe(
       (data)=>
       {
-        this.ngOnInit()
+        this.logServ.setLogs(
+          {
+            id_entreprise:this.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Ajout de la categorie ${dataC.intitule}`,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        })
       }
     )
   }
   public addSubCategorie()
   {
-    const data : ICategorie = 
+    const dataC : ICategorie = 
     {
       idparent:this.selectedCategorie?.id!,
       intitule:this.selectedIntitule
     }
-    this.categorieService.addCategorie(data).subscribe(
+    this.categorieService.addCategorie(dataC).subscribe(
       (data)=>
       {
-        this.ngOnInit();
+        this.logServ.setLogs(
+          {
+            id_entreprise:this.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Ajout de la sous categorie ${dataC.intitule}`,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        })
       }
     )
   }
   public editCategorie()
   {
-    const data : ICategorie = 
+    const dataC : ICategorie = 
       {
         idparent:this.selectedCategorie?.idparent!,
         intitule:this.selectedIntitule
       }
-    this.categorieService.editCategorie(data,this.selectedCategorie?.id!).subscribe(
+    this.categorieService.editCategorie(dataC,this.selectedCategorie?.id!).subscribe(
     (data)=>
     {
-      this.ngOnInit();
+      this.logServ.setLogs(
+        {
+          id_entreprise:this.entreprise_id,
+          date : this.logServ.formatDate(new Date()),
+          action : `Modification de la ${dataC.idparent==0 ? "categorie" : "sous categorie"} ${dataC.intitule}`,
+          group : 'Agent',
+          user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+        }
+      ).subscribe((data)=>
+      {
+        this.ngOnInit();
+      })
     }
     )
   }

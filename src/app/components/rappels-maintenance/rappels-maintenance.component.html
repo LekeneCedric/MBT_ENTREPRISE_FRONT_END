@@ -91,7 +91,7 @@
                             <td>{{ maintenance.equipement?.specialite }}</td> -->
                             <td class="btn-icon-list">
                                 <button  class="btn btn-primary btn-icon mr-3" data-target="#detailMaintenance" data-toggle="modal"><i class="typcn typcn-message"></i></button>
-                                <button  [routerLink]="['/liste_maintenance_eq',notification.id_possessionEquipement,notification.id_salle]" class="btn btn-primary btn-icon" data-target="#detailMaintenance" data-toggle="modal"><i class="typcn typcn-info"></i></button>
+                                <button *ngIf="notification.possession_equipement?.equipement?.id_parent==0"  [routerLink]="['/liste_maintenance_eq',notification.id_possessionEquipement,notification.id_salle]" class="btn btn-primary btn-icon" data-target="#detailMaintenance" data-toggle="modal"><i class="typcn typcn-info"></i></button>
                             </td>
                             <!-- <td>
                                 <div class="btn-icon-list">

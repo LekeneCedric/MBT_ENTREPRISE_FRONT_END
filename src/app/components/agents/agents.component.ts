@@ -3,6 +3,7 @@ import { Iagence } from 'src/models/agence';
 import { IAgent } from 'src/models/agent';
 import { Component, OnInit } from '@angular/core';
 import { AgentsService } from 'src/services/agents.service';
+import { LogService } from 'src/services/log.service';
 
 @Component({
   selector: 'app-agents',
@@ -19,7 +20,11 @@ export class AgentsComponent implements OnInit{
   public searchAgent:string  = "";
   public selected_agence_id = 0;
   public selected_specialite:string = "";
-  constructor(private agenceService : AgenceService,private agentService:AgentsService){}
+  constructor(
+    private agenceService : AgenceService,
+    private agentService:AgentsService,
+    private logServ : LogService
+    ){}
   ngOnInit(): void {
     this.agenceService.getAgencesEntreprise(this.entreprise_id).subscribe((data)=>
     {
@@ -47,7 +52,18 @@ export class AgentsComponent implements OnInit{
     this.agentService.addAgent(this.new_agent).subscribe(
       (data)=>
       {
-        this.ngOnInit()
+        this.logServ.setLogs(
+          {
+            id_entreprise:this.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Creation de l'agent ${this.new_agent.nom} (${this.new_agent.specialite})`,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        });
       }
     )
   }
@@ -56,7 +72,18 @@ export class AgentsComponent implements OnInit{
     this.agentService.removeAgent(this.selected_agent.id!).subscribe(
       (data)=>
       {
-        this.ngOnInit();
+        this.logServ.setLogs(
+          {
+            id_entreprise:this.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Suppression de l'agent ${this.new_agent.nom} (${this.new_agent.specialite})`,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        })
       }
     )
   }
@@ -66,7 +93,18 @@ export class AgentsComponent implements OnInit{
     this.agentService.editAgent(this.selected_agent,this.selected_agent.id!).subscribe(
       (data)=>
       {
-        console.log(data);
+        this.logServ.setLogs(
+          {
+            id_entreprise:this.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Modification de l'agent ${this.new_agent.nom} (${this.new_agent.specialite})`,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        })
       }
     )
   }

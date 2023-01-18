@@ -42,7 +42,7 @@ ngOnInit(): void {
     {
       this.equipmentsListTemp = data;
     });
-    this.fournisseurService.getFournisseur().subscribe((data)=>
+    this.fournisseurService.getFournisseurByEntreprise().subscribe((data)=>
     {
       this.fournisseurs_list = data;
     });

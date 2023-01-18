@@ -3,7 +3,7 @@
         <div class="card-header pb-0 pd-t-25 ">
             <div class="d-flex justify-content-between mb-5">
                 <h4 class="card-title mg-t-5">SALLES</h4>
-                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0"><button data-target="#addAgence" data-toggle="modal" class="btn btn-primary btn-with-icon btn-block"><i class="typcn typcn-plus"></i> Salle </button></div>
+                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0"><button data-target="#addSalle" data-toggle="modal" class="btn btn-primary btn-with-icon btn-block"><i class="typcn typcn-plus"></i> Salle </button></div>
                 
                 
 
@@ -53,8 +53,8 @@
                             <td>{{ salle.indication }}</td>
                             <td style="align-items:center">
                                 <div class="btn-icon-list">
-                                    <button (click)="selectSalle(salle)" data-target="#updatesalle" data-toggle="modal" class="btn btn-warning btn-icon"><i class="typcn typcn-brush"></i></button>
-                                    <button (click)="selectSalle(salle)" data-target="#deletesalle" data-toggle="modal" class="btn btn-danger btn-icon"><i class="typcn typcn-trash"></i></button>
+                                    <button (click)="selectSalle(salle)" data-target="#updateSalle" data-toggle="modal" class="btn btn-warning btn-icon"><i class="typcn typcn-brush"></i></button>
+                                    <button (click)="selectSalle(salle)" data-target="#deleteSalle" data-toggle="modal" class="btn btn-danger btn-icon"><i class="typcn typcn-trash"></i></button>
                                     <button routerLink="/linkEqToSalle/{{ salle.id }}" class="btn btn-success btn-icon"><i class="typcn typcn-link"></i></button>
                                     <!-- <button (click)="selectSalle(salle)" data-target="#linkEquipement" data-toggle="modal" class="btn btn-success btn-icon"><i class="typcn typcn-link"></i></button> -->
                                 </div>
@@ -69,7 +69,7 @@
 </div>
 
 <!-- Add salle  -->
-<div class="modal" id="addAgence">
+<div class="modal" id="addSalle">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
@@ -115,7 +115,7 @@
 
 <!-- update salle  -->
 <!-- Add salle  -->
-<div class="modal" id="addAgence">
+<div class="modal" id="updateSalle">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
@@ -160,7 +160,7 @@
 </div>
 
 <!-- delete salle  -->
-<div class="modal" id="deleteAgence">
+<div class="modal" id="deleteSalle">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content tx-size-sm">
             <div class="modal-body tx-center pd-y-20 pd-x-20">

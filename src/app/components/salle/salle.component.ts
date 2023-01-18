@@ -1,3 +1,4 @@
+import { LogService } from './../../../services/log.service';
 import { PossessionEquipementService } from './../../../services/possession-equipement.service';
 import { IFournisseur } from './../../../models/fournisseur';
 import { FournisseurService } from './../../../services/fournisseur.service';
@@ -31,8 +32,13 @@ export class SalleComponent implements OnInit{
   public selected_agence_id:number=0;
   public searchSalle: string = "";
   public searchEquipement:string ="";
-  constructor(private salleServ:SalleService,private agenceServ:AgenceService,private agentServ:AgentsService,
-    private equipementService:EquipementService,private fournisseurService:FournisseurService,
+  constructor(
+    private logServ:LogService,
+    private salleServ:SalleService,
+    private agenceServ:AgenceService,
+    private agentServ:AgentsService,
+    private equipementService:EquipementService,
+    private fournisseurService:FournisseurService,
     private possessionEqServ:PossessionEquipementService){}
   ngOnInit(): void {
       this.salleServ.getAllSalles().subscribe((data)=>
@@ -78,21 +84,54 @@ export class SalleComponent implements OnInit{
     this.new_salle.id_entreprise = JSON.parse(localStorage.getItem("entreprise")!).id;
     this.salleServ.storeSalle(this.new_salle).subscribe((data)=>
     {
-      this.ngOnInit();
+       this.logServ.setLogs(
+          {
+            id_entreprise:this.logServ.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Creation de la salle ${this.new_salle.nom} `,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        })
     })
   }
   public updateSalle()
   {
     this.salleServ.editSalle(this.select_salle).subscribe((data)=>
     {
-      this.ngOnInit();
+       this.logServ.setLogs(
+          {
+            id_entreprise:this.logServ.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Modification de la salle ${this.select_salle.nom} `,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        })
     })
   }
   public removeSalle()
   {
     this.salleServ.deleteSalle(this.select_salle.id!).subscribe((data)=>
     {
-      this.ngOnInit()
+       this.logServ.setLogs(
+          {
+            id_entreprise:this.logServ.entreprise_id,
+            date : this.logServ.formatDate(new Date()),
+            action : `Suppression de la salle ${this.select_salle.nom} `,
+            group : 'Agent',
+            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+          }
+        ).subscribe((data)=>
+        {
+          this.ngOnInit();
+        })
     })
   }
   public linkEquipmentToSalle()
