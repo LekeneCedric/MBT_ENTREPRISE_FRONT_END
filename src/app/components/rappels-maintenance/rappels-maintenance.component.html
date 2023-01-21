@@ -3,9 +3,6 @@
         <div class="card-header pb-0 pd-t-25 ">
             <div class="d-flex justify-content-between">
                 <h1 class="card-title mg-b-0">Rappel de maintenance</h1>
-                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
-                    <button data-target="#generate_plan_maint_modal" data-toggle="modal" class="btn btn-success btn-with-icon btn-block"><i class="typcn typcn-document-text"></i> Generer</button>
-                </div>
             </div>
             <!-- <div class="d-flex justify-content-between mb-3">
                 <p class="tx-12 text-muted mb-2">Liste des maintenances effectues sur les equipements <a href="#">Learn more</a></p>
@@ -89,9 +86,12 @@
                             <td>{{ maintenance.equipement?.designation }}</td>
                             <td>{{ maintenance.gamme_maintenance }}</td>
                             <td>{{ maintenance.equipement?.specialite }}</td> -->
-                            <td class="btn-icon-list">
-                                <button  class="btn btn-primary btn-icon mr-3" data-target="#detailMaintenance" data-toggle="modal"><i class="typcn typcn-message"></i></button>
-                                <button *ngIf="notification.possession_equipement?.equipement?.id_parent==0"  [routerLink]="['/liste_maintenance_eq',notification.id_possessionEquipement,notification.id_salle]" class="btn btn-primary btn-icon" data-target="#detailMaintenance" data-toggle="modal"><i class="typcn typcn-info"></i></button>
+                            <td>
+                                <div class="btn-icon-list">
+                                    <button  class="btn btn-primary btn-icon mr-3" data-target="#detailMaintenance" data-toggle="modal"><i class="typcn typcn-message"></i></button>
+                                    <button *ngIf="notification.possession_equipement?.equipement?.id_parent==0"  [routerLink]="['/liste_maintenance_eq',notification.id_possessionEquipement,notification.id_salle]" class="btn btn-primary btn-icon" data-target="#detailMaintenance" data-toggle="modal"><i class="typcn typcn-info"></i></button>
+                                </div>
+                               
                             </td>
                             <!-- <td>
                                 <div class="btn-icon-list">

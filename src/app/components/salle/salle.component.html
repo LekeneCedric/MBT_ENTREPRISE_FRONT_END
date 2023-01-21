@@ -114,7 +114,6 @@
 </div>
 
 <!-- update salle  -->
-<!-- Add salle  -->
 <div class="modal" id="updateSalle">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
@@ -149,8 +148,7 @@
                 </div>
                 
             <div class="modal-footer">
-                <button *ngIf="new_salle.nom!=undefined && new_salle.tel!= undefined && new_salle.indication!=undefined
-                 && new_salle.description!=undefined && new_salle.nom.length>4" class="btn ripple btn-primary" 
+                <button class="btn ripple btn-primary" 
                  (click)="updateSalle()" data-dismiss="modal" type="button">Sauvegarder</button>
                 <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Fermer</button>
             </div>

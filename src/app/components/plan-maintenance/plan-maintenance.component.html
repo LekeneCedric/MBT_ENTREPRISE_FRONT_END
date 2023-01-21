@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between">
                 <h1 class="card-title mg-b-0">PLAN DE MAINTENANCES</h1>
                 <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
-                    <button data-target="#generate_plan_maint_modal" data-toggle="modal" class="btn btn-success btn-with-icon btn-block"><i class="typcn typcn-document-text"></i> Generer</button>
+                    <button data-target="#generate_plan_maint_modal" data-toggle="modal" class="btn btn-success btn-with-icon btn-block"><i class="typcn typcn-document-text"></i> Generer Excel</button>
                 </div>
             </div>
             <!-- <div class="d-flex justify-content-between mb-3">
@@ -82,6 +82,7 @@
                             <th class="wd-15p border-bottom-0">Designation</th>
                             <th class="wd-15p border-bottom-0">Gamme maintenance</th>
                             <th class="wd-15p border-bottom-0">Specialite</th> -->
+                            
                             <th class="wd-20p border-bottom-0">le</th>
                             <th class="wd-15p border-bottom-0">More</th>
                         </tr>
@@ -270,12 +271,23 @@
                 </div>
                 <div class="col-lg mt-3">
                     <label for="specialite" class="form-label">Salle<span style="color:red">*</span></label>
-                    <select class="form-select"  id="salle" [(ngModel)]="plan_maintenance.id_salle" >
+                    <select class="form-select"  id="salle" [(ngModel)]="plan_maintenance.id_salle" (change)="filterEquipementBySalle()">
                         <option disabled>
                             salle
                         </option>
                         <option *ngFor="let salle of global_salle_list" value="{{ salle.id }}">
                             {{ salle.nom }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg mt-3">
+                    <label for="specialite" class="form-label">Equipement<span style="color:red">*</span></label>
+                    <select class="form-select"  id="salle" [(ngModel)]="plan_maintenance.id_equipement" >
+                        <option value="0">
+                            Tous les equipements
+                        </option>
+                        <option *ngFor="let equipement of equipements_salle_" value="{{ equipement.id }}">
+                            {{ equipement.element }}
                         </option>
                     </select>
                 </div>
@@ -310,3 +322,13 @@
     </div>
 </div>
 </div>
+<ng-template #customLoadingTemplate>
+    <div class="custom-class">
+      <h3>Loading...</h3>
+    </div>
+  </ng-template>
+<ngx-loading
+    [show]="loadingPlanMaintenance"
+    [config]="{ backdropBorderRadius: '3px' }"
+    [template]="customLoadingTemplate"
+  ></ngx-loading>

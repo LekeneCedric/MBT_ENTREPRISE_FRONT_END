@@ -20,4 +20,5 @@ export interface Imaintenance
     agent?: IAgent,
     created_at?: Date,
     updated_at?: Date,
+    statut?:number
 }

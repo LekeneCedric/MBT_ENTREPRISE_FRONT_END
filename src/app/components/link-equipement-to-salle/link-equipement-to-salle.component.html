@@ -75,7 +75,7 @@
                 </tr>
             </thead>
             <tbody style="text-align:center">
-                <tr *ngFor = "let equipement of equipementsList" >
+                <tr *ngFor = "let equipement of equipmentsListTemp2" >
                     <td>{{ equipement.element }}</td>
                     <td>{{ equipement.parent?.element!=null ? equipement.parent?.element: "Aucun"}}</td>
                     <td>{{ equipement.categorie?.intitule }}</td>

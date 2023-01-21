@@ -27,6 +27,7 @@ public new_possessionEq:IPossessionEquipement = {};
 public fournisseurs_list : IFournisseur[] = [];
 public id_salle:number =  Number(this.router.snapshot.paramMap.get('id'));
 public equipmentsListTemp : Iequipement[] = [];
+public equipmentsListTemp2 : Iequipement[] = [];
 public equipementsList : Iequipement[] = [];
 public sub_equipementsList : Iequipement[] = [];
 ngOnInit(): void {
@@ -41,6 +42,14 @@ ngOnInit(): void {
     this.possEqServ.listLinkEquipementsBySalle(this.id_salle).subscribe((data)=>
     {
       this.equipmentsListTemp = data;
+    });
+    this.possEqServ.listLinkEquipementsBySalle(this.id_salle).subscribe((data)=>
+    {
+      this.equipmentsListTemp2 = data;
+      this.equipmentsListTemp2 = this.equipmentsListTemp.filter((eq)=>
+      {
+        return eq.isLink == true;
+      })
     });
     this.fournisseurService.getFournisseurByEntreprise().subscribe((data)=>
     {

@@ -32,6 +32,7 @@ export class SalleComponent implements OnInit{
   public selected_agence_id:number=0;
   public searchSalle: string = "";
   public searchEquipement:string ="";
+  private id_entreprise = Number(JSON.parse(localStorage.getItem("entreprise")!).id);
   constructor(
     private logServ:LogService,
     private salleServ:SalleService,
@@ -41,7 +42,7 @@ export class SalleComponent implements OnInit{
     private fournisseurService:FournisseurService,
     private possessionEqServ:PossessionEquipementService){}
   ngOnInit(): void {
-      this.salleServ.getAllSalles().subscribe((data)=>
+      this.salleServ.getSallesByEntreprise(this.id_entreprise!).subscribe((data)=>
       {
         this.salles_list = data;
         this.salles_temp = data;

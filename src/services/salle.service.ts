@@ -38,11 +38,11 @@ export class SalleService {
 
   public editSalle(salle:Isalle):Observable<Isalle>
   {
-    return this.http.post<Isalle>(`${this.env.api}/salle`,salle,{headers:this.env.httpHeader});
+    return this.http.post<Isalle>(`${this.env.api}/salle/${salle.id}`,salle,{headers:this.env.httpHeader});
   }
 
-  public deleteSalle(id_salle:number):Observable<Isalle>
+  public deleteSalle(id_salle:number):Observable<any>
   {
-    return this.http.post<Isalle>(`${this.env.api}/salle/${id_salle}`,{Headers:this.env.httpHeader});
+    return this.http.delete<Isalle>(`${this.env.api}/salle/${id_salle}`,{headers:this.env.httpHeader});
   }
 }

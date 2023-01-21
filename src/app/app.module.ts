@@ -27,6 +27,7 @@ import { LinkEquipementToSalleComponent } from './components/link-equipement-to-
 import { RappelsMaintenanceComponent } from './components/rappels-maintenance/rappels-maintenance.component';
 import { HistoriquesMaintComponent } from './components/historiques-maint/historiques-maint.component';
 import { DetailsAgentComponent } from './components/details-agent/details-agent.component';
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +53,13 @@ import { DetailsAgentComponent } from './components/details-agent/details-agent.
     DetailsAgentComponent,
   ],
   imports: [
+    NgxLoadingModule.forRoot({
+      animationType: ngxLoadingAnimationTypes.chasingDots,
+      backdropBorderRadius: "8px",
+      primaryColour: "#007bff;",
+      secondaryColour: "#ffffff",
+      tertiaryColour: "#dc3545",
+    }),
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

@@ -1,3 +1,4 @@
+import { EquipementService } from './../../../services/equipement.service';
 import { Iplan_maintenance } from './../../../models/plan_maintenance';
 import { Iequipement } from './../../../models/equipement';
 import { SalleService } from './../../../services/salle.service';
@@ -19,6 +20,7 @@ import * as fs from 'file-saver';
   styleUrls: ['./plan-maintenance.component.scss']
 })
 export class PlanMaintenanceComponent implements OnInit{
+  public loadingPlanMaintenance:boolean = false;
   public generated_plan_maint : any[]= [];
   public maintenance_plan : Imaintenance [] = [];
   public global_agence_list : Iagence[] = [];
@@ -39,13 +41,19 @@ export class PlanMaintenanceComponent implements OnInit{
   public selectedMaintenance : Imaintenance = {};
   public agencesList : Iagence[] = [];
   public possession_eq_list : string[] =[];
+  public equipements_salle_ : Iequipement[] = [];
   public selected_salle_id : number = 0;
   public selected_agent_id:number = 0;
   public selected_agence_id:number = 0;
   public selected_possession_eq_name : string = "";
   public title:string = `Plan_classement_${new Date().toISOString()}`;
-  constructor(private maintenanceService:MaintenanceService,private agenceService:AgenceService,private possessionEqServ : PossessionEquipementService,
-    private salleService : SalleService)
+  constructor(
+    private maintenanceService:MaintenanceService,
+    private agenceService:AgenceService,
+    private possessionEqServ : PossessionEquipementService,
+    private salleService : SalleService,
+    private equipementServ : EquipementService
+    )
   {
 
   }
@@ -136,6 +144,18 @@ export class PlanMaintenanceComponent implements OnInit{
     this.selected_salle_id=0;
   }
 
+  public filterEquipementBySalle()
+  {
+    this.equipements_salle_ = [];
+    this.plan_maintenance.id_equipement=0;
+    this.possessionEqServ.listLinkEquipementsBySalle(this.plan_maintenance.id_salle!).subscribe(
+      (data)=>
+      {
+        this.equipements_salle_ = data;
+      }
+    )
+  }
+  
   public filterBySalle()
   {
     this.maintenances = this.maintenances_temp;
@@ -145,25 +165,25 @@ export class PlanMaintenanceComponent implements OnInit{
     })
 
   }
-  public filterMaintenance()
-  {
+  // public filterMaintenance()
+  // {
     
-  }
+  // }
+  
   public selectAgencePlan()
   {
+    this.equipements_salle_ = [];
+    this.plan_maintenance.id_equipement!=null ? this.filterEquipementBySalle() : null ;
     this.global_salle_list = this.global_salle_list_temp;
     this.global_salle_list = this.global_salle_list.filter((salle)=>
     {
       return salle.id_agence == this.plan_maintenance.id_agence || this.plan_maintenance.id_agence ==0 ;
     })
   }
-  // public exportAsPdf()
-  // {
-    
-  // }
   public generate_plan()
   {
-    console.log(this.plan_maintenance);
+    this.loadingPlanMaintenance = true;
+    let nb_sheet = 0 ;
     let workbook = new Workbook();
     this.maintenanceService.genereateClassmentPlanWithAgenceAndSalle(this.plan_maintenance).subscribe((data)=>
     {
@@ -171,14 +191,17 @@ export class PlanMaintenanceComponent implements OnInit{
       console.log(Object.entries(data));
       Object.entries(data).forEach((obj:Array<any>)=>
      {
+      // if (obj[1].length>0)
+      // {
+
       
-      let sheet = workbook.addWorksheet(`${obj[0]}`);
+      let sheet = workbook.addWorksheet(`${obj[0].split('|')[0]}`);
       
       sheet.mergeCells('A1','B3');
-      sheet.mergeCells('C1','G3');
-      sheet.mergeCells('H1','K1');
-      sheet.mergeCells('H2','L2');
-      sheet.mergeCells('H3','L3');
+      sheet.mergeCells('C1','I3');
+      sheet.mergeCells('J1','K1');
+      sheet.mergeCells('J2','L2');
+      sheet.mergeCells('J3','L3');
       sheet.mergeCells('A4','L4');
       sheet.mergeCells('A5','L5');
       sheet.mergeCells('A6','L6');
@@ -202,58 +225,12 @@ export class PlanMaintenanceComponent implements OnInit{
       {
         sheet.getColumn(i).width = 15;
       }   
-      // let titleRow = sheet.getCell('A1');
-      // titleRow.value = JSON.parse(localStorage.getItem("entreprise")!).nom.toUpperCase();
-      // titleRow.font = {
-      //   name: 'Times New Roman',
-      //   size: 9,
-      //   bold: true
-      // };
-      // titleRow.alignment = { vertical: 'middle', horizontal: 'center' };
-
-      // let titleRow2 = sheet.getCell('C1');
-      // titleRow2.value = `PLAN MAINTENANCE PREVENTIVE DES EQUIPEMENTS DE L'AGENCE ${this.agencesList.filter((agence)=>{return agence.id == this.plan_maintenance.id_agence})[0].nom}`;
-      // titleRow2.font = {
-      //   name: 'Times New Roman',
-      //   size: 9,
-      //   underline: 'single',
-      //   bold: true
-      // };
-      // titleRow2.alignment = { vertical: 'middle', horizontal: 'center' };
-
-      // let detail_sigles = sheet.getCell('A6');
-      // detail_sigles.value = 'Abréviation:     Spécialité = M: Mécanicien,E:Electricien,EM:Electro-Mécanicien   Etat machine = A: Arrêt, M:Marche Condi,Systé=  Condi: Conditionnel  Systé: Systématique'
-      // detail_sigles.font = {
-      //   name: 'Times New Roman',
-      //   size: 8,
-      //   bold: false
-      // };
-      // detail_sigles.alignment = {vertical: 'middle' , horizontal:'center'};
-
-      // let eq_info = sheet.getCell('A7');
-      // eq_info.value = `EQUIPEMENT:  `+`${obj[0]}`.toUpperCase()+`     MODELE: STRTB - SD3 - C                      MISE EN MARCHE:  15 MARS 2022`
-      // eq_info.font = {
-      //   name: 'Times New Roman',
-      //   size: 8,
-      //   bold: false
-      // };
-      // eq_info.alignment = {vertical: 'middle' , horizontal:'center'};
-
-      // let fournis_info = sheet.getCell('A8');
-      // fournis_info.value = `FOURNISSEUR : STRPack`
-      // fournis_info.font = {
-      //   name: 'Times New Roman',
-      //   size: 8,
-      //   bold: false
-      // };
-      // fournis_info.alignment = {vertical: 'middle' , horizontal:'center'};
-    
       let arr_1 = ['A','C','A','A','A'];
       let num_1 = ['1','1','6','7','8'];
       let val_1 = [`${JSON.parse(localStorage.getItem("entreprise")!).nom.toUpperCase()}`,`PLAN MAINTENANCE PREVENTIVE DES EQUIPEMENTS DE L'AGENCE ${this.agencesList.filter((agence)=>{return agence.id == this.plan_maintenance.id_agence})[0].nom}`,
                    `Abréviation:     Spécialité = M: Mécanicien,E:Electricien,EM:Electro-Mécanicien   Etat machine = A: Arrêt, M:Marche Condi,Systé=  Condi: Conditionnel  Systé: Systématique`,
-                   `EQUIPEMENT:  `+`${obj[0]}`.toUpperCase()+`     MODELE: STRTB - SD3 - C                      MISE EN MARCHE:  15 MARS 2022`,
-                   `FOURNISSEUR : STRPack`];
+                   `EQUIPEMENT:  `+`${obj[0].split('|')[0]}`.toUpperCase()+`     MODELE: STRTB - SD3 - C                      MISE EN MARCHE:  ${obj[0].split('|')[2]}`,
+                   `FOURNISSEUR : `+`${obj[0].split('|')[1]}`.toUpperCase()];
       for (let i=0;i<arr_1.length;i++)
       {
         let elt = sheet.getCell(`${arr_1[i]}${num_1[i]}`);
@@ -269,7 +246,7 @@ export class PlanMaintenanceComponent implements OnInit{
  
       let arr = ['A','A','B','C','D','E','F','G','H','H','I','J','K','L']
       let num = ['12','10','10','10','10','10','10','10','10','11','11','10','10','10']
-      let test = [`${obj[0]}`.toUpperCase(),'Sous-ensembles','Element','Operation a effectuer',
+      let test = [`${obj[0].split('|')[0]}`.toUpperCase(),'Sous-ensembles','Element','Operation a effectuer',
                   'Charge Prevue','Periodicite','Etat Machine','Outillage','Echange pieces','Condi/Syste','Quantite et Des / ref','Gamme de maintenance',
                   'Specialite','Agent'];
       for (let i=0;i<arr.length;i++)
@@ -304,16 +281,18 @@ export class PlanMaintenanceComponent implements OnInit{
           }
           pos += 1 ;
       }
-
-     })
+      nb_sheet +=1
+    // }
+     });
      setTimeout(()=>{
       workbook.xlsx.writeBuffer().then((data) => {
         let blob = new Blob([data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         });
-        fs.saveAs(blob, `PLAN_MAINTENANCE_${JSON.parse(localStorage.getItem("entreprise")!).nom}_${this.agencesList.filter((agence)=>{return agence.id == this.plan_maintenance.id_agence})[0].nom}_${new Date().toUTCString()}` + '.xlsx');
+       nb_sheet > 0 ? fs.saveAs(blob, `PLAN_MAINTENANCE_${JSON.parse(localStorage.getItem("entreprise")!).nom}_${this.agencesList.filter((agence)=>{return agence.id == this.plan_maintenance.id_agence})[0].nom}_${new Date().toUTCString()}` + '.xlsx') : null;
+       this.loadingPlanMaintenance=false;
       });
-     },6000)
+     },3000);
     
     
      
