@@ -9,6 +9,7 @@ export interface Iequipement {
     idcategorie?:number,
     categorie?:ICategorie,
     element?:string,
+    period_is_for_child?:string,
     // operation?:string,
     // chargePrevue?:string,
     periodicite?:string,

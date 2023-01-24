@@ -29,6 +29,7 @@ export class AgencesComponent implements OnInit{
   public searchAgence:string  = "";
   public agences : Iagence[] | undefined;
   public agencesTemp: Iagence[] | undefined;
+  public user_connected :IAgent = {};
   constructor(
     private agenceService : AgenceService,
     private agentService:AgentsService,
@@ -40,7 +41,7 @@ export class AgencesComponent implements OnInit{
   {}
 
   public ngOnInit(): void {
-      
+    this.user_connected = JSON.parse(localStorage.getItem("entreprise")!).agent;
     this.agenceService.getAgencesEntreprise(this.entreprise_id).subscribe((data)=>
     {
       this.agences = data;

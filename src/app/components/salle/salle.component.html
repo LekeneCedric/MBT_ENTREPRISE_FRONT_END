@@ -3,7 +3,8 @@
         <div class="card-header pb-0 pd-t-25 ">
             <div class="d-flex justify-content-between mb-5">
                 <h4 class="card-title mg-t-5">SALLES</h4>
-                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0"><button data-target="#addSalle" data-toggle="modal" class="btn btn-primary btn-with-icon btn-block"><i class="typcn typcn-plus"></i> Salle </button></div>
+                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
+                    <button data-target="#addSalle" data-toggle="modal" data-placement="bottom" title="Ajouter une nouvelle salle" class="btn btn-primary btn-with-icon btn-block"><i class="typcn typcn-plus"></i> Salle </button></div>
                 
                 
 
@@ -12,7 +13,7 @@
             <div class="d-flex justify-content-between mb-3">
         
                 <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-                    <select class="form-select" aria-label="Default select example" [(ngModel)]="selected_agence_id" (ngModelChange)="filterByAgence()">
+                    <select data-placement="bottom" title="Filtrer la liste des salles par agence" class="form-select" aria-label="Default select example" [(ngModel)]="selected_agence_id" (ngModelChange)="filterByAgence()">
                         <option selected value="0">Toutes les agences
                         </option>
                         <option *ngFor="let agence of agences_list" value="{{ agence.id }}">
@@ -21,7 +22,7 @@
                     </select>
                 </div>
                 <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-                    <div class="input-group">
+                    <div class="input-group" data-placement="bottom" title="Rechercher une salle ">
                         <input class="form-control" placeholder="Recherchez par nom ou localisation " type="text" [(ngModel)]="searchSalle" (ngModelChange)="filterSalle()"> <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
                     </div>
                 </div>
@@ -53,9 +54,9 @@
                             <td>{{ salle.indication }}</td>
                             <td style="align-items:center">
                                 <div class="btn-icon-list">
-                                    <button (click)="selectSalle(salle)" data-target="#updateSalle" data-toggle="modal" class="btn btn-warning btn-icon"><i class="typcn typcn-brush"></i></button>
-                                    <button (click)="selectSalle(salle)" data-target="#deleteSalle" data-toggle="modal" class="btn btn-danger btn-icon"><i class="typcn typcn-trash"></i></button>
-                                    <button routerLink="/linkEqToSalle/{{ salle.id }}" class="btn btn-success btn-icon"><i class="typcn typcn-link"></i></button>
+                                    <button data-placement="bottom" title="Modifier une salle" (click)="selectSalle(salle)" data-target="#updateSalle" data-toggle="modal" class="btn btn-warning btn-icon"><i class="typcn typcn-brush"></i></button>
+                                    <button data-placement="bottom" title="Supprimer une salle" (click)="selectSalle(salle)" data-target="#deleteSalle" data-toggle="modal" class="btn btn-danger btn-icon"><i class="typcn typcn-trash"></i></button>
+                                    <button data-placement="bottom" title="Ajouter equipements dans une salle" routerLink="/linkEqToSalle/{{ salle.id }}" class="btn btn-success btn-icon"><i class="typcn typcn-link"></i></button>
                                     <!-- <button (click)="selectSalle(salle)" data-target="#linkEquipement" data-toggle="modal" class="btn btn-success btn-icon"><i class="typcn typcn-link"></i></button> -->
                                 </div>
                             </td>

@@ -161,7 +161,7 @@
               <h6>{{ user_connected.nom }}</h6><span>{{ user_connected.specialite }}</span>
             </div>
             <a class="dropdown-item" [routerLink]="['/details_agent',user_connected.id]"><i class="far fa-user"></i> My Profile</a>
-            <a class="dropdown-item text-warning" href="#"><i class="far fa-clock"></i> Activity Logs</a>
+            <a class="dropdown-item  text-warning" [routerLink]="['/details_agent',user_connected.id]"><i class="far fa-clock"></i> Activity Logs</a>
             <a class="dropdown-item" [routerLink]="['/details_agent',user_connected.id]"><i class="fas fa-sliders-h"></i> Account Settings</a>
             <a class="dropdown-item text-danger" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
           </div>

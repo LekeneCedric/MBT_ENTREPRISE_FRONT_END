@@ -62,4 +62,9 @@ export class MaintenanceService {
   {
     return this.http.post<any>(`${this.environment.api}/plan_maintenance/agence/salle/${data.id_agence}-${data.id_salle}`,data,{headers:this.environment.httpHeader});
   }
+
+  public changeStatutMaintenance(id_maint:number,statut:number):Observable<Imaintenance>
+  {
+    return this.http.post<Imaintenance>(`${this.environment.api}/maintenance/statut/${id_maint}`,{statut:statut},{headers:this.environment.httpHeader});
+  }
 }

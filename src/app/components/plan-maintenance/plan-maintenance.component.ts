@@ -169,7 +169,13 @@ export class PlanMaintenanceComponent implements OnInit{
   // {
     
   // }
-  
+  public changeStatut(maintenance:Imaintenance,statut:number)
+  {
+    this.maintenanceService.changeStatutMaintenance(maintenance.id!,statut).subscribe((data)=>
+    {
+      this.ngOnInit();
+    })
+  }
   public selectAgencePlan()
   {
     this.equipements_salle_ = [];
@@ -225,11 +231,13 @@ export class PlanMaintenanceComponent implements OnInit{
       {
         sheet.getColumn(i).width = 15;
       }   
-      let arr_1 = ['A','C','A','A','A'];
-      let num_1 = ['1','1','6','7','8'];
-      let val_1 = [`${JSON.parse(localStorage.getItem("entreprise")!).nom.toUpperCase()}`,`PLAN MAINTENANCE PREVENTIVE DES EQUIPEMENTS DE L'AGENCE ${this.agencesList.filter((agence)=>{return agence.id == this.plan_maintenance.id_agence})[0].nom}`,
+      let arr_1 = ['A','C','A','A','A','A'];
+      let num_1 = ['1','1','4','6','7','8'];
+      let val_1 = [`${JSON.parse(localStorage.getItem("entreprise")!).nom.toUpperCase()}`,
+                   `PLAN MAINTENANCE PREVENTIVE DES EQUIPEMENTS DE L'AGENCE ${this.agencesList.filter((agence)=>{return agence.id == this.plan_maintenance.id_agence})[0].nom}`,
+                   `REDIGE PAR : `+`${obj[0].split('|')[3]}`.toUpperCase()+``,
                    `Abréviation:     Spécialité = M: Mécanicien,E:Electricien,EM:Electro-Mécanicien   Etat machine = A: Arrêt, M:Marche Condi,Systé=  Condi: Conditionnel  Systé: Systématique`,
-                   `EQUIPEMENT:  `+`${obj[0].split('|')[0]}`.toUpperCase()+`     MODELE: STRTB - SD3 - C                      MISE EN MARCHE:  ${obj[0].split('|')[2]}`,
+                   `EQUIPEMENT:  `+`${obj[0].split('|')[0]}`.toUpperCase()+`          MISE EN MARCHE:  ${obj[0].split('|')[2]}`,
                    `FOURNISSEUR : `+`${obj[0].split('|')[1]}`.toUpperCase()];
       for (let i=0;i<arr_1.length;i++)
       {
@@ -237,7 +245,7 @@ export class PlanMaintenanceComponent implements OnInit{
         elt.value = val_1[i];
         elt.font = {
           name: 'Times New Roman',
-          size: 9,
+          size: 10,
           bold: true
         };
         elt.alignment = {vertical: 'middle' , horizontal:'center'};
@@ -255,7 +263,7 @@ export class PlanMaintenanceComponent implements OnInit{
         elt.value = test[i];
         elt.font = {
           name: 'Times New Roman',
-          size: 8,
+          size: 9,
           bold: true
         };
         elt.alignment = {vertical: 'middle' , horizontal:'center'};
@@ -274,7 +282,7 @@ export class PlanMaintenanceComponent implements OnInit{
             elt.value = val[i];
             elt.font = {
               name: 'Times New Roman',
-              size: 8,
+              size: 9,
               bold: false
                         };
             elt.alignment = {vertical: 'middle' , horizontal:'center'};
@@ -305,5 +313,8 @@ export class PlanMaintenanceComponent implements OnInit{
 
     // xlsx.writeFile(wb,"plan_maintenance.xlsx")
   })
+  setTimeout(()=>{
+    this.loadingPlanMaintenance = false;
+  },10000)
   }
 }

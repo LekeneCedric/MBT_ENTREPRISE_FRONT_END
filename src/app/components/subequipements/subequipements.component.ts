@@ -108,7 +108,15 @@ export class SubequipementsComponent implements OnInit{
   public addEquipement()
   {
     // this.new_equipement.id_parent = 0;
-    this.new_equipement.periodicite = `${this.new_eq_p_day} ${this.new_eq_p_periodicite}`
+    if (this.parentEq?.period_is_for_child == 'true')
+    {
+      this.new_equipement.periodicite = this.parentEq.periodicite;
+    }
+    else
+    {
+      this.new_equipement.periodicite = `${this.new_eq_p_day} ${this.new_eq_p_periodicite}`
+    }
+    
     if(this.new_equipement.id_parent == null || this.new_equipement.id_parent == undefined)
     {
       this.new_equipement.id_parent = 0;

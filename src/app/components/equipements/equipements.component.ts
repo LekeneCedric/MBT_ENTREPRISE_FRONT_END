@@ -46,6 +46,9 @@ export class EquipementsComponent implements OnInit{
         }
       )
   }
+  check = ()=>{
+    console.log(this.new_equipement.period_is_for_child,typeof(this.new_equipement.period_is_for_child))
+  }
   public navigateToChild(id:number)
   {
     this.router.navigateByUrl(`/equipements/${id}`)

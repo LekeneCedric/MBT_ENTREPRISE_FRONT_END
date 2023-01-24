@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between">
                 <h1 class="card-title mg-b-0">PLAN DE MAINTENANCES</h1>
                 <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
-                    <button data-target="#generate_plan_maint_modal" data-toggle="modal" class="btn btn-success btn-with-icon btn-block"><i class="typcn typcn-document-text"></i> Generer Excel</button>
+                    <button data-placement="bottom" title="Generer le document excel du plan de maintenance" data-target="#generate_plan_maint_modal" data-toggle="modal" class="btn btn-success btn-with-icon btn-block"><i class="typcn typcn-document-text"></i> Generer Excel</button>
                 </div>
             </div>
             <!-- <div class="d-flex justify-content-between mb-3">
@@ -19,7 +19,7 @@
             <div class="d-flex justify-content-between mb-3">
                
                 <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-                    <strong style="font-weight:bold" class="tx-12 text-muted mb-2">Filter par agence :</strong>
+                    <strong style="font-weight:bold" class="tx-12 text-muted mb-2">Filtrer par agence :</strong>
                     <select class="form-select" aria-label="Default select example" [(ngModel)]="selected_agence_id" (ngModelChange)="filterByAgence()">
                         <option selected value="0">Toutes les agences
                         </option>
@@ -29,7 +29,7 @@
                     </select>
                 </div>
                 <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-                    <strong style="font-weight:bold" class="tx-12 text-muted mb-2">Filter par equipements :</strong>
+                    <strong style="font-weight:bold" class="tx-12 text-muted mb-2">Filtrer par equipements :</strong>
                     <select class="form-select" aria-label="Default select example" [(ngModel)]="selected_possession_eq_name" (ngModelChange)="filterByEquipement()">
                         <option selected value="" >Tous les equipements
                         </option>
@@ -39,7 +39,7 @@
                     </select>
                 </div>
                 <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-                    <strong style="font-weight:bold" class="tx-12 text-muted mb-2">Filter par agents :</strong>
+                    <strong style="font-weight:bold" class="tx-12 text-muted mb-2">Filtrer par agents :</strong>
                     <select class="form-select" aria-label="Default select example" [(ngModel)]="selected_agent_id" (ngModelChange)="filterByAgents()">
                         <option selected value="0">Toutes les agents
                         </option>
@@ -51,7 +51,7 @@
                
             </div>
             <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-                <strong style="font-weight:bold" class="tx-12 text-muted mb-2">Filter par salle :</strong>
+                <strong style="font-weight:bold" class="tx-12 text-muted mb-2">Filtrer par salle :</strong>
                 <select class="form-select" aria-label="Default select example" [(ngModel)]="selected_salle_id" (ngModelChange)="filterBySalle()">
                     <option selected value="0">Toutes les salles
                     </option>
@@ -65,7 +65,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped table-bordered text-nowrap" id="example1">
+                <table class="table table-striped table-bordered text-nowrap">
                     <thead style="text-align: center;">
                         <tr>
                             <th class="wd-5p border-bottom-0">Equipement</th>
@@ -82,9 +82,9 @@
                             <th class="wd-15p border-bottom-0">Designation</th>
                             <th class="wd-15p border-bottom-0">Gamme maintenance</th>
                             <th class="wd-15p border-bottom-0">Specialite</th> -->
-                            
+                            <th class="wd-10p border-bottom-0">Statut</th>
                             <th class="wd-20p border-bottom-0">le</th>
-                            <th class="wd-15p border-bottom-0">More</th>
+                            <th>More</th>
                         </tr>
                     </thead>
                     <tbody style="text-align:center">
@@ -99,6 +99,9 @@
                             <td>{{ maintenance.equipement?.periodicite }}</td>
                             <td>{{ maintenance.etat }}</td>
                             <td>{{ maintenance.agent?.nom }}</td>
+                            <td>
+                                <h3  class="text-warning"><span class="badge badge-{{ maintenance.statut == 0 ?'light' : (maintenance.statut == 1 ? 'success' : (maintenance.statut == 2 ? 'danger' : 'light')) }}">{{ maintenance.statut==0 ? "Non verifie" : (maintenance.statut == 1 ? "Verifie" : (maintenance.statut == 2 ? "Rejete" : "Aucun")) }}</span></h3>
+                            </td>
                             <td>{{ maintenance.created_at | date:" d MMM y hh:mm:ss" }}</td>
                             <!-- <td>{{ maintenance.outillage }}
                             <td>{{ maintenance.condi_syste }}</td>
@@ -106,7 +109,11 @@
                             <td>{{ maintenance.gamme_maintenance }}</td>
                             <td>{{ maintenance.equipement?.specialite }}</td> -->
                             <td>
-                                <button (click)="selectMaintenance(maintenance)" class="btn btn-primary btn-icon" data-target="#detailMaintenance" data-toggle="modal"><i class="typcn typcn-th-small"></i></button>
+                                <div class="btn-icon-list">
+                                    <button data-placement="bottom" title="Plus de details maintenance" (click)="selectMaintenance(maintenance)" class="btn btn-primary btn-icon" data-target="#detailMaintenance" data-toggle="modal"><i class="typcn typcn-th-small"></i></button>
+                                    <button data-placement="bottom" title="Valider un maitenance ( apres verification physique)" (click)="changeStatut(maintenance,1)" class="btn btn-success btn-icon"><i class="typcn typcn-tick"></i></button>
+                                    <button data-placement="bottom" title="Rejeter un maitenance ( apres verification physique)" (click)="changeStatut(maintenance,2)" class="btn btn-danger btn-icon"><i class="typcn typcn-cancel"></i></button>
+                                </div>
                             </td>
                             <!-- <td>
                                 <div class="btn-icon-list">
@@ -134,7 +141,7 @@
                 <h4 >Details de la maintenance de l'equipement <span class="tx-primary mg-b-20" style="font-weight:bolder">{{ selectedMaintenance.equipement?.element }}</span> </h4>
                 <h4 >le <span class="tx-primary mg-b-20" style="font-weight:bolder">{{ selectedMaintenance.created_at | date:"MMM d, y, h:mm:ss a" }}</span> </h4>
                 <!-- <p class="mg-b-20 mg-x-20" style="text-align:left">{{ selected_equipement?.description }} </p> -->
-                <div class="table-responsive">
+                <div class="table-responsive mt-3">
                     <table class="table table-striped table-bordered text-nowrap">
                         <thead style="text-align: center;">
                             <tr>
@@ -144,9 +151,6 @@
                                 
                                 <th class="wd-15p border-bottom-0">Agence</th>
                                 <th class="wd-15p border-bottom-0">Operation</th>
-                                
-                                
-                                
                             </tr>
                         </thead>
                         <tbody style="text-align:center">
@@ -157,16 +161,6 @@
                                 
                                 <td>{{ selectedMaintenance.possession?.agence?.nom }}</td>
                                 <td>{{ selectedMaintenance.operation }}</td>
-                                
-                                
-                                
-                                <!-- <td>
-                                    <div class="btn-icon-list">
-                                        <button  class="btn btn-warning btn-icon" data-target="#updateAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-brush"></i></button>
-                                        <button class="btn btn-danger btn-icon" data-target="#deleteAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-trash"></i></button>
-                                        <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
-                                    </div>
-                                </td> -->
                             </tr>
                         </tbody>
                     </table>

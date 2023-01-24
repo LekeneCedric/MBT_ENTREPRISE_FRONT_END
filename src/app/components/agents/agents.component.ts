@@ -20,12 +20,14 @@ export class AgentsComponent implements OnInit{
   public searchAgent:string  = "";
   public selected_agence_id = 0;
   public selected_specialite:string = "";
+  user_connected : IAgent = {};
   constructor(
     private agenceService : AgenceService,
     private agentService:AgentsService,
     private logServ : LogService
     ){}
   ngOnInit(): void {
+    this.user_connected = JSON.parse(localStorage.getItem("entreprise")!).agent;
     this.agenceService.getAgencesEntreprise(this.entreprise_id).subscribe((data)=>
     {
       this.agences = data;
