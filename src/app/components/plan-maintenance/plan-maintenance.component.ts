@@ -237,7 +237,7 @@ export class PlanMaintenanceComponent implements OnInit{
                    `PLAN MAINTENANCE PREVENTIVE DES EQUIPEMENTS DE L'AGENCE ${this.agencesList.filter((agence)=>{return agence.id == this.plan_maintenance.id_agence})[0].nom}`,
                    `REDIGE PAR : `+`${obj[0].split('|')[3]}`.toUpperCase()+``,
                    `Abréviation:     Spécialité = M: Mécanicien,E:Electricien,EM:Electro-Mécanicien   Etat machine = A: Arrêt, M:Marche Condi,Systé=  Condi: Conditionnel  Systé: Systématique`,
-                   `EQUIPEMENT:  `+`${obj[0].split('|')[0]}`.toUpperCase()+`          MISE EN MARCHE:  ${obj[0].split('|')[2]}`,
+                   `EQUIPEMENT:  `+`${obj[0].split('|')[0]}`.toUpperCase()+`   MISE EN MARCHE:  ${obj[0].split('|')[2]}`,
                    `FOURNISSEUR : `+`${obj[0].split('|')[1]}`.toUpperCase()];
       for (let i=0;i<arr_1.length;i++)
       {
