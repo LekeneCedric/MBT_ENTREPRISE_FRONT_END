@@ -52,7 +52,7 @@ export class SalleComponent implements OnInit{
         this.agences_list = data;
       })
      
-      this.equipementService.getAllEquipments().subscribe((data)=>
+      this.equipementService.getAllEquipments(this.id_entreprise).subscribe((data)=>
     {
       this.equipements_list = data.filter((eq)=>{
         return eq.id_parent == 0;

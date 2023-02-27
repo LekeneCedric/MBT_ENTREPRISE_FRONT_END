@@ -53,7 +53,7 @@ export class AgencesComponent implements OnInit{
       this.fournisseurs_list = data;
     });
 
-    this.equipementService.getAllEquipments().subscribe((data)=>
+    this.equipementService.getAllEquipments(this.entreprise_id).subscribe((data)=>
     {
       this.equipements_list = data.filter((eq)=>{
         return eq.id_parent == 0;

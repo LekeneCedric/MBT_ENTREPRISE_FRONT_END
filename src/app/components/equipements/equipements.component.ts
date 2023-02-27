@@ -29,7 +29,7 @@ export class EquipementsComponent implements OnInit{
   ngOnInit(): void 
   {
     this.new_equipement.id_parent = 0;
-      this.equipementService.getAllEquipments().subscribe(
+      this.equipementService.getAllEquipments(this.entreprise_id).subscribe(
         (data)=>
         {
           this.equipements_list = data;
@@ -105,6 +105,7 @@ export class EquipementsComponent implements OnInit{
   public addEquipement()
   {
     // this.new_equipement.id_parent = 0;
+    this.new_equipement.id_entreprise = this.entreprise_id;
     this.new_equipement.periodicite = `${this.new_eq_p_day} ${this.new_eq_p_periodicite}`
     if(this.new_equipement.id_parent == null || this.new_equipement.id_parent == undefined)
     {

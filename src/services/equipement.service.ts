@@ -28,9 +28,9 @@ export class EquipementService {
     return this.http.get<Iequipement[]>(this.environementService.api+`/equipement/agence/${id_agence}`)
   }
 
-  public getAllEquipments():Observable<Iequipement[]>
+  public getAllEquipments(id:number):Observable<Iequipement[]>
   {
-    return this.http.get<Iequipement[]>(this.environementService.api+`/equipement/`);
+    return this.http.get<Iequipement[]>(this.environementService.api+`/equipement/all/entreprise/${id}`);
   }
   public getAllSubEquipements(id:number):Observable<Iequipement[]>
   {

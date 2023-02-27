@@ -2,6 +2,7 @@ import { ICategorie } from 'src/models/categorie';
 export interface Iequipement {
 
     id?:number,
+    id_entreprise?:number,
     id_parent?:number,
     parent?:Iequipement,
     child?:Iequipement,
