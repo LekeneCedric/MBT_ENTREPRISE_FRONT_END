@@ -102,6 +102,16 @@ export class EquipementsComponent implements OnInit{
     this.updateEq = true;
     this.new_equipement = equipement;
   }
+  public specialites : string[] = [
+    'Manager',
+    'Maintenancier',
+    'caissier',
+    'developpeur',
+    'reparateur',
+    'gardien',
+    'cuisinier',
+    'manoeuvre',
+  ];
   public addEquipement()
   {
     // this.new_equipement.id_parent = 0;

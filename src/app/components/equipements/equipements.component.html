@@ -359,18 +359,9 @@
               id="specialite"
               [(ngModel)]="new_equipement.specialite"
             >
-              <option value="operateurs">Operateurs</option>
-              <option value="Technicien de Maintenance">
-                Technicien de Maintenance
-              </option>
-              <option value="Technicien informatique">
-                Technicien informatique
-              </option>
-              <option value="Technicien de surface">
-                Technicien de surface
-              </option>
-              <option value="Plombier">Plombier</option>
-              <option value="architecte">Architecte</option>
+            <option *ngFor="let specialite of specialites" value="{{ specialite }}">
+              {{ specialite }}
+            </option>
             </select>
           </div>
           <div class="col-lg">
