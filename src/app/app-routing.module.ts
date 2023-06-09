@@ -17,6 +17,13 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MappingComponent } from './components/mapping/mapping.component';
 import { HistoriquesMaintComponent } from './components/historiques-maint/historiques-maint.component';
 import { DetailsAgentComponent } from './components/details-agent/details-agent.component';
+import { UtilisateurComponent } from './components/utilisateur/utilisateur.component';
+import { RoleComponent } from './components/role/role.component';
+import { PrivilegeComponent } from './components/privilege/privilege.component';
+import { OutillageComponent } from './components/outillage/outillage.component';
+import { TypeOperationComponent } from './components/type-operation/type-operation.component';
+import { EtatEquipementComponent } from './components/etat-equipement/etat-equipement.component';
+import { ListEntrepriseComponent } from './components/list-entreprise/list-entreprise.component';
 
 const routes: Routes = [
   {
@@ -42,7 +49,7 @@ const routes: Routes = [
   },
   {
     path:"salles",component:SalleComponent,
-    
+
   },
   {
     path:"rappelMaintenance",component:RappelsMaintenanceComponent
@@ -75,13 +82,34 @@ const routes: Routes = [
     path:"parametres",component:ParametresComponent
   },
   {
+    path:"utilisateur",component:UtilisateurComponent
+  },
+  {
+    path:"role",component:RoleComponent
+  },
+  {
+    path:"privilege",component:PrivilegeComponent
+  },
+  {
+    path:"outillage",component:OutillageComponent
+  },
+  {
+    path:"type_operation",component:TypeOperationComponent
+  },
+  {
+    path:"etat_equipement",component:EtatEquipementComponent
+  },
+  {
     path:"signIn",component:SignInComponent
+  },
+  {
+    path:"list_entreprise",component:ListEntrepriseComponent
   }
-  
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes ,{ useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

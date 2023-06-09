@@ -1,25 +1,21 @@
 <div class="row row-sm">
-<div class="col-xl-6">
+<div class="col-xl-12">
     <div class="card">
         <div class="card-header pb-0 pd-t-25 ">
             <div class="d-flex justify-content-between mb-5">
                 <h4 class="card-title mg-t-5">CATEGORIES</h4>
                 <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
-                    <button  data-placement="bottom" title="Ajouter une categorie d'equipements" class="btn btn-primary btn-with-icon btn-block" data-target="#addCategorie" data-toggle="modal"><i class="typcn typcn-plus"></i>Ajouter</button>
+                    <button  *ngIf="hasprivilege('add_categorie')" data-placement="bottom" title="Ajouter une categorie d'equipements" class="btn btn-primary
+                    btn-with-icon btn-block" data-target="#addCategorie" data-toggle="modal"><i class="typcn typcn-plus"></i>Ajouter</button>
                 </div>
-
             </div>
-           
             <div class="d-flex justify-content-between mb-3">
-            
-                <p class="tx-15 text-muted mb-2">Liste de toutes les categories</p>
-                <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+                <div class="col-lg-12 mg-t-20 mg-lg-t-0">
                     <div class="input-group" data-placement="bottom" title="Rechercher categorie equipement" >
                         <input class="form-control" placeholder="Recherchez par nom ou localisation " type="text" [(ngModel)]="searchCategorie" (ngModelChange)="filterCategorie()"> <span class="input-group-btn"><button class="btn btn-light" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
                     </div>
                 </div>
             </div>
-            
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -35,11 +31,11 @@
                             <td>{{ categorie.intitule }}</td>
                             <td >
                                 <div class="btn-icon-list mx-5">
-                                    <button class="btn btn-warning btn-icon" data-placement="bottom" title="Modifier le nom une categorie" (click)="selectCategorie(categorie)" data-target="#editCategorie" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
-                                    <button class="btn btn-danger btn-icon" data-placement="bottom" title="Supprimer la categorie <<{{ categorie.intitule }}>> "(click)="selectCategorie(categorie)" data-target="#deleteCategorie" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
-                                    <button class="btn btn-primary btn-icon" data-placement="bottom" title="COnsulter les sous-categorie de <<{{ categorie.intitule }}>>"(click)="seeSubCategorie(categorie);searchSubCategorie=''"><i class="typcn typcn-flow-merge"></i></button>
+                                    <button class="btn btn-warning btn-icon" *ngIf="hasprivilege('update_categorie')" data-placement="bottom" title="Modifier le nom une categorie" (click)="selectCategorie(categorie)" data-target="#editCategorie" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
+                                    <button class="btn btn-danger btn-icon" *ngIf="hasprivilege('delete_categorie')" data-placement="bottom" title="Supprimer la categorie <<{{ categorie.intitule }}>> "(click)="selectCategorie(categorie)" data-target="#deleteCategorie" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
+                                    <button class="btn btn-primary btn-icon" *ngIf="hasprivilege('see_categorie')" data-placement="bottom" title="Gerer les sous-categorie de <<{{ categorie.intitule }}>>"(click)="seeSubCategorie(categorie);searchSubCategorie=''" style="width: 40%;"><i class="typcn typcn-flow-merge"></i>&nbsp;Sous categorie</button>
                                 </div>
-                                    
+
                             </td>
                         </tr>
                     </tbody>
@@ -49,28 +45,26 @@
         </div><!-- bd -->
     </div><!-- bd -->
 </div>
-<div class="col-xl-6">
+<div class="col-xl-12" *ngIf="selectedCategorie!=undefined">
     <div class="card">
         <div class="card-header pb-0 pd-t-25 ">
             <div class="d-flex justify-content-between mb-5">
                 <h4 class="card-title mg-t-5">SOUS CATEGORIES</h4>
-                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0" *ngIf="selectedCategorie!=undefined">
-                    <button class="btn btn-primary btn-with-icon btn-block" data-placement="bottom" title="Ajouter une sous-categorie d'equipement" data-target="#addSubCategorie" data-toggle="modal"><i class="typcn typcn-plus"></i>Ajouter</button>
+                <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-primary btn-with-icon btn-block" *ngIf="hasprivilege('add_categorie')" data-placement="bottom" title="Ajouter une sous-categorie d'equipement" data-target="#addSubCategorie" data-toggle="modal"><i class="typcn typcn-plus"></i>Ajouter</button>
                 </div>
 
             </div>
-           
+
             <div class="d-flex justify-content-between mb-3">
-            
-                <p class="tx-15 text-muted mb-2">Liste des sous categories </p>
-                <div class="col-lg-4 mg-t-20 mg-lg-t-0" *ngIf="selectedCategorie!=undefined">
+                <div class="col-lg-12 mg-t-20 mg-lg-t-0" *ngIf="selectedCategorie!=undefined">
                     <div class="input-group"data-placement="bottom" title="Rechercher une sous categorie d'equipement">
                         <input class="form-control" placeholder="Recherchez par nom ou localisation " type="text" [(ngModel)]="searchSubCategorie" (ngModelChange)="filterSubCategorie()"> <span class="input-group-btn"><button class="btn btn-light" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
                     </div>
                 </div>
-                
+
             </div>
-            
+
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -86,26 +80,11 @@
                             <td>{{ categorie.intitule }}</td>
                             <td >
                                 <div class="btn-icon-list mx-5">
-                                    <button class="btn btn-warning btn-icon" data-placement="bottom" title="Modifier le nom de la sous-categorie" (click)="selectCategorie(categorie)" data-target="#editCategorie" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
-                                    <button class="btn btn-danger btn-icon"  data-placement="bottom" title="Supprimer la sous categorie <<{{ categorie.intitule }}>> "(click)="selectCategorie(categorie)" data-target="#deleteCategorie" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
+                                    <button class="btn btn-warning btn-icon" *ngIf="hasprivilege('update_categorie')" data-placement="bottom" title="Modifier le nom de la sous-categorie" (click)="selectCategorie(categorie)" data-target="#editCategorie" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
+                                    <button class="btn btn-danger btn-icon"  *ngIf="hasprivilege('delete_categorie')" data-placement="bottom" title="Supprimer la sous categorie <<{{ categorie.intitule }}>> "(click)="selectCategorie(categorie)" data-target="#deleteCategorie" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
                                 </div>
                                     </td>
                         </tr>
-                        <!-- <tr *ngFor="let agence of agences">
-                            <th> <input type="checkbox" (click)="checkAgence(agence.id)"></th>
-                            <td>{{ agence.nom }}</td>
-                            <td>{{ agence.localisation | slice:0:20}} </td>
-                            <td>{{ agence.nbremploye }}</td>
-                            <td>{{ agence.nbrequipement }}</td>
-                            <td>{{ agence.created_at | date:"MMM d, y, h:mm:ss a" }}</td>
-                            <td style="align-items:center">
-                                <div class="btn-icon-list">
-                                    <button class="btn btn-warning btn-icon"><i class="typcn typcn-brush"></i></button>
-                                    <button class="btn btn-danger btn-icon"><i class="typcn typcn-trash"></i></button>
-                                    <button class="btn btn-primary btn-icon"><i class="typcn typcn-eye-outline"></i></button>
-                                </div>
-                            </td>
-                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -123,13 +102,13 @@
         <div class="modal-content tx-size-sm">
             <div class="modal-body tx-center pd-y-20 pd-x-20">
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                <h4 class="tx-danger mg-b-20">Attention : Suppression element </h4>
-                <p class="mg-b-20 mg-x-20">Voulez vous vraiment valider la suppression de la {{ selectedCategorie?.idparent==0 ? "Categorie" : "SousCategorie" }}  <span style="font-weight:bolder">{{ selectedCategorie?.intitule }} ?</span> </p>
+                <h4 class="tx-danger mg-b-20">Information</h4>
+                <p class="mg-b-20 mg-x-20">Voulez vous vraiment supprimer cet élément?</p>
                 <div style="display:flex;justify-content:space-between">
                     <button aria-label="Close" class="btn ripple btn-light pd-x-25" data-dismiss="modal" type="button">Annuler</button>
-                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="removeCategorie(selectedCategorie?.id!)" data-dismiss="modal" type="button">Continue</button>
+                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="removeCategorie(selectedCategorie?.id!)" data-dismiss="modal" type="button">Supprimer</button>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -140,7 +119,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title">Ajouter une nouvelle categorie</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">Ajouter une categorie</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <h6 style="font-weight:bolder;margin-top:10px">Intitule</h6>
@@ -150,7 +129,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn ripple btn-light" data-dismiss="modal" type="button">Annuler</button>
-                <button class="btn ripple btn-primary" data-dismiss="modal" type="button" (click)="addCategorie()">Valider</button>
+                <button class="btn ripple btn-primary" data-dismiss="modal" type="button" (click)="addCategorie()">Enregistrer</button>
             </div>
         </div>
     </div>
@@ -171,7 +150,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn ripple btn-light" data-dismiss="modal" type="button" >Annuler</button>
-                <button class="btn ripple btn-primary" data-dismiss="modal" type="button" (click)="addSubCategorie()">Valider</button>
+                <button class="btn ripple btn-primary" data-dismiss="modal" type="button" (click)="addSubCategorie()">Enregistrer</button>
             </div>
         </div>
     </div>
@@ -182,7 +161,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title">Modifier la {{ selectedCategorie?.idparent==0 ? "Categorie" : "SousCategorie" }}</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">Modifier la {{ selectedCategorie?.idparent==0 ? "Categorie" : "Sous categorie" }}</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <h6 style="font-weight:bolder;margin-top:10px">Intitule</h6>
@@ -192,7 +171,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn ripple btn-light" data-dismiss="modal" type="button" >Annuler</button>
-                <button class="btn ripple btn-primary" data-dismiss="modal" type="button" (click)="editCategorie()">Valider</button>
+                <button class="btn ripple btn-primary" data-dismiss="modal" type="button" (click)="editCategorie()">Enregistrer</button>
             </div>
         </div>
     </div>

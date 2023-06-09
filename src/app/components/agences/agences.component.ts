@@ -10,6 +10,7 @@ import { Iagence } from 'src/models/agence';
 import { IAgent } from 'src/models/agent';
 import { AgenceService } from 'src/services/agence.service';
 import { AgentsService } from 'src/services/agents.service';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-agences',
@@ -28,20 +29,19 @@ export class AgencesComponent implements OnInit{
   public new_agence :Iagence = {entreprise_id:this.entreprise_id};
   public searchAgence:string  = "";
   public agences : Iagence[] | undefined;
-  public agencesTemp: Iagence[] | undefined;
-  public user_connected :IAgent = {};
+  public agencesTemp: Iagence[] | undefined;tabloelt:any=[];
+  public user_connected :IAgent = {};titreelet='';aprendre = '';
   constructor(
     private agenceService : AgenceService,
-    private agentService:AgentsService,
     private possessionEqServ:PossessionEquipementService,
     private fournisseurService:FournisseurService,
     private equipementService:EquipementService,
-    private logServ:LogService
+    private logServ:LogService,public userServ:UserService
     )
   {}
 
   public ngOnInit(): void {
-    this.user_connected = JSON.parse(localStorage.getItem("entreprise")!).agent;
+    this.titreelet = '';this.aprendre = '';this.tabloelt = [];
     this.agenceService.getAgencesEntreprise(this.entreprise_id).subscribe((data)=>
     {
       this.agences = data;
@@ -73,26 +73,14 @@ export class AgencesComponent implements OnInit{
       return agence!.nom!.toLowerCase().includes(this.searchAgence.toLowerCase()) || agence!.localisation!.toLowerCase().includes(this.searchAgence.toLowerCase()) || this.searchAgence == ""
     })
   }
-  
+
 
   public createAgence()
   {
     this.agenceService.createAgence(this.new_agence).subscribe(
       (data)=>
       {
-        this.logServ.setLogs(
-          {
-            id_entreprise:this.entreprise_id,
-            date : this.logServ.formatDate(new Date()),
-            action : `Creation de l'agence ${this.new_agence.nom} `,
-            group : 'Agent',
-            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
-          }
-        ).subscribe((data)=>
-        {
-          this.ngOnInit();
-        })
-      
+        this.ngOnInit();
       }
     )
   }
@@ -101,18 +89,7 @@ export class AgencesComponent implements OnInit{
     this.agenceService.deleteAgence(this.selected_agence!.id!).subscribe(
       (data)=>
       {
-        this.logServ.setLogs(
-          {
-            id_entreprise:this.entreprise_id,
-            date : this.logServ.formatDate(new Date()),
-            action : `Suppression de l'agence ${this.selected_agence.nom} `,
-            group : 'Agent',
-            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
-          }
-        ).subscribe((data)=>
-        {
-          this.ngOnInit();
-        })
+        this.ngOnInit();
       }
     )
   }
@@ -121,20 +98,15 @@ export class AgencesComponent implements OnInit{
     this.agenceService.updateAgence(this.selected_agence!,this.selected_agence!.id!).subscribe(
       (data)=>
       {
-        this.logServ.setLogs(
-          {
-            id_entreprise:this.entreprise_id,
-            date : this.logServ.formatDate(new Date()),
-            action : `Modification de l'agence ${this.selected_agence.nom} `,
-            group : 'Agent',
-            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
-          }
-        ).subscribe((data)=>
-        {
-          this.ngOnInit();
-        })
+        this.ngOnInit();
       }
     )
+  }
+
+  getliste(tablo:any,element:any){
+    this.titreelet = (element == 'equipement' ? 'Equipement de l\'agence '+tablo.nom : 'Agent de l\'agence '+tablo.nom);
+    this.aprendre = element;
+    this.tabloelt = (element == 'equipement' ? tablo.equipements : tablo.agents);
   }
 
   public selectEquipement(equipement:Iequipement)
@@ -160,5 +132,11 @@ export class AgencesComponent implements OnInit{
       }
     )
   }
+
+  public hasprivilege(name:string)
+  {
+    return this.userServ.hasprivilege(name)
+  }
+
 
 }

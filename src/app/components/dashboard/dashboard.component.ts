@@ -32,6 +32,7 @@ ngOnInit(): void {
     {
       this.maintenances = data;
       this.maintenances.length = 10;
+      console.log(this.maintenances);
     })
     this.statisticServ.getStatistic().subscribe(
       (data)=>

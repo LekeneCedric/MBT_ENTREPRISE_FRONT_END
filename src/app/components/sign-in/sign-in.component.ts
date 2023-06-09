@@ -1,9 +1,9 @@
-import { Iauth } from './../../../models/authentication';
+import { IauthUser } from './../../../models/authentication';
 import { EventsService } from './../../../services/event-service.service';
-import { IEntreprise } from './../../../models/entreprise';
-import { EntrepriseService } from './../../../services/entreprise.service';
-import { EnvironmentService } from './../../../services/environment.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,26 +11,36 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit{
-  public login_data : Iauth = {};
+  public login_data : IauthUser = {};
   constructor(
-    private entrepriseServ:EntrepriseService,
-    private enventServ:EventsService
+    private userSvc:UserService,
+    private enventServ:EventsService,
+    public router:Router,
+    public toasrt:ToastrService
     ){}
   ngOnInit(): void {
-      
+
   }
   public signIn()
   {
-    this.entrepriseServ.loginEntreprise(this.login_data).subscribe((data)=>{
-      if(data.message==null)
-      {
-        console.log(data)
-        localStorage.setItem('entreprise',JSON.stringify(data));
-        this.enventServ.publish('is_login',true);
-      }
-      else{
-        console.log(data.message)
-      }
-    })
+    if (this.login_data.password && this.login_data.pseudo) {
+      this.userSvc.login(this.login_data).subscribe((data)=>{
+        if(data.message==null)
+        {
+          localStorage.setItem('users',JSON.stringify(data));
+          this.enventServ.publish('is_login',true);
+          this.router.navigate(['/list_entreprise']);
+        }
+        else{
+          this.toasrt.warning(data.message);
+        }
+      },
+      error => {
+        this.toasrt.error(error.error.message);
+      });
+    }
+    else{
+      this.toasrt.error("Veuillez tout remplir");
+    }
   }
 }

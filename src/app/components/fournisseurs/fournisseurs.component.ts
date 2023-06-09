@@ -1,6 +1,7 @@
 import { IFournisseur } from './../../../models/fournisseur';
 import { Component, OnInit } from '@angular/core';
 import { FournisseurService } from 'src/services/fournisseur.service';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-fournisseurs',
@@ -14,7 +15,7 @@ export class FournisseursComponent implements OnInit{
   public fournisseurs_list_temp : IFournisseur[] = [];
   public new_fournisseur : IFournisseur = {id_entreprise:this.entreprise_id};
   public selected_fournisseur : IFournisseur = {};
-  constructor(private fournisseurService:FournisseurService){}
+  constructor(private fournisseurService:FournisseurService,public userServ:UserService){}
   ngOnInit(): void {
     this.fournisseurs_list = [];
     this.fournisseurs_list_temp = [];
@@ -49,19 +50,34 @@ export class FournisseursComponent implements OnInit{
   }
   public addFournisseur()
   {
-    this.fournisseurService.createFournisseur(this.new_fournisseur).subscribe(
-      (data)=>{
-        this.ngOnInit();
-      }
-    )
+    if (this.new_fournisseur.nom && this.new_fournisseur.adresse && this.new_fournisseur.telephone && this.new_fournisseur.nom.length > 4) {
+      this.fournisseurService.createFournisseur(this.new_fournisseur).subscribe(
+        (data)=>{
+          this.ngOnInit();
+        }
+      )
+    }
+    else{
+      alert("Veuillez remplir tous les champs avec l'etoile.")
+    }
   }
   public updateFournisseur()
   {
-    this.fournisseurService.updateFournisseur(this.selected_fournisseur,this.selected_fournisseur.id!).subscribe(
-      (data)=>{
-        this.ngOnInit();
-      }
-    )
+    if (this.new_fournisseur.nom && this.new_fournisseur.adresse && this.new_fournisseur.telephone && this.new_fournisseur.nom.length > 4) {
+      this.fournisseurService.updateFournisseur(this.selected_fournisseur,this.selected_fournisseur.id!).subscribe(
+        (data)=>{
+          this.ngOnInit();
+        }
+      )
+    }
+    else{
+      alert("Veuillez remplir tous les champs avec l'etoile.")
+    }
+  }
+
+  public hasprivilege(name:string)
+  {
+    return this.userServ.hasprivilege(name)
   }
 
 }

@@ -13,6 +13,14 @@ import { Component, OnInit } from '@angular/core';
 import { MaintenanceService } from 'src/services/maintenance.service';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
+import { AgentsService } from 'src/services/agents.service';
+import { Ioperation } from 'src/models/operation';
+import { OperationService } from 'src/services/operation.service';
+import { Ioutillage } from 'src/models/outillage';
+import { OutillageService } from 'src/services/outillage.service';
+import { Ietat } from 'src/models/etat';
+import { EtatService } from 'src/services/etat.service';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-plan-maintenance',
@@ -32,6 +40,7 @@ export class PlanMaintenanceComponent implements OnInit{
   public global_equipement_list : Iequipement[] = [];
   private entreprise_id :number = JSON.parse(localStorage.getItem("entreprise")!).id;
   public plan_maintenance : Iplan_maintenance = {};
+  public maintenance : Imaintenance = {};
   public maintenances : Imaintenance[] = [];
   public maintenances_temp : Imaintenance[] = [];
   public maintenances_temp2 : Imaintenance[] = [];
@@ -41,7 +50,11 @@ export class PlanMaintenanceComponent implements OnInit{
   public selectedMaintenance : Imaintenance = {};
   public agencesList : Iagence[] = [];
   public possession_eq_list : string[] =[];
-  public equipements_salle_ : Iequipement[] = [];
+  public equipements_salle_ : Iequipement[] = [];public equipements_main_ : Iequipement[] = [];
+  public agent_ : IAgent[] = [];
+  public operation_ : Ioperation[] = [];
+  public outillage_ : Ioutillage[] = [];
+  public etat_ : Ietat[] = [];
   public selected_salle_id : number = 0;
   public selected_agent_id:number = 0;
   public selected_agence_id:number = 0;
@@ -49,10 +62,10 @@ export class PlanMaintenanceComponent implements OnInit{
   public title:string = `Plan_classement_${new Date().toISOString()}`;
   constructor(
     private maintenanceService:MaintenanceService,
-    private agenceService:AgenceService,
-    private possessionEqServ : PossessionEquipementService,
-    private salleService : SalleService,
-    private equipementServ : EquipementService
+    private agenceService:AgenceService,public etatServ:EtatService,
+    private possessionEqServ : PossessionEquipementService,public outillageServ:OutillageService,
+    private salleService : SalleService,public operationServ:OperationService,
+    private equipementServ : EquipementService,public agentServ:AgentsService,public userServ:UserService
     )
   {
 
@@ -61,19 +74,35 @@ export class PlanMaintenanceComponent implements OnInit{
       this.maintenanceService.getMainteneurs().subscribe((data)=>{
         this.agents_maintient = data;
         this.global_agent_list = data;
-      })
+      });
       this.maintenanceService.getMaintenanceByEntreprise(this.entreprise_id).subscribe((data)=>
       {
-        this.maintenances = data ; 
+        this.maintenances = data ;
         this.maintenances_temp = data;
         this.maintenances_temp2 = data;
-      })
+      });
       this.agenceService.getAgencesEntreprise(this.entreprise_id).subscribe((data)=>
       {
         this.agencesList = data;
         this.global_agence_list = data;
       });
-      
+      this.agentServ.getAgentsByEntreprise(this.entreprise_id).subscribe((data)=>
+      {
+        this.agent_ = data;
+      });
+      this.operationServ.getList().subscribe((data)=>
+      {
+        this.operation_ = data;
+      });
+      this.outillageServ.getList().subscribe((data)=>
+      {
+        this.outillage_ = data;
+      });
+      this.etatServ.getList().subscribe((data)=>
+      {
+        this.etat_ = data;
+      });
+
       this.possessionEqServ.listEquipementByEntreprise(this.entreprise_id).subscribe((data)=>
       {
         data.forEach((possession)=>
@@ -91,12 +120,15 @@ export class PlanMaintenanceComponent implements OnInit{
         this.global_salle_list = data;
         this.global_salle_list_temp = data;
       })
-      
-      
+
+
   }
   public selectMaintenance(maintenance:Imaintenance)
   {
     this.selectedMaintenance = maintenance;
+    this.maintenance = maintenance;
+    this.maintenance.id_salle = maintenance.possession?.id_salle;
+    this.filterSEquipementBySalle();
   }
   public filterByAgence()
   {
@@ -144,6 +176,18 @@ export class PlanMaintenanceComponent implements OnInit{
     this.selected_salle_id=0;
   }
 
+  public filterSEquipementBySalle()
+  {
+    this.equipements_main_ = [];
+    this.maintenance.id_equipement=0;
+    this.possessionEqServ.listLinkSEquipementsBySalle(this.maintenance.id_salle!).subscribe(
+      (data)=>
+      {
+        this.equipements_main_ = data;
+      }
+    )
+  }
+
   public filterEquipementBySalle()
   {
     this.equipements_salle_ = [];
@@ -155,7 +199,7 @@ export class PlanMaintenanceComponent implements OnInit{
       }
     )
   }
-  
+
   public filterBySalle()
   {
     this.maintenances = this.maintenances_temp;
@@ -167,13 +211,22 @@ export class PlanMaintenanceComponent implements OnInit{
   }
   // public filterMaintenance()
   // {
-    
+
   // }
   public changeStatut(maintenance:Imaintenance,statut:number)
   {
     this.maintenanceService.changeStatutMaintenance(maintenance.id!,statut).subscribe((data)=>
     {
       this.ngOnInit();
+    })
+  }
+  public selectoAgencePlan()
+  {
+    this.equipements_main_ = [];
+    this.global_salle_list = this.global_salle_list_temp;
+    this.global_salle_list = this.global_salle_list.filter((salle)=>
+    {
+      return salle.id_agence == this.maintenance.id_agence || this.maintenance.id_agence ==0 ;
     })
   }
   public selectAgencePlan()
@@ -200,9 +253,9 @@ export class PlanMaintenanceComponent implements OnInit{
       // if (obj[1].length>0)
       // {
 
-      
+
       let sheet = workbook.addWorksheet(`${obj[0].split('|')[0]}`);
-      
+
       sheet.mergeCells('A1','B3');
       sheet.mergeCells('C1','I3');
       sheet.mergeCells('J1','K1');
@@ -230,7 +283,7 @@ export class PlanMaintenanceComponent implements OnInit{
       for (let i of [1,2,3,4,5,6,7,8,9,10,11,12])
       {
         sheet.getColumn(i).width = 15;
-      }   
+      }
       let arr_1 = ['A','C','A','A','A','A'];
       let num_1 = ['1','1','4','6','7','8'];
       let val_1 = [`${JSON.parse(localStorage.getItem("entreprise")!).nom.toUpperCase()}`,
@@ -251,7 +304,7 @@ export class PlanMaintenanceComponent implements OnInit{
         elt.alignment = {vertical: 'middle' , horizontal:'center'};
       }
 
- 
+
       let arr = ['A','A','B','C','D','E','F','G','H','H','I','J','K','L']
       let num = ['12','10','10','10','10','10','10','10','10','11','11','10','10','10']
       let test = [`${obj[0].split('|')[0]}`.toUpperCase(),'Sous-ensembles','Element','Operation a effectuer',
@@ -301,9 +354,9 @@ export class PlanMaintenanceComponent implements OnInit{
        this.loadingPlanMaintenance=false;
       });
      },3000);
-    
-    
-     
+
+
+
     // const element = document.querySelector("#excel_table");
     // console.log(element)
     // const ws:xlsx.WorkSheet = xlsx.utils.table_to_sheet(element);
@@ -317,4 +370,55 @@ export class PlanMaintenanceComponent implements OnInit{
     this.loadingPlanMaintenance = false;
   },10000)
   }
+
+ public savemaintenance()
+ {
+   if (this.maintenance.id_agence && this.maintenance.id_agent && this.maintenance.id_salle && this.maintenance.id_equipement
+    && this.maintenance.outillage && this.maintenance.operation && this.maintenance.etat && this.maintenance.gamme_maintenance
+    && this.maintenance.charge) {
+      this.maintenance.charge = this.maintenance.charge+'';
+      this.maintenance.id_entreprise = this.entreprise_id;
+     this.maintenanceService.addMaintenance(this.maintenance).subscribe(
+       (data)=>
+       {
+         this.ngOnInit();
+       }
+     )
+   }
+   else{
+     alert("Veuillez remplir tous les champs avec l'etoile.")
+   }
+ }
+
+ public editmaintenance()
+ {
+   if (this.maintenance.id_agence && this.maintenance.id_agent && this.maintenance.id_salle && this.maintenance.id_equipement
+    && this.maintenance.outillage && this.maintenance.operation && this.maintenance.etat && this.maintenance.gamme_maintenance
+    && this.maintenance.charge) {
+      this.maintenance.charge = this.maintenance.charge+'';
+      this.maintenance.id_entreprise = this.entreprise_id;
+     this.maintenanceService.updateMaintenance(this.maintenance,this.maintenance.id!).subscribe(
+       (data)=>
+       {
+         this.ngOnInit();
+       }
+     )
+   }
+   else{
+     alert("Veuillez remplir tous les champs avec l'etoile.")
+   }
+ }
+
+ public hasprivilege(name:string)
+ {
+   return this.userServ.hasprivilege(name)
+ }
+
+ public delete(id:number)
+ {
+   this.maintenanceService.deleteMaintenance(id).subscribe((data)=>
+   {
+     this.ngOnInit();
+   });
+ }
 }

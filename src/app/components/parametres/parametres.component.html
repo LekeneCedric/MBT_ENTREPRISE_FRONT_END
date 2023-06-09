@@ -7,11 +7,11 @@
                     <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
                         <button data-placement="bottom" title="Ajouter une nouvelle operation" (click)="wantToAddOperation()" class="btn btn-primary btn-with-icon btn-block" data-target="#add" data-toggle="modal"><i class="typcn typcn-plus"></i></button>
                     </div>
-    
+
                 </div>
-               
+
                 <div class="d-flex justify-content-between mb-3">
-                
+
                     <p class="tx-15 text-muted mb-2">Liste des operations</p>
                     <div class="col-lg-4 mg-t-20 mg-lg-t-0">
                         <div class="input-group">
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -38,7 +38,7 @@
                                         <button data-placement="bottom" title="Modifier" class="btn btn-warning btn-icon" (click)="selectOperation(operation)" data-target="#edit" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
                                         <button data-placement="bottom" title="Supprimer" class="btn btn-danger btn-icon" (click)="selectOperation(operation)" data-target="#delete" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
                                     </div>
-                                        
+
                                 </td>
                             </tr>
                             <!-- <tr *ngFor="let agence of agences">
@@ -71,11 +71,11 @@
                     <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
                         <button (click)="wantToAddEtat()" class="btn btn-primary btn-with-icon btn-block" data-target="#add" data-toggle="modal"><i class="typcn typcn-plus"></i></button>
                     </div>
-    
+
                 </div>
-               
+
                 <div class="d-flex justify-content-between mb-3">
-                
+
                     <p class="tx-15 text-muted mb-2">definition des types d'etats d'equipements</p>
                     <div class="col-lg-4 mg-t-20 mg-lg-t-0">
                         <div class="input-group">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -102,7 +102,7 @@
                                         <button data-placement="bottom" title="Modifier" class="btn btn-warning btn-icon" (click)="selectEtat(etat)" data-target="#edit" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
                                         <button data-placement="bottom" title="Supprimer" class="btn btn-danger btn-icon" (click)="selectEtat(etat)" data-target="#delete" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
                                     </div>
-                                        
+
                                 </td>
                             </tr>
                             <!-- <tr *ngFor="let agence of agences">
@@ -135,11 +135,11 @@
                     <div (click)="wantToAddOutillage()" class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
                         <button class="btn btn-primary btn-with-icon btn-block" data-target="#add" data-toggle="modal"><i class="typcn typcn-plus"></i></button>
                     </div>
-    
+
                 </div>
-               
+
                 <div class="d-flex justify-content-between mb-3">
-                
+
                     <p class="tx-15 text-muted mb-2">Liste des outillages</p>
                     <div class="col-lg-4 mg-t-20 mg-lg-t-0">
                         <div class="input-group">
@@ -147,7 +147,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -166,7 +166,7 @@
                                         <button class="btn btn-warning btn-icon"data-placement="bottom" title="Modifier"  (click)="selectOutillage(outillage)" data-target="#edit" data-toggle="modal"><i class="typcn typcn-brush"></i></button>
                                         <button class="btn btn-danger btn-icon" data-placement="bottom" title="Supprimer" (click)="selectOutillage(outillage)" data-target="#delete" data-toggle="modal"><i class="typcn typcn-trash"></i></button>
                                     </div>
-                                        
+
                                 </td>
                             </tr>
                             <!-- <tr *ngFor="let agence of agences">
@@ -191,7 +191,7 @@
             </div><!-- bd -->
         </div><!-- bd -->
     </div>
-    
+
     </div>
     <!-- Delete operation  -->
 <div class="modal" id="delete">
@@ -203,9 +203,9 @@
                 <p class="mg-b-20 mg-x-20">Voulez vous vraiment valider la suppression  ?  <span style="font-weight:bolder">{{ selectedElement?.intitule }} ?</span> </p>
                 <div style="display:flex;justify-content:space-between">
                     <button aria-label="Close" class="btn ripple btn-light pd-x-25" data-dismiss="modal" type="button">Annuler</button>
-                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="delete(selectedElement?.id!)" data-dismiss="modal" type="button">Continue</button>
+                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="delete(selectedElement?.id!)" data-dismiss="modal" type="button">Supprimer</button>
                 </div>
-                
+
             </div>
         </div>
     </div>

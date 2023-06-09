@@ -11,7 +11,7 @@
             data-target="#addEquipement"
             data-toggle="modal"
             data-placement="bottom" title="Ajouter un nouvel equipement"
-            (click)="cleanNew()"
+            (click)="cleanNew()" *ngIf="hasprivilege('add_equipement')"
           >
             <i class="typcn typcn-plus"></i>
           </button>
@@ -19,7 +19,7 @@
       </div>
 
       <div class="d-flex justify-content-between mb-3">
-        <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+        <div class="col-lg-6 mg-t-20 mg-lg-t-0">
           <select
             class="form-select"
             aria-label="Default select example"
@@ -36,7 +36,7 @@
             </option>
           </select>
         </div>
-        <div class="col-lg-4 mg-t-20 mg-lg-t-0">
+        <div class="col-lg-6 mg-t-20 mg-lg-t-0">
           <div class="input-group" data-placement="bottom" title="Rechercher equipement ">
             <input
               class="form-control"
@@ -60,17 +60,11 @@
         <table class="table table-striped table-bordered text-nowrap">
           <thead style="text-align: center">
             <tr>
-              <!-- <th class="wd-5p border-bottom-0"> # </th> -->
               <th class="wd-15p border-bottom-0">Nom</th>
               <th class="wd-15p border-bottom-0">Equipement parent</th>
               <th class="wd-15p border-bottom-0">Categorie</th>
-              <!-- <th class="wd-15p border-bottom-0">Operation</th>
-                            <th class="wd-10p border-bottom-0">charge</th> -->
               <th class="wd-15p border-bottom-0">Periodicite Verif</th>
-              <!-- <th class="wd-15p border-bottom-0">Outillage</th>
-                            <th class="wd-15p border-bottom-0">condi_syste</th> -->
               <th class="wd-15p border-bottom-0">designation</th>
-              <!-- <th class="wd-5p border-bottom-0">gamme_maintenance</th> -->
               <th class="wd-15p border-bottom-0">specialiste</th>
               <th class="wd-15p border-bottom-0">Actions</th>
             </tr>
@@ -82,32 +76,27 @@
                 {{
                   equipement.parent?.element != null
                     ? equipement.parent?.element
-                    : "Aucun"
+                    : ""
                 }}
               </td>
               <td>{{ equipement.categorie?.intitule }}</td>
-              <!-- <td>{{ equipement.operation }}</td>
-                            <td>{{ equipement.chargePrevue }}</td> -->
               <td>{{ equipement.periodicite }}</td>
-              <!-- <td>{{ equipement.outillage }}</td>
-                            <td>{{ equipement.condi_syste }}</td> -->
               <td>{{ equipement.designation }}</td>
-              <!-- <td>{{ equipement.gamme_maintenance }}</td> -->
               <td>{{ equipement.specialite }}</td>
               <td>
                 <div class="btn-icon-list mx-5">
                   <button
                     class="btn btn-warning btn-icon"
                     (click)="selectEdit(equipement)"
-                    data-target="#addEquipement"
+                    data-target="#addEquipement" *ngIf="hasprivilege('update_equipement')"
                     data-toggle="modal"
-                    data-placement="bottom" title="Modifier l'equipement {{ equipement.element }}"    
+                    data-placement="bottom" title="Modifier l'equipement {{ equipement.element }}"
                   >
                     <i class="typcn typcn-brush"></i>
                   </button>
                   <button
                     class="btn btn-danger btn-icon"
-                    (click)="select(equipement)"
+                    (click)="select(equipement)" *ngIf="hasprivilege('delete_equipement')"
                     data-target="#deleteEquipement"
                     data-toggle="modal"
                     data-placement="bottom" title="Supprimer l'equipement {{ equipement.element }}"
@@ -163,15 +152,8 @@
         <i
           class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"
         ></i>
-        <h4 class="tx-danger mg-b-20">
-          Attention : Suppression de l'equipement
-        </h4>
-        <p class="mg-b-20 mg-x-20">
-          Voulez vous vraiment valider la suppression de l'equipement :
-          <span style="font-weight: bolder"
-            >{{ selectEquipement?.element }} ?</span
-          >
-        </p>
+        <h4 class="tx-danger mg-b-20">Information</h4>
+        <p class="mg-b-20 mg-x-20">Voulez vous vraiment supprimer cet élément?</p>
         <div style="display: flex; justify-content: space-between">
           <button
             aria-label="Close"
@@ -188,7 +170,7 @@
             data-dismiss="modal"
             type="button"
           >
-            Continue
+            Supprimer
           </button>
         </div>
       </div>
@@ -200,8 +182,11 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
-        <h6 class="modal-title" style="font-weight: bolder">
-          Ajouter un nouvel equipement
+        <h6 class="modal-title" style="font-weight: bolder" *ngIf="createEq">
+          Ajouter un equipement
+        </h6>
+        <h6 class="modal-title" style="font-weight: bolder" *ngIf="updateEq">
+          Modifier un equipement
         </h6>
         <button
           aria-label="Close"
@@ -213,115 +198,75 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="col-lg">
-          <label for="parent" class="form-label"
-            >Equipement parent<span style="color: red">*</span></label
-          >
-          <select
-            class="form-select"
-            id="categorie"
-            [(ngModel)]="new_equipement.id_parent"
-            (change)="selectWithId($event)"
-          >
-            <option value="0">aucun</option>
-            <option
-              *ngFor="let equipement of equipements_parents_list"
-              value="{{ equipement.id }}"
-            >
-              {{ equipement.element }}
-            </option>
-          </select>
-        </div>
-        <div class="col-lg">
-          <label for="nom" class="form-label"
-            >Nom<span style="color: red">*</span></label
-          >
-          <input
-            id="nom"
-            class="form-control"
-            placeholder="Nom de l'equipement"
-            type="text"
-            [(ngModel)]="new_equipement.element"
-          />
-        </div>
-        <div class="col-lg mt-3" *ngIf="new_equipement.id_parent == null">
-          <label for="categorie" class="form-label"
-            >Categorie<span style="color: red">*</span></label
-          >
-          <select
-            class="form-select"
-            id="categorie"
-            [(ngModel)]="new_equipement.idcategorie"
-          >
-            <option>Choisir la categorie</option>
-            <option
-              *ngFor="let categorie of categories_list"
-              style="color:{{ categorie.idparent == 0 ? 'red' : 'black' }}"
-              value="{{ categorie.id }}"
-            >
-              {{ categorie.intitule }}
-            </option>
-          </select>
-        </div>
-
-        <div class="col-lg mt-3">
-          <label for="categorie" class="form-label"
-            >Periodicite d'entretien<span style="color: red">*</span>
-            (chaque)</label
-          >
-          <div class="row row-sm mg-b-20">
-            <div class="col-lg-4">
-              <input
-                id="nom"
-                class="form-control"
-                placeholder="Nombre jours"
-                type="text"
-                [(ngModel)]="new_eq_p_day"
-              />
-            </div>
-            <!-- col-4 -->
-            <div class="col-lg-4">
-              <select class="form-select" [(ngModel)]="new_eq_p_periodicite">
-                <option value="day">Jours</option>
-                <option value="month">Mois</option>
-                <option value="year">Ans</option>
-              </select>
-            </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <label for="parent" class="form-label" >Equipement parent<span style="color: red">*</span></label >
+            <select class="form-select"  id="categorie" [(ngModel)]="new_equipement.id_parent" (change)="selectWithId($event)" >
+              <option value="0">aucun</option>
+              <option  *ngFor="let equipement of equipements_parents_list" value="{{ equipement.id }}">
+                {{ equipement.element }}
+              </option>
+            </select>
           </div>
-        </div>
-          <div class="col-lg mt-3" *ngIf="new_equipement.id_parent == null">
+          <div class="col-lg-6">
+            <label for="nom" class="form-label"
+              >Nom<span style="color: red">*</span></label
+            >
+            <input
+              id="nom"
+              class="form-control"
+              placeholder="Nom de l'equipement"
+              type="text"
+              [(ngModel)]="new_equipement.element"
+            />
+          </div>
+          <div class="col-lg-6 mt-3">
             <label for="categorie" class="form-label"
-              >Applique la periodicite a tous les equipements enfants ?
-              <span style="color: red">*</span></label>
-            <div class="row mg-t-10">
-              <div class="col-lg-3 mg-t-20 mg-lg-t-0">
-                <label class="rdiobox"
-                  ><input
-                    (change)="check()"
-                    name="rdio"
-                    type="radio"
-                    value="true"
-                    [(ngModel)]="new_equipement.period_is_for_child"
-                  />
-                  <span>Oui</span></label
-                >
+              >Categorie<span style="color: red">*</span></label
+            >
+            <select
+              class="form-select"
+              id="categorie"
+              [(ngModel)]="new_equipement.idcategorie"
+            >
+              <option>Choisir la categorie</option>
+              <option
+                *ngFor="let categorie of categories_list"
+                [style]="'color:'+(categorie.idparent == 0 ? 'red' : 'black')"
+                value="{{ categorie.id }}"
+              >
+                {{ categorie.intitule }}
+              </option>
+            </select>
+          </div>
+          <div class="col-lg-6 mt-3">
+            <label for="categorie" class="form-label"
+              >Periodicite d'entretien<span style="color: red">*</span>
+              (chaque)</label
+            >
+            <div class="row row-sm mg-b-20">
+              <div class="col-lg-6">
+                <input
+                  id="nom"
+                  class="form-control"
+                  placeholder="Nombre jours"
+                  type="text"
+                  [(ngModel)]="new_eq_p_day"
+                />
               </div>
-              <div class="col-lg-3 mg-t-20 mg-lg-t-0">
-                <label class="rdiobox"
-                  ><input
-                  (change)="check()"
-                    name="rdio"
-                    type="radio"
-                    value="false"
-                    [(ngModel)]="new_equipement.period_is_for_child"
-                  />
-                  <span>Non</span></label
-                >
+              <!-- col-4 -->
+              <div class="col-lg-6">
+                <select class="form-select" [(ngModel)]="new_eq_p_periodicite">
+                  <option value="day">Jours</option>
+                  <option value="month">Mois</option>
+                  <option value="year">Ans</option>
+                </select>
               </div>
             </div>
           </div>
-
-          <div class="col-lg mt-3">
+        </div>
+        <div class="row">
+          <div class="col-lg-6 mt-3">
             <label for="designation" class="form-label">Designation</label>
             <input
               id="designation"
@@ -331,29 +276,16 @@
               [(ngModel)]="new_equipement.designation"
             />
           </div>
-          <!-- <div class="col-lg mt-3">
-                    <label for="gamme_maintenance" class="form-label">Gamme de maintenance</label>
-                    <p style="color:rgb(142, 142, 142)">Lors de la maintenance , la gamme de maintenance doit etre conditionel(cond) ou systematique(sys)</p>
-                    <select class="form-select"  id="gamme_maintenance" [(ngModel)]="new_equipement.gamme_maintenance" >
-                        <option value="cond">
-                                conditionnel
-                        </option>
-                        <option value="sys">
-                                systematique
-                        </option>
-                           
-                    </select>
-                </div> -->
-          <div class="col-lg mt-3">
+          <div class="col-lg-6 mt-3">
             <label for="specialite" class="form-label"
               >specialiste charge de la maintenance<span style="color: red"
                 >*</span
               ></label
             >
-            <p style="color: rgb(142, 142, 142)">
+            <!-- <p style="color: rgb(142, 142, 142)">
               Lors de la maintenance quel type de maintenancier prendra en
               charge l'equipement
-            </p>
+            </p> -->
             <select
               class="form-select"
               id="specialite"
@@ -373,21 +305,58 @@
               <option value="architecte">Architecte</option>
             </select>
           </div>
-          <div class="col-lg">
-            <label for="description" class="form-label">description</label>
-            <textarea
-              id="description"
-              class="form-control"
-              placeholder="description de l'equipement"
-              rows="5"
-              [(ngModel)]="new_equipement.description"
-            ></textarea>
+        </div>
+        <div class="col-lg mt-3">
+          <label for="categorie" class="form-label"
+            >Applique la periodicite a tous les equipements enfants ?
+            <span style="color: red">*</span></label>
+          <div class="row mg-t-10">
+            <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+              <label class="rdiobox"
+                ><input
+                  (change)="check()"
+                  name="rdio"
+                  type="radio"
+                  value="true"
+                  [(ngModel)]="new_equipement.period_is_for_child"
+                />
+                <span>Oui</span></label
+              >
+            </div>
+            <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+              <label class="rdiobox"
+                ><input
+                (change)="check()"
+                  name="rdio"
+                  type="radio"
+                  value="false"
+                  [(ngModel)]="new_equipement.period_is_for_child"
+                />
+                <span>Non</span></label
+              >
+            </div>
           </div>
         </div>
+        <div class="col-lg mt-3">
+          <label for="categorie" class="form-label"
+            >Joindre des images</label>
+            <input type="file" multiple name="media[]" [(ngModel)]="media" class="form-control" accept="image/*" (change)="getfichiers($event)"/>
+        </div>
+        <div class="col-lg">
+          <label for="description" class="form-label">description</label>
+          <textarea
+            id="description"
+            class="form-control"
+            placeholder="description de l'equipement"
+            rows="5"
+            [(ngModel)]="new_equipement.description"
+          ></textarea>
+        </div>
+      </div>
 
         <div class="modal-footer">
           <button
-            *ngIf="form_is_valid && updateEq"
+            *ngIf="updateEq"
             class="btn ripple btn-warning"
             (click)="editEquipement()"
             data-dismiss="modal"
@@ -396,20 +365,20 @@
             Modifier
           </button>
           <button
-            *ngIf="form_is_valid && createEq"
+            *ngIf="createEq"
             class="btn ripple btn-primary"
             (click)="addEquipement()"
             data-dismiss="modal"
             type="button"
           >
-            Ajouter
+            Enregistrer
           </button>
           <button
             class="btn ripple btn-secondary"
             data-dismiss="modal"
             type="button"
           >
-            Sortir
+            Annuler
           </button>
         </div>
       </div>
@@ -418,7 +387,7 @@
 
   <!-- Detail Equipement -->
   <div class="modal" id="detailEquipement">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 900px;" role="document">
       <div class="modal-content tx-size-sm">
         <div class="modal-body tx-center pd-y-20 pd-x-20">
           <!-- <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-primary lh-1 mg-t-20 d-inline-block"></i> -->
@@ -428,17 +397,43 @@
               selectEquipement?.element
             }}</span>
           </h4>
+          <p class="mg-b-20 mg-x-20" style="text-align: left" *ngIf="selectEquipement?.parent?.element">
+            Equipement parent : <b>{{selectEquipement?.parent?.element != null ? selectEquipement?.parent?.element : ""}}</b>
+          </p>
+          <p class="mg-b-20 mg-x-20" style="text-align: left">
+            Catégorie : <b>{{selectEquipement?.categorie?.intitule}}</b>
+          </p>
+          <p class="mg-b-20 mg-x-20" style="text-align: left">
+            Designation : <b>{{selectEquipement?.designation}}</b>
+          </p>
+          <p class="mg-b-20 mg-x-20" style="text-align: left">
+            specialiste : <b>{{selectEquipement?.specialite}}</b>
+          </p>
+          <p class="mg-b-20 mg-x-20" style="text-align: left" *ngIf="selectEquipement?.description">
+            <b>Description</b>
+          </p>
           <p class="mg-b-20 mg-x-20" style="text-align: left">
             {{ selectEquipement?.description }}
           </p>
-          <div style="display: flex; justify-content: space-between">
+          <p class="mg-b-20 mg-x-20" style="text-align: left" *ngIf="selectEquipement?.media">
+            <b>Media</b>
+          </p>
+          <div class="row">
+            <div class="col-lg-4" *ngFor="let item of selectEquipement?.media">
+              <div style="height: 300px; display: flex; justify-content: center; align-items: center;">
+                <img [src]="lienimg+'equipement/'+item?.media" style="max-width:100%;max-height: 300px;"/>
+              </div>
+              <button class="btn btn-danger" style="margin-top: 6px;" (click)="supprimerelt(item?.id,selectEquipement?.id)">Supprimer</button>
+            </div>
+          </div>
+          <div style="display: flex;justify-content: flex-end;align-items: center;margin-top:20px">
             <button
               aria-label="Close"
-              class="btn ripple btn-danger pd-x-25"
+              class="btn ripple btn-primary pd-x-25"
               data-dismiss="modal"
               type="button"
             >
-              Sortir
+              Fermer
             </button>
           </div>
         </div>

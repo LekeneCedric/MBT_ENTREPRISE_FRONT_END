@@ -2,6 +2,7 @@ import { ICategorie } from 'src/models/categorie';
 import { CategorieService } from './../../../services/categorie.service';
 import { Component, OnInit } from '@angular/core';
 import { LogService } from 'src/services/log.service';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-categorie-equipement',
@@ -20,7 +21,7 @@ export class CategorieEquipementComponent implements OnInit {
   public selectedCategorie: ICategorie | undefined;
   constructor(
     private logServ:LogService,
-    private categorieService: CategorieService) {
+    private categorieService: CategorieService,public userServ:UserService) {
 
   }
   ngOnInit(): void {
@@ -47,7 +48,7 @@ export class CategorieEquipementComponent implements OnInit {
       return cat.intitule.toLowerCase().includes(this.searchSubCategorie.toLowerCase()) || this.searchSubCategorie == "";
     })
   }
-  public filterCategorie() 
+  public filterCategorie()
   {
     this.categories = this.categoriesTemp.filter((cat)=>
     {
@@ -87,7 +88,7 @@ export class CategorieEquipementComponent implements OnInit {
   }
   public addCategorie()
   {
-    const dataC :ICategorie = 
+    const dataC :ICategorie =
     {
       idparent:0,
       intitule:this.selectedIntitule
@@ -95,6 +96,8 @@ export class CategorieEquipementComponent implements OnInit {
     this.categorieService.addCategorie(dataC).subscribe(
       (data)=>
       {
+        this.selectedIntitule = ""
+        this.ngOnInit();
         this.logServ.setLogs(
           {
             id_entreprise:this.entreprise_id,
@@ -112,7 +115,7 @@ export class CategorieEquipementComponent implements OnInit {
   }
   public addSubCategorie()
   {
-    const dataC : ICategorie = 
+    const dataC : ICategorie =
     {
       idparent:this.selectedCategorie?.id!,
       intitule:this.selectedIntitule
@@ -120,6 +123,8 @@ export class CategorieEquipementComponent implements OnInit {
     this.categorieService.addCategorie(dataC).subscribe(
       (data)=>
       {
+        this.selectedIntitule = ""
+        this.ngOnInit();
         this.logServ.setLogs(
           {
             id_entreprise:this.entreprise_id,
@@ -137,7 +142,7 @@ export class CategorieEquipementComponent implements OnInit {
   }
   public editCategorie()
   {
-    const dataC : ICategorie = 
+    const dataC : ICategorie =
       {
         idparent:this.selectedCategorie?.idparent!,
         intitule:this.selectedIntitule
@@ -145,6 +150,8 @@ export class CategorieEquipementComponent implements OnInit {
     this.categorieService.editCategorie(dataC,this.selectedCategorie?.id!).subscribe(
     (data)=>
     {
+      this.selectedIntitule = ""
+      this.ngOnInit();
       this.logServ.setLogs(
         {
           id_entreprise:this.entreprise_id,
@@ -159,6 +166,11 @@ export class CategorieEquipementComponent implements OnInit {
       })
     }
     )
+  }
+
+  public hasprivilege(name:string)
+  {
+    return this.userServ.hasprivilege(name)
   }
 
 }

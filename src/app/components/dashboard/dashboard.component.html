@@ -62,7 +62,7 @@
                 </div>
             </div>
         </div>
-     
+
     </div>
     <div class="col-lg-4" style="height: 23rem;">
         <div class="card" style="height:100%;overflow-y:scroll">
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <p class="tx-gray-800 mg-b-0 mg-t-20"> {{ periodeStr }}</p>
                 <div class="d-flex mg-t-20" *ngFor="let log of logs">
                     <div class="feature mt-0 mb-0 mg-r-10">
@@ -139,16 +139,16 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let maintenance of maintenances">
-                                <td>{{ maintenance.equipement?.element}}</td>
-                                <td>{{ maintenance.equipement?.designation }}</td>
-                                
-                                <td>{{ maintenance.possession?.agence?.nom }}</td>
-                                <td>{{ maintenance.operation }}</td>
-                                <td>{{ maintenance.charge }}</td>
-                                <td>{{ maintenance.equipement?.periodicite }}</td>
-                                <td>{{ maintenance.etat }}</td>
-                                <td>{{ maintenance.agent?.nom }}</td>
-                                <td>{{ maintenance.created_at | date:" d MMM y hh:mm:ss" }}</td>
+                                <td>{{maintenance?.equipement?.element}}</td>
+                                <td>{{maintenance?.equipement?.designation}}</td>
+
+                                <td>{{maintenance?.possession?.agence?.nom}}</td>
+                                <td>{{ maintenance?.operation }}</td>
+                                <td>{{ maintenance?.charge }}</td>
+                                <td>{{ maintenance?.equipement?.periodicite }}</td>
+                                <td>{{ maintenance?.etat }}</td>
+                                <td>{{ maintenance?.agent?.nom }}</td>
+                                <td>{{ maintenance?.created_at | date:" d MMM y hh:mm:ss" }}</td>
                                 <!-- <td>{{ maintenance.outillage }}
                                 <td>{{ maintenance.condi_syste }}</td>
                                 <td>{{ maintenance.equipement?.designation }}</td>

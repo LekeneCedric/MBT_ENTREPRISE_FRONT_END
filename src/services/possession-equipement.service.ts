@@ -27,6 +27,10 @@ export class PossessionEquipementService {
   {
     return this.http.post<Iequipement[]>(`${this.environement.api}/possessionEquipement/listEquipementBySalle`,{id_salle:id_salle},{headers:this.environement.httpHeader});
   }
+  public listLinkSEquipementsBySalle(id_salle:number):Observable<Iequipement[]>
+  {
+    return this.http.post<Iequipement[]>(`${this.environement.api}/possessionEquipement/listSEquipementBySalle`,{id_salle:id_salle},{headers:this.environement.httpHeader});
+  }
   public listEquipementByAgence(id_agence:number):Observable<IPossessionEquipement[]>
   {
     return this.http.get<IPossessionEquipement[]>(`${this.environement.api}/equipement/agence/${id_agence}`,{headers:this.environement.httpHeader});

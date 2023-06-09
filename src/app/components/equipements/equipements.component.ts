@@ -4,6 +4,9 @@ import { ICategorie } from 'src/models/categorie';
 import { EquipementService } from './../../../services/equipement.service';
 import { Iequipement } from './../../../models/equipement';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/services/user.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EnvironmentService } from 'src/services/environment.service';
 
 @Component({
   selector: 'app-equipements',
@@ -21,19 +24,24 @@ export class EquipementsComponent implements OnInit{
   public categories_list : ICategorie [] = [];
   public selectEquipement : Iequipement|undefined;
   public selectedCategorie : string = ""
-  public new_eq_p_day:string = "1";
+  public new_eq_p_day:string = "1";tabloimagefile:any = [];
   public new_eq_p_periodicite:string = "day"
-  // Values for equipement Form 
-  public new_equipement:Iequipement = {};
-  constructor(private equipementService:EquipementService,private CategorieService:CategorieService,private router:Router){}
-  ngOnInit(): void 
+  lienimg = '';
+  // Values for equipement Form
+  public new_equipement:Iequipement = {};media='';
+  constructor(private equipementService:EquipementService,private CategorieService:CategorieService,private router:Router,
+    public userServ:UserService,private environnement:EnvironmentService,public http:HttpClient){}
+  ngOnInit(): void
   {
     this.new_equipement.id_parent = 0;
+    this.new_equipement.period_is_for_child = 'true';
+    this.tabloimagefile = new Array();
+    this.lienimg = this.environnement.apiimg;this.media='';
       this.equipementService.getAllEquipments(this.entreprise_id).subscribe(
         (data)=>
         {
           this.equipements_list = data;
-          this.equipements_list_temp = data ; 
+          this.equipements_list_temp = data ;
           this.equipements_parents_list = data.filter((equip)=>{
             return equip.id_parent==0;
           })
@@ -42,7 +50,7 @@ export class EquipementsComponent implements OnInit{
       this.CategorieService.getCategories().subscribe(
         (data)=>
         {
-          this.categories_list = data ; 
+          this.categories_list = data ;
         }
       )
   }
@@ -61,7 +69,7 @@ export class EquipementsComponent implements OnInit{
   {
     this.equipements_list = this.equipements_list_temp;
     this.equipements_list = this.equipements_list.filter((cat)=>{
-      return cat.categorie?.intitule == this.selectedCategorie || this.selectedCategorie=="" 
+      return cat.categorie?.intitule == this.selectedCategorie || this.selectedCategorie==""
     })
   }
   public filterEquipement()
@@ -105,20 +113,44 @@ export class EquipementsComponent implements OnInit{
   public addEquipement()
   {
     // this.new_equipement.id_parent = 0;
-    this.new_equipement.id_entreprise = this.entreprise_id;
-    this.new_equipement.periodicite = `${this.new_eq_p_day} ${this.new_eq_p_periodicite}`
-    if(this.new_equipement.id_parent == null || this.new_equipement.id_parent == undefined)
-    {
-      this.new_equipement.id_parent = 0;
-    }
-    this.equipementService.createEquipement(this.new_equipement).subscribe(
-      (data)=>
+    if (this.form_is_valid) {
+      this.new_equipement.id_entreprise = this.entreprise_id;
+      this.new_equipement.periodicite = `${this.new_eq_p_day} ${this.new_eq_p_periodicite}`
+      if(this.new_equipement.id_parent == null || this.new_equipement.id_parent == undefined)
       {
-        // console.log(data);
-        this.ngOnInit();
+        this.new_equipement.id_parent = 0;
       }
-    )
-    
+      this.equipementService.createEquipement(this.new_equipement).subscribe(
+        (data:any)=>
+        {
+          var index = 0;
+          if (this.tabloimagefile.length == 0) {
+            this.ngOnInit();
+          }
+          else{
+            const httpOptions = {
+              headers: new HttpHeaders({
+               "Content-Type": "multipart/form-data" // 👈
+              })
+            };
+            this.tabloimagefile.forEach((element:any) => {
+              let postData1 = new FormData;
+              postData1.append('media',element);
+
+              this.http.post<any>(this.environnement.api+'/addmedia/'+data.equipement.id+'/equipement', postData1).subscribe(data => {
+                index ++;
+                if (index == this.tabloimagefile.length) {
+                  this.ngOnInit();
+                }
+              });
+            });
+          }
+        }
+      )
+    }
+    else{
+      alert("Veuillez remplir tous les champs avec l'etoile.")
+    }
   }
   public removeEquipement()
   {
@@ -131,12 +163,56 @@ export class EquipementsComponent implements OnInit{
   }
   public editEquipement()
   {
-    this.new_equipement.periodicite = `${this.new_eq_p_day} ${this.new_eq_p_periodicite}`
-    this.equipementService.editEquipement(this.new_equipement,this.new_equipement?.id!).subscribe(
-      (data)=>
-      {
-        this.ngOnInit();
-      }
-    )
+    if (this.form_is_valid) {
+      this.new_equipement.periodicite = `${this.new_eq_p_day} ${this.new_eq_p_periodicite}`
+      this.equipementService.editEquipement(this.new_equipement,this.new_equipement?.id!).subscribe(
+        (data:any)=>
+        {
+          var index = 0;
+          if (this.tabloimagefile.length == 0) {
+            this.ngOnInit();
+          }
+          else{
+            const httpOptions = {
+              headers: new HttpHeaders({
+               "Content-Type": "multipart/form-data" // 👈
+              })
+            };
+            this.tabloimagefile.forEach((element:any) => {
+              let postData1 = new FormData;
+              postData1.append('media',element);
+
+              this.http.post<any>(this.environnement.api+'/addmedia/'+data.id+'/equipement', postData1).subscribe(data => {
+                index ++;
+                if (index == this.tabloimagefile.length) {
+                  this.ngOnInit();
+                }
+              });
+            });
+          }
+        }
+      )
+    }
+    else{
+      alert("Veuillez remplir tous les champs avec l'etoile.")
+    }
+  }
+
+  public hasprivilege(name:string)
+  {
+    return this.userServ.hasprivilege(name)
+  }
+  getfichiers(event:any){
+    this.tabloimagefile = [];
+    for (let index = 0; index < 4; index++) {
+      this.tabloimagefile.push(event.target.files[index]);
+    }
+    this.new_equipement.media = this.tabloimagefile;
+  }
+
+  supprimerelt(id:any,idequip:any){
+    this.http.delete<any>(this.environnement.api+'/deletemedia/'+id+'/'+idequip).subscribe(data => {
+      this.selectEquipement = data;
+    });
   }
 }

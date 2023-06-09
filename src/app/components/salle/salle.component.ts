@@ -12,6 +12,7 @@ import { Iagence } from './../../../models/agence';
 import { Isalle } from './../../../models/salle';
 import { SalleService } from './../../../services/salle.service';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-salle',
@@ -40,7 +41,7 @@ export class SalleComponent implements OnInit{
     private agentServ:AgentsService,
     private equipementService:EquipementService,
     private fournisseurService:FournisseurService,
-    private possessionEqServ:PossessionEquipementService){}
+    private possessionEqServ:PossessionEquipementService,public userServ:UserService){}
   ngOnInit(): void {
       this.salleServ.getSallesByEntreprise(this.id_entreprise!).subscribe((data)=>
       {
@@ -51,7 +52,7 @@ export class SalleComponent implements OnInit{
       {
         this.agences_list = data;
       })
-     
+
       this.equipementService.getAllEquipments(this.id_entreprise).subscribe((data)=>
     {
       this.equipements_list = data.filter((eq)=>{
@@ -62,7 +63,7 @@ export class SalleComponent implements OnInit{
     {
       this.fournisseurs_list = data;
     });
-    
+
   }
   public selectSalle(salle:Isalle)
   {
@@ -70,7 +71,7 @@ export class SalleComponent implements OnInit{
   }
   public filterSalle()
   {
-    //filtre la liste des salles par le nom entree dans la barre de recherche 
+    //filtre la liste des salles par le nom entree dans la barre de recherche
     this.salles_list = this.salles_temp;
     this.salles_list = this.salles_list.filter((salle)=>{
       return salle.nom?.toLocaleLowerCase().includes(this.searchSalle.toLowerCase()) || this.searchSalle == "";
@@ -82,45 +83,58 @@ export class SalleComponent implements OnInit{
   }
   public createSalle()
   {
-    this.new_salle.id_entreprise = JSON.parse(localStorage.getItem("entreprise")!).id;
-    this.salleServ.storeSalle(this.new_salle).subscribe((data)=>
-    {
-       this.logServ.setLogs(
+    if (this.new_salle.nom && this.new_salle.tel && this.new_salle.indication && this.new_salle.id_agence && this.new_salle.nom .length > 4) {
+      this.new_salle.id_entreprise = JSON.parse(localStorage.getItem("entreprise")!).id;
+      this.salleServ.storeSalle(this.new_salle).subscribe((data)=>
+      {
+        this.ngOnInit();
+        this.logServ.setLogs(
+            {
+              id_entreprise:this.logServ.entreprise_id,
+              date : this.logServ.formatDate(new Date()),
+              action : `Creation de la salle ${this.new_salle.nom} `,
+              group : 'Agent',
+              user  : `${JSON.parse(localStorage.getItem("users")!).user.nom}`
+            }
+          ).subscribe((data)=>
           {
-            id_entreprise:this.logServ.entreprise_id,
-            date : this.logServ.formatDate(new Date()),
-            action : `Creation de la salle ${this.new_salle.nom} `,
-            group : 'Agent',
-            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
-          }
-        ).subscribe((data)=>
-        {
-          this.ngOnInit();
-        })
-    })
+            this.ngOnInit();
+          })
+      });
+    }
+    else{
+      alert("Veuillez remplir tous les champs avec l'etoile. Et le nom doit avoir plus de 4 caracteres")
+    }
   }
   public updateSalle()
   {
-    this.salleServ.editSalle(this.select_salle).subscribe((data)=>
-    {
-       this.logServ.setLogs(
+    if (this.new_salle.nom && this.new_salle.tel && this.new_salle.indication && this.new_salle.id_agence && this.new_salle.nom .length > 4) {
+      this.salleServ.editSalle(this.select_salle).subscribe((data)=>
+      {
+        this.ngOnInit();
+        this.logServ.setLogs(
+            {
+              id_entreprise:this.logServ.entreprise_id,
+              date : this.logServ.formatDate(new Date()),
+              action : `Modification de la salle ${this.select_salle.nom} `,
+              group : 'Agent',
+              user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+            }
+          ).subscribe((data)=>
           {
-            id_entreprise:this.logServ.entreprise_id,
-            date : this.logServ.formatDate(new Date()),
-            action : `Modification de la salle ${this.select_salle.nom} `,
-            group : 'Agent',
-            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
-          }
-        ).subscribe((data)=>
-        {
-          this.ngOnInit();
-        })
-    })
+            this.ngOnInit();
+          })
+      });
+    }
+    else{
+      alert("Veuillez remplir tous les champs avec l'etoile. Et le nom doit avoir plus de 4 caracteres")
+    }
   }
   public removeSalle()
   {
     this.salleServ.deleteSalle(this.select_salle.id!).subscribe((data)=>
     {
+      this.ngOnInit();
        this.logServ.setLogs(
           {
             id_entreprise:this.logServ.entreprise_id,
@@ -159,6 +173,11 @@ export class SalleComponent implements OnInit{
     this.salles_list = this.salles_temp;
     this.salles_list = this.salles_list.filter((salle)=>{
       return salle.id_agence == this.selected_agence_id || this.selected_agence_id==0;
-    })
+    });
+  }
+
+  public hasprivilege(name:string)
+  {
+    return this.userServ.hasprivilege(name)
   }
 }

@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 export class SalleService {
 
   constructor(private http:HttpClient, private env:EnvironmentService) { }
-  
+
   public getAllSalles():Observable<Isalle[]>
   {
     return this.http.get<Isalle[]>(`${this.env.api}/salle`,{headers:this.env.httpHeader});
@@ -33,7 +33,7 @@ export class SalleService {
 
   public storeSalle(salle:Isalle):Observable<Isalle>
   {
-    return this.http.post<Isalle>(`${this.env.api}/salle/`,salle,{headers:this.env.httpHeader});
+    return this.http.post<Isalle>(`${this.env.api}/salle`,salle,{headers:this.env.httpHeader});
   }
 
   public editSalle(salle:Isalle):Observable<Isalle>

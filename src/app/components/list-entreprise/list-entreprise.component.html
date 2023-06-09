@@ -1,0 +1,138 @@
+<div class="row row-sm">
+  <div class="col-xl-12">
+      <div class="card">
+          <div class="card-header pb-0 pd-t-25 ">
+              <div class="d-flex justify-content-between">
+                  <h4 class="card-title mg-t-5">Liste d'entreprise</h4>
+                  <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
+                      <button data-placement="bottom" title="Ajouter une nouvelle operation" *ngIf="hasprivilege('add_entreprise')" class="btn btn-primary btn-with-icon btn-block" data-target="#add" data-toggle="modal"><i class="typcn typcn-plus"></i></button>
+                  </div>
+
+              </div>
+          </div>
+          <div class="card-body" *ngIf="entreprises">
+              <div class="row">
+                <div class="col-md-4" *ngFor="let entreprise of entreprises" style="cursor:pointer" (click)="getentreprise(entreprise)">
+                  <div style="padding: 30px 20px; text-align: center; margin-bottom: 10px; border: 2px solid #842e1b;">
+                      <h4 style="color:#842e1b;font-weight: bold;">{{entreprise.nom}}</h4>
+                      <p style="margin: 0px;margin:0px;">{{entreprise.type}}</p>
+                  </div>
+                </div>
+              </div>
+          </div><!-- bd -->
+      </div><!-- bd -->
+  </div>
+
+  </div>
+  <!-- Delete operation  -->
+<div class="modal" id="delete">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content tx-size-sm">
+          <div class="modal-body tx-center pd-y-20 pd-x-20">
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+              <h4 class="tx-danger mg-b-20">Information</h4>
+              <p class="mg-b-20 mg-x-20">Voulez vous vraiment supprimer cet élément?</p>
+              <div style="display:flex;justify-content:space-between">
+                  <button aria-label="Close" class="btn ripple btn-light pd-x-25" data-dismiss="modal" type="button">Annuler</button>
+                  <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="delete(selectedElement?.id!)" data-dismiss="modal" type="button">Fer</button>
+              </div>
+
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Add operation  -->
+<div class="modal" id="add">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content modal-content-demo">
+          <div class="modal-header">
+              <h6 class="modal-title">Ajouter une entreprise</h6>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Nom *</label><br>
+                <input class="form-control" type="text" [(ngModel)]="nom">
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Code entreprise *</label><br>
+                <input class="form-control" type="text" [(ngModel)]="code">
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Type Entreprise *</label><br>
+                <input class="form-control" type="text" placeholder="SA, SARL" [(ngModel)]="typ_entreprise">
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Email *</label><br>
+                <input class="form-control" type="text" [(ngModel)]="email">
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Telephone *</label><br>
+                <input class="form-control" type="text" [(ngModel)]="tel">
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Domaine *</label><br>
+                <textarea class="form-control" type="text" [(ngModel)]="domaine" rows="4"></textarea>
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Description</label><br>
+                <textarea class="form-control" type="text" [(ngModel)]="description" rows="4"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button class="btn ripple btn-light" data-dismiss="modal" type="button">Annuler</button>
+              <button class="btn ripple btn-primary" data-dismiss="modal" type="button" (click)="add()">Enregistrer</button>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Edit operation -->
+<div class="modal" id="edit">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content modal-content-demo">
+          <div class="modal-header">
+              <h6 class="modal-title">Modifier une entreprise</h6>
+              <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Nom *</label><br>
+                <input class="form-control" type="text" [(ngModel)]="selectedElement.nom">
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Code entreprise *</label><br>
+                <input class="form-control" type="text" [(ngModel)]="selectedElement.code">
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Type Entreprise *</label><br>
+                <input class="form-control" type="text" placeholder="SA, SARL" [(ngModel)]="selectedElement.type">
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Email *</label><br>
+                <input class="form-control" type="text" [(ngModel)]="selectedElement.email">
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Telephone *</label><br>
+                <input class="form-control" type="text" [(ngModel)]="selectedElement.tel">
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Domaine *</label><br>
+                <textarea class="form-control" type="text" [(ngModel)]="selectedElement.domaine" rows="4"></textarea>
+              </div>
+              <div class="col-md-12">
+                <label style="font-weight:bolder;margin-top:10px">Description</label><br>
+                <textarea class="form-control" type="text" [(ngModel)]="selectedElement.description" rows="4"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button class="btn ripple btn-light" data-dismiss="modal" type="button" >Annuler</button>
+              <button class="btn ripple btn-primary" data-dismiss="modal" type="button" (click)="edit(selectedElement?.id!)">Enregistrer</button>
+          </div>
+      </div>
+  </div>
+</div>

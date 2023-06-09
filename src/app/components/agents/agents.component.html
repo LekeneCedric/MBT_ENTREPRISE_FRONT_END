@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between mb-5">
                 <h1 class="card-title mg-b-0">AGENTS</h1>
                 <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
-                    <button data-target="#addAgent" data-toggle="modal" data-placement="bottom" title="Ajouter un nouvel agent" class="btn btn-primary btn-with-icon btn-block">
+                    <button data-target="#addAgent" *ngIf="hasprivilege('add_agent')" data-toggle="modal" data-placement="bottom" title="Ajouter un nouvel agent" class="btn btn-primary btn-with-icon btn-block">
                     <i class="typcn typcn-plus"></i>Agent</button></div>
             </div>
             <div class="d-flex justify-content-between mb-3">
@@ -32,9 +32,9 @@
                         <input [(ngModel)]="searchAgent" (ngModelChange)="filterAgent()" class="form-control" placeholder="Recherchez par nom | localisation | agence" type="text"> <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="input-group-btn"><i class="fa fa-search"></i></span></button></span>
                     </div>
                 </div>
-                
+
             </div>
-            
+
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -62,8 +62,8 @@
                             <td>{{ agent.created_at |  date:"MMM d, y, h:mm:ss a"}}</td>
                             <td>
                                 <div class="btn-icon-list">
-                                    <button data-placement="bottom" title="modifier les informations d'un agent"  class="btn btn-warning btn-icon" data-target="#updateAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-brush"></i></button>
-                                    <button *ngIf="user_connected.id!=agent.id" data-placement="bottom" title="supprimer un agent d'une agence " class="btn btn-danger btn-icon" data-target="#deleteAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-trash"></i></button>
+                                    <button data-placement="bottom" *ngIf="hasprivilege('update_agent')" title="modifier les informations d'un agent"  class="btn btn-warning btn-icon" data-target="#updateAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-brush"></i></button>
+                                    <button  *ngIf="hasprivilege('delete_agent')" data-placement="bottom" title="supprimer un agent d'une agence " class="btn btn-danger btn-icon" data-target="#deleteAgent" data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-trash"></i></button>
                                     <button data-placement="bottom" title="consulter les informations detailles d'un agent" class="btn btn-primary btn-icon" [routerLink]="['/details_agent',agent.id]"   data-toggle="modal" (click)="selectAgent(agent)" ><i class="typcn typcn-contacts"></i></button>
                                 </div>
                             </td>
@@ -80,7 +80,8 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title" style="font-weight:bolder">Ajouter une nouvel Agent</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title" style="font-weight:bolder">Ajouter un Agent</h6>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
             </div>
              <div class="modal-body">
                 <div class="col-lg mt-3">
@@ -88,7 +89,7 @@
                     <select class="form-select"  id="agence" [(ngModel)]="new_agent.id_agence" >
                         <option disabled>
                             Choisir l'agence correspondante
-                        </option> 
+                        </option>
                         <option *ngFor="let agence of agences" value="{{ agence.id }}">
                             {{ agence.nom }}
                         </option>
@@ -135,14 +136,8 @@
                     <label for="code" class="form-label">Password</label>
                     <input id = "code" class="form-control" placeholder="Mot de passe" type="password" [(ngModel)]="new_agent.password">
                 </div>
-                <!-- <div class="col-lg">
-                    <label for="code" class="form-label">email<span style="color:red">*</span></label>
-                    <input id = "code" class="form-control" placeholder="e-mail de l'agent'" type="email" [(ngModel)]="new_agent.email">
-                </div> -->
-                
-                
             <div class="modal-footer">
-                <button *ngIf="new_agent.id_agence!=undefined && new_agent.nom != undefined && new_agent.telephone != undefined" class="btn ripple btn-primary" (click)="createAgent()" data-dismiss="modal" type="button">Valider</button>
+                <button class="btn ripple btn-primary" (click)="createAgent()" data-dismiss="modal" type="button">Enregistrer</button>
                 <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Fermer</button>
             </div>
         </div>
@@ -156,13 +151,13 @@
         <div class="modal-content tx-size-sm">
             <div class="modal-body tx-center pd-y-20 pd-x-20">
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                <h4 class="tx-danger mg-b-20">Attention : Suppression d'un agent </h4>
-                <p class="mg-b-20 mg-x-20">Voulez vous vraiment valider la suppression de l'agent <span style="font-weight:bolder">{{ selected_agent.nom }} ?</span> </p>
+                <h4 class="tx-danger mg-b-20">Information</h4>
+                <p class="mg-b-20 mg-x-20">Voulez vous vraiment supprimer cet élément?</p>
                 <div style="display:flex;justify-content:space-between">
                     <button aria-label="Close" class="btn ripple btn-light pd-x-25" data-dismiss="modal" type="button">Annuler</button>
-                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="removeAgent()" data-dismiss="modal" type="button">Continue</button>
+                    <button aria-label="Close" class="btn ripple btn-danger pd-x-25" (click)="removeAgent()" data-dismiss="modal" type="button">Supprimer</button>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -182,7 +177,7 @@
                     <select class="form-select"  id="agence" [(ngModel)]="selected_agent.id_agence" >
                         <option disabled>
                             Choisir l'agence correspondante
-                        </option> 
+                        </option>
                         <option *ngFor="let agence of agences" value="{{ agence.id }}">
                             {{ agence.nom }}
                         </option>
@@ -225,15 +220,9 @@
                     <input aria-describedby="basic-addon1" aria-label="e-mail" class="form-control" [(ngModel)]="selected_agent.email" placeholder="Email" type="text">
                 </div>
                 </div>
-                <!-- <div class="col-lg">
-                    <label for="code" class="form-label">email<span style="color:red">*</span></label>
-                    <input id = "code" class="form-control" placeholder="e-mail de l'agent'" type="email" [(ngModel)]="selected_agent.email">
-                </div> -->
-                
-                
             <div class="modal-footer">
-                <button *ngIf="selected_agent.id_agence!=undefined && selected_agent.nom != undefined && selected_agent.pseudo!=undefined && selected_agent.email !=undefined" class="btn ripple btn-primary" (click)="updateAgent()" data-dismiss="modal" type="button">Save changes</button>
-                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
+                <button class="btn ripple btn-primary" (click)="updateAgent()" data-dismiss="modal" type="button">Enregistrer</button>
+                <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Fermer</button>
             </div>
         </div>
     </div>

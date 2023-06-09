@@ -4,6 +4,7 @@ import { IAgent } from 'src/models/agent';
 import { Component, OnInit } from '@angular/core';
 import { AgentsService } from 'src/services/agents.service';
 import { LogService } from 'src/services/log.service';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-agents',
@@ -24,7 +25,7 @@ export class AgentsComponent implements OnInit{
   constructor(
     private agenceService : AgenceService,
     private agentService:AgentsService,
-    private logServ : LogService
+    private logServ : LogService,public userServ:UserService
     ){}
   ngOnInit(): void {
     this.user_connected = JSON.parse(localStorage.getItem("entreprise")!).agent;
@@ -51,29 +52,36 @@ export class AgentsComponent implements OnInit{
   }
  public createAgent()
   {
-    this.agentService.addAgent(this.new_agent).subscribe(
-      (data)=>
-      {
-        this.logServ.setLogs(
-          {
-            id_entreprise:this.entreprise_id,
-            date : this.logServ.formatDate(new Date()),
-            action : `Creation de l'agent ${this.new_agent.nom} (${this.new_agent.specialite})`,
-            group : 'Agent',
-            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
-          }
-        ).subscribe((data)=>
+    if (this.selected_agent.id_agence && this.selected_agent.nom && this.selected_agent.pseudo && this.selected_agent.email) {
+      this.agentService.addAgent(this.new_agent).subscribe(
+        (data)=>
         {
           this.ngOnInit();
-        });
-      }
-    )
+          this.logServ.setLogs(
+            {
+              id_entreprise:this.entreprise_id,
+              date : this.logServ.formatDate(new Date()),
+              action : `Creation de l'agent ${this.new_agent.nom} (${this.new_agent.specialite})`,
+              group : 'Agent',
+              user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+            }
+          ).subscribe((data)=>
+          {
+            this.ngOnInit();
+          });
+        }
+      )
+    }
+    else{
+      alert("Veuillez remplir tous les champs avec l'etoile.")
+    }
   }
   public removeAgent()
   {
     this.agentService.removeAgent(this.selected_agent.id!).subscribe(
       (data)=>
       {
+        this.ngOnInit();
         this.logServ.setLogs(
           {
             id_entreprise:this.entreprise_id,
@@ -92,23 +100,29 @@ export class AgentsComponent implements OnInit{
 
   public updateAgent()
   {
-    this.agentService.editAgent(this.selected_agent,this.selected_agent.id!).subscribe(
-      (data)=>
-      {
-        this.logServ.setLogs(
-          {
-            id_entreprise:this.entreprise_id,
-            date : this.logServ.formatDate(new Date()),
-            action : `Modification de l'agent ${this.new_agent.nom} (${this.new_agent.specialite})`,
-            group : 'Agent',
-            user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
-          }
-        ).subscribe((data)=>
+    if (this.selected_agent.id_agence && this.selected_agent.nom && this.selected_agent.pseudo && this.selected_agent.email) {
+      this.agentService.editAgent(this.selected_agent,this.selected_agent.id!).subscribe(
+        (data)=>
         {
           this.ngOnInit();
-        })
-      }
-    )
+          this.logServ.setLogs(
+            {
+              id_entreprise:this.entreprise_id,
+              date : this.logServ.formatDate(new Date()),
+              action : `Modification de l'agent ${this.new_agent.nom} (${this.new_agent.specialite})`,
+              group : 'Agent',
+              user  : `${JSON.parse(localStorage.getItem("entreprise")!).agent.nom}`
+            }
+          ).subscribe((data)=>
+          {
+            this.ngOnInit();
+          })
+        }
+      )
+    }
+    else{
+      alert("Veuillez remplir tous les champs avec l'etoile.")
+    }
   }
   public specialites : string[] = [
     'Manager',
@@ -145,6 +159,11 @@ export class AgentsComponent implements OnInit{
     {
       return agent.specialite == this.selected_specialite || this.selected_specialite == "";
     })
+  }
+
+  public hasprivilege(name:string)
+  {
+    return this.userServ.hasprivilege(name)
   }
 }
 

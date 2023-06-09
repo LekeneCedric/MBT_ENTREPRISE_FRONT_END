@@ -2,40 +2,17 @@
   <div class="card">
     <div class="card-header pb-0 pd-t-25">
       <div class="d-flex justify-content-between mb-5">
-        <h4 class="card-title mg-t-5">AGENCES</h4>
+        <h4 class="card-title mg-t-5">Liste des agences</h4>
         <div class="col-sm-5 col-md-2 mg-t-10 mg-sm-t-0">
           <button
             data-target="#addAgence"
             data-toggle="modal"
             data-placement="bottom"
              title="Ajouter une nouvelle agence"
-            class="btn btn-primary btn-with-icon btn-block"
+            class="btn btn-primary btn-with-icon btn-block" *ngIf="hasprivilege('add_agence')"
           >
             <i class="typcn typcn-plus"></i>Agence
           </button>
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-between mb-3">
-        <p class="tx-12 text-muted mb-2">
-          List de la liste des agences de l'entreprise
-        </p>
-        <div class="col-lg-4 mg-t-20 mg-lg-t-0">
-          <div class="input-group">
-            <input
-              class="form-control"
-              placeholder="Recherchez par nom ou localisation "
-              type="text"
-              [(ngModel)]="searchAgence"
-              (ngModelChange)="filterAgence()"
-            />
-            <span class="input-group-btn"
-              ><button  class="btn btn-primary" type="button">
-                <span class="input-group-btn"
-                  ><i class="fa fa-search"></i
-                ></span></button
-            ></span>
-          </div>
         </div>
       </div>
     </div>
@@ -47,20 +24,20 @@
               <th class="wd-5p border-bottom-0">#</th>
               <th class="wd-15p border-bottom-0">Nom</th>
               <th class="wd-15p border-bottom-0">Localisation</th>
-              <th class="wd-10p border-bottom-0">employes</th>
+              <th class="wd-10p border-bottom-0">Agents</th>
               <th class="wd-10p border-bottom-0">equipements</th>
               <th class="wd-25p border-bottom-0">Date creation</th>
               <th class="wd-5p border-bottom-0">Actions</th>
             </tr>
           </thead>
           <tbody style="text-align: center">
-            <tr *ngFor="let agence of agences">
-              <th>#</th>
+            <tr *ngFor="let agence of agences;let i = index">
+              <th>{{i+1}}</th>
               <td>{{ agence.nom }}</td>
               <td>{{ agence.localisation | slice : 0 : 20 }}</td>
-              <td>{{ agence.nbremploye }}</td>
-              <td>{{ agence.nbrequipement }}</td>
-              <td>{{ agence.created_at | date : "MMM d, y, h:mm:ss a" }}</td>
+              <td><a (click)="getliste(agence,'agent')" style="cursor: pointer;color: #842e1b;font-weight:  bolder;" data-target="#linkElement" data-toggle="modal" data-placement="bottom">{{ agence.agents?.length }}</a></td>
+              <td><a (click)="getliste(agence,'equipement')" style="cursor: pointer;color: #842e1b;font-weight:  bolder;" data-target="#linkElement" data-toggle="modal" data-placement="bottom">{{ agence.equipements?.length }}</a></td>
+              <td>{{ agence.created_at | date : "dd/MM/YY" }}</td>
               <td style="align-items: center">
                 <div class="btn-icon-list">
                   <button
@@ -68,12 +45,12 @@
                     data-target="#updateAgence"
                     data-toggle="modal"
                     data-placement="bottom" title="Modifier les informations d'une agence"
-                    class="btn btn-warning btn-icon"
+                    class="btn btn-warning btn-icon" *ngIf="hasprivilege('update_agence')"
                   >
                     <i class="typcn typcn-brush"></i>
                   </button>
                   <button
-                    *ngIf="user_connected.agence!.id !=agence.id"
+                    *ngIf="hasprivilege('delete_agence')"
                     (click)="selectAgence(agence)"
                     data-target="#deleteAgence"
                     data-toggle="modal"
@@ -101,7 +78,7 @@
     <div class="modal-content modal-content-demo">
       <div class="modal-header">
         <h6 class="modal-title" style="font-weight: bolder">
-          Ajouter une nouvelle agence
+          Ajouter une agence
         </h6>
         <button
           aria-label="Close"
@@ -181,11 +158,8 @@
         <i
           class="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"
         ></i>
-        <h4 class="tx-danger mg-b-20">Attention : Suppression d'une agence</h4>
-        <p class="mg-b-20 mg-x-20">
-          Voulez vous vraiment valider la suppression de l'agence
-          <span style="font-weight: bolder">{{ selected_agence.nom }} ?</span>
-        </p>
+        <h4 class="tx-danger mg-b-20">Information</h4>
+        <p class="mg-b-20 mg-x-20">Voulez vous vraiment supprimer cet élément?</p>
         <div style="display: flex; justify-content: space-between">
           <button
             aria-label="Close"
@@ -202,7 +176,7 @@
             data-dismiss="modal"
             type="button"
           >
-            Continue
+            Supprimer
           </button>
         </div>
       </div>
@@ -380,29 +354,74 @@
   </div>
 </div>
 
-<!-- Detail Equipement -->
-<div class="modal" id="detailEquipement">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content tx-size-sm">
-      <div class="modal-body tx-center pd-y-20 pd-x-20">
-        <!-- <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="icon icon ion-ios-close-circle-outline tx-100 tx-primary lh-1 mg-t-20 d-inline-block"></i> -->
-        <h4 class="tx-primary mg-b-20">
-          Details de l'equipement
-          <span style="font-weight: bolder">{{
-            selected_equipement?.element
-          }}</span>
-        </h4>
-        <p class="mg-b-20 mg-x-20" style="text-align: left">
-          {{ selected_equipement?.description }}
-        </p>
-        <div style="display: flex; justify-content: space-between">
+<!-- Fiche Agent et Equipement -->
+
+<div class="modal" id="linkElement">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content modal-content-demo">
+      <div class="modal-header">
+        <h6 class="modal-title" style="font-weight: bolder">
+          {{titreelet}}
+        </h6>
+        <button
+          aria-label="Close"
+          class="close"
+          data-dismiss="modal"
+          type="button"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12" *ngIf="aprendre == 'equipement'">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Element</th>
+                  <th>Periodicite</th>
+                  <th>Designation</th>
+                  <th>Specialite</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let elt of tabloelt">
+                  <th>{{elt.element}}</th>
+                  <td>{{elt.periodicite}}</td>
+                  <td>{{elt.designation}}</td>
+                  <td>{{elt.specialite}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-12" *ngIf="aprendre == 'agent'">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Telephone</th>
+                  <th>Specialite</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let elt of tabloelt">
+                  <th>{{elt.nom}}</th>
+                  <td>{{elt.telephone}}</td>
+                  <td>{{elt.specialite}}</td>
+                  <td>{{elt.email}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
           <button
-            aria-label="Close"
-            class="btn ripple btn-danger pd-x-25"
+            class="btn ripple btn-secondary"
             data-dismiss="modal"
             type="button"
           >
-            Sortir
+            Fermer
           </button>
         </div>
       </div>

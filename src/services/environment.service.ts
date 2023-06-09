@@ -9,9 +9,10 @@ export class EnvironmentService {
   constructor() { }
   public httpHeader = new HttpHeaders({
     'Content-Type': 'application/json',
-      'Accept': 'application/json, text/plain, */*',
-      'X-Requested-With': 'XMLHttpRequest'
+    'Accept': 'application/json, text/plain, */*',
+    'X-Requested-With': 'XMLHttpRequest'
   })
-  public api : string = "http://localhost:8000/api";
-  
+  public api : string = "http://entreprise.mybuildingtips.com/api";
+  public apiimg : string = "http://entreprise.mybuildingtips.com/images/";
+
 }

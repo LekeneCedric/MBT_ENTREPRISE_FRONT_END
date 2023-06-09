@@ -3,12 +3,12 @@
   <!-- breadcrumb -->
 
   <div class="breadcrumb-header justify-content-between">
-
-              <div class="left-content">
-      <h4 class="content-title mb-2">Hi, welcome back <span style="font-weight: bold;">{{ user_connected.nom }}</span> !</h4>
+    <div class="left-content">
+      <h4 class="content-title mb-2">Hi {{name}}!</h4>
+      <select class="form-control" [(ngModel)]="unentreprise.id" (change)="getentreprise($event.target)" *ngIf="entreprises">
+        <option *ngFor="let log of entreprises" [value]="log.id">Entreprise : {{log.nom}}</option>
+      </select>
     </div>
-
-
   </div>
 <div class="main-header sticky side-header nav nav-item">
   <div class="container-fluid">
@@ -51,7 +51,7 @@
             </div>
           </form>
         </div>
-        
+
         <div class="dropdown nav-item main-header-notification">
           <a class="new nav-link" href="#"><i class="fe fe-bell"></i><span class=" pulse"></span></a>
           <div class="dropdown-menu shadow">
@@ -145,19 +145,19 @@
         <div class="dropdown main-profile-menu nav nav-item nav-link">
           <a class="profile-user d-flex" href="#"><img alt="" src="../../assets/img/profil.png">
             <div class="p-text d-none">
-              <span class="p-name font-weight-bold">{{ user_connected.nom }}</span>
-              <small class="p-sub-text">{{ user_connected.specialite }}</small>
+              <span class="p-name font-weight-bold">{{ name }}</span>
+              <small class="p-sub-text">{{ pseudo }}</small>
             </div>
           </a>
           <div class="dropdown-menu shadow">
             <div class="main-header-profile header-img">
               <div class="main-img-user"><img alt=""  src="../../assets/img/profil.png"></div>
-              <h6>{{ user_connected.nom }}</h6><span>{{ user_connected.specialite }}</span>
+              <h6>{{ name }}</h6><span>{{ pseudo }}</span>
             </div>
-            <a class="dropdown-item" [routerLink]="['/details_agent',user_connected.id]"><i class="far fa-user"></i> My Profile</a>
-            <a class="dropdown-item  text-warning" [routerLink]="['/details_agent',user_connected.id]"><i class="far fa-clock"></i> Activity Logs</a>
-            <a class="dropdown-item" [routerLink]="['/details_agent',user_connected.id]"><i class="fas fa-sliders-h"></i> Account Settings</a>
-            <a class="dropdown-item text-danger" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+            <a class="dropdown-item" [routerLink]="['/details_agent',id]"><i class="far fa-user"></i> My Profile</a>
+            <a class="dropdown-item  text-warning" [routerLink]="['/details_agent',id]"><i class="far fa-clock"></i> Activity Logs</a>
+            <a class="dropdown-item" [routerLink]="['/details_agent',id]"><i class="fas fa-sliders-h"></i> Account Settings</a>
+            <a class="dropdown-item text-danger" (click)="logout()" style="cursor:pointer"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
           </div>
         </div>
       </div>

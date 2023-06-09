@@ -5,3 +5,9 @@ export interface Iauth
     pseudo?:string,
     password?:string
 }
+
+export interface IauthUser
+{
+    pseudo?:string,
+    password?:string
+}

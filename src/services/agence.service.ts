@@ -4,11 +4,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Iagence } from 'src/models/agence';
 @Injectable({
-  providedIn: 'root'   
+  providedIn: 'root'
 })
 export class AgenceService {
-  
-  private localData :any ; 
+
+  private localData :any ;
   private httpHeader:HttpHeaders | undefined;
   constructor(private http:HttpClient,private environment:EnvironmentService) {
     this.httpHeader =new HttpHeaders({
@@ -28,8 +28,8 @@ export class AgenceService {
   }
 
   /*
-  Visibilite : Super Administrateur ( World Dev ) | Administrateur client 
-  Utilite : Recuperer toutes les agences d'une entreprise 
+  Visibilite : Super Administrateur ( World Dev ) | Administrateur client
+  Utilite : Recuperer toutes les agences d'une entreprise
   */
 
   public getAgencesEntreprise(id_entreprise:number):Observable<Iagence[]>
@@ -41,7 +41,7 @@ export class AgenceService {
   Visibilite : SuperAdmin ( World Dev ) | Administrateur client
   Utilite : Recuper une agence particuliere
   */
- 
+
   public getAgence(id_agence:number):Observable<Iagence>
   {
     return this.http.get<Iagence>(this.environment.api+"/agence/"+id_agence);
@@ -50,10 +50,10 @@ export class AgenceService {
   //Creer une agence ( Visible par l'administrateur du systeme et l'adiministrateur de l'entreprise)
   public createAgence(dataAgence:Iagence):Observable<any>
   {
-    return this.http.post<Iagence>(this.environment.api+"/agence/",dataAgence);
+    return this.http.post<Iagence>(this.environment.api+"/agence",dataAgence);
   }
 
-  //Modifier une agence 
+  //Modifier une agence
   public updateAgence(dataAgence:Iagence,id_agence:number):Observable<Iagence>
   {
     return this.http.post<Iagence>(this.environment.api+"/agence/"+id_agence,dataAgence);

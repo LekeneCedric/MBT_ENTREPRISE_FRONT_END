@@ -12,5 +12,7 @@ export interface Iagence{
     updated_at?: Date,
     entreprise?: IEntreprise,
     longitude?:number,
-    latitude?:number 
+    latitude?:number ,
+    agents?:[],
+    equipements?:[]
 }

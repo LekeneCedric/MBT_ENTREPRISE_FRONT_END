@@ -17,7 +17,7 @@ import { LogService } from 'src/services/log.service';
 export class DetailsAgentComponent implements OnInit{
 private id_agent : number = Number(this.router.snapshot.paramMap.get('id'));
 public agent : IAgent = {};
-public agences : Iagence[] = []; 
+public agences : Iagence[] = [];
 public user_connected : IAgent = {}
 public maintenances_list : Imaintenance[] = [];
 public logs : Ilog[] = [];
@@ -50,11 +50,13 @@ ngOnInit(): void {
     this.user_connected = JSON.parse(localStorage.getItem("entreprise")!).agent;
     this.agenceServ.getAgences().subscribe((data)=>
     {
-      this.agences = data ; 
+      this.agences = data ;
     })
-    this.agentServ.getAgent(this.id_agent).subscribe((data)=>
+    this.agentServ.getAgent(this.id_agent).subscribe((data:any)=>
     {
       this.agent = data;
+      this.agent.agence = this.agences.filter((item:any) => item.id == this.agent.id_agence)[0];
+      console.log(this.agent);
     });
     this.maintenanceServ.getHistoriqueMaintenanceByAgent(this.id_agent).subscribe((data)=>
     {

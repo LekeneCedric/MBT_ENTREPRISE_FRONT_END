@@ -1,5 +1,6 @@
-export interface IEntreprise { 
-    id?: 1,
+export interface IEntreprise {
+    id?: number,
+    user_id?:number,
     nom?: string,
     code?: string,
     type?: string,

@@ -1,4 +1,8 @@
-.sidebar-scroll::-webkit-scrollbar
-{
-    display: none;
+.side-menu .side-menu__icon{
+  width: 16px !important;
+  height: 16px !important;
+}
+.side-menu__label{
+  color: hsl(0deg 0% 100% / 90%) !important;
+  font-size: .8rem !important;
 }

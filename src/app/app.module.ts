@@ -28,6 +28,16 @@ import { RappelsMaintenanceComponent } from './components/rappels-maintenance/ra
 import { HistoriquesMaintComponent } from './components/historiques-maint/historiques-maint.component';
 import { DetailsAgentComponent } from './components/details-agent/details-agent.component';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RoleComponent } from './components/role/role.component';
+import { PrivilegeComponent } from './components/privilege/privilege.component';
+import { OutillageComponent } from './components/outillage/outillage.component';
+import { TypeOperationComponent } from './components/type-operation/type-operation.component';
+import { EtatEquipementComponent } from './components/etat-equipement/etat-equipement.component';
+import { UtilisateurComponent } from './components/utilisateur/utilisateur.component';
+import { ListEntrepriseComponent } from './components/list-entreprise/list-entreprise.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +61,13 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
     RappelsMaintenanceComponent,
     HistoriquesMaintComponent,
     DetailsAgentComponent,
+    RoleComponent,
+    PrivilegeComponent,
+    OutillageComponent,
+    TypeOperationComponent,
+    EtatEquipementComponent,
+    UtilisateurComponent,
+    ListEntrepriseComponent
   ],
   imports: [
     NgxLoadingModule.forRoot({
@@ -68,7 +85,9 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
     NbSelectModule,
     NbThemeModule.forRoot(),
     GoogleMapsModule,
-    SpreadSheetsModule
+    SpreadSheetsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
